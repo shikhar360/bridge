@@ -11,36 +11,39 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useAccount, useContractRead, useWalletClient } from "wagmi";
-import { arbitrum, mainnet, bsc, polygon } from "wagmi/chains";
+import { arbitrum, mainnet, polygon } from "wagmi/chains";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { formatEther } from "viem";
 import { SdkBase, SdkConfig, create } from "@connext/sdk";
 import { erc20ABI } from "wagmi";
 import { chainIdToDomain } from "@connext/nxtp-utils";
 
-const chains = [mainnet, polygon, arbitrum, bsc];
+const chains = [mainnet, polygon, arbitrum];
+
+const zoomer: Record<number, `0x${string}`> = {
+  [mainnet.id]: "0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676",
+  [polygon.id]: "0xD4CBC6359F75f261cA6f606F4B89a386aeBE1601",
+  [arbitrum.id]: "0xD4CBC6359F75f261cA6f606F4B89a386aeBE1601",
+};
 
 export default function Home() {
   const [amountIn, setAmountIn] = useState("");
-  const [destinationChain, setDestinationChain] = useState("");
   const [relayerFee, setRelayerFee] = useState("0");
+  const [relayerFeeLoading, setRelayerFeeLoading] = useState(false);
   const [connext, setConnext] = useState<SdkBase>();
   const { isConnected } = useAccount();
   const { data: walletClient } = useWalletClient();
 
   const {
     data: balance,
-    isLoading: balanceLoading,
-    isError: balanceError,
   } = useContractRead({
-    address: "0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676",
+    address: walletClient?.chain?.id
+      ? zoomer[walletClient.chain.id]
+      : undefined,
     args: [walletClient?.account?.address!],
     abi: erc20ABI,
     functionName: "balanceOf",
   });
-  console.log("balanceError: ", balanceError);
-  console.log("balanceLoading: ", balanceLoading);
-  console.log("balance: ", balance);
 
   useEffect(() => {
     const run = async () => {
@@ -58,12 +61,12 @@ export default function Home() {
               "https://rpc.ankr.com/arbitrum",
             ],
           },
-          [chainIdToDomain(bsc.id)]: {
-            providers: [
-              "https://bscrpc.com",
-              "https://bsc-dataseed2.ninicoin.io",
-            ],
-          },
+          // [chainIdToDomain(bsc.id)]: {
+          //   providers: [
+          //     "https://bscrpc.com",
+          //     "https://bsc-dataseed2.ninicoin.io",
+          //   ],
+          // },
           [chainIdToDomain(polygon.id)]: {
             providers: [
               "https://polygon.llamarpc.com",
@@ -79,27 +82,20 @@ export default function Home() {
     run();
   }, [walletClient?.account?.address]);
 
-  console.log("walletClient account: ", walletClient?.account);
-  console.log("walletClient chain: ", walletClient?.chain);
-
-  console.log(
-    "BigInt(relayerFee) == BigInt(0): ",
-    BigInt(relayerFee) == BigInt(0)
-  );
-
   const handleXCall = async () => {
     console.log(`amountIn: ${amountIn}`);
   };
 
-  const getRelayerFee = async () => {
-    if (destinationChain) {
-      const fee = await connext?.estimateRelayerFee({
-        originDomain: chainIdToDomain(walletClient!.chain.id),
-        destinationDomain: chainIdToDomain(+destinationChain),
-      });
-      console.log("fee: ", fee);
-      setRelayerFee((fee ?? "0").toString());
-    }
+  const getRelayerFee = async (destinationChain: string) => {
+    console.log("getting relayer fee: ", destinationChain);
+    setRelayerFeeLoading(true);
+    const fee = await connext?.estimateRelayerFee({
+      originDomain: chainIdToDomain(walletClient!.chain.id),
+      destinationDomain: chainIdToDomain(+destinationChain),
+    });
+    console.log("relayer fee: ", fee);
+    setRelayerFeeLoading(false);
+    setRelayerFee((fee ?? "0").toString());
   };
 
   return (
@@ -110,7 +106,7 @@ export default function Home() {
           <Flex>
             <Box>
               <Heading size={"lg"}>
-                <a href="https://zoomer.money">/take_me_home</a>
+                <a href="https://zoomer.money">/TAKE_ME_HOME</a>
               </Heading>
             </Box>
             <Spacer />
@@ -121,14 +117,14 @@ export default function Home() {
         </Box>
         {!isConnected ? (
           <Box>
-            <Heading>/connect_yo_wallet</Heading>
+            <Heading>/CONNECT_YO_WALLET</Heading>
           </Box>
         ) : (
           <Flex>
             <Spacer />
             <Flex direction={"column"} borderColor={"black"}>
               <Box pb={4} pt={4}>
-                <Heading>/ahh_we_bridging</Heading>
+                <Heading>/AHH_WE_BRIDGING</Heading>
               </Box>
               <Box>
                 <Input
@@ -169,8 +165,7 @@ export default function Home() {
                   w="250px"
                   focusBorderColor="black"
                   onChange={async (event) => {
-                    setDestinationChain(event.target.value);
-                    await getRelayerFee();
+                    await getRelayerFee(event.target.value);
                   }}
                 >
                   {chains
@@ -186,7 +181,7 @@ export default function Home() {
               </Box>
               <Box pb={4}>
                 <Code colorScheme="yellow">
-                  Relayer fee: {formatEther(BigInt(relayerFee))}{" "}
+                  Relayer fee: {relayerFeeLoading ? "..." : formatEther(BigInt(relayerFee))}{" "}
                   {walletClient?.chain.id
                     ? chains.find(
                         (chain) => chain.id === walletClient?.chain.id
@@ -201,7 +196,7 @@ export default function Home() {
                   isDisabled={BigInt(relayerFee) == BigInt(0)}
                   onClick={handleXCall}
                 >
-                  /lez_fuckin_go
+                  /LEZ_FUCKING_GO
                 </Button>
               </Box>
             </Flex>
