@@ -34,9 +34,7 @@ export default function Home() {
   const { isConnected } = useAccount();
   const { data: walletClient } = useWalletClient();
 
-  const {
-    data: balance,
-  } = useContractRead({
+  const { data: balance } = useContractRead({
     address: walletClient?.chain?.id
       ? zoomer[walletClient.chain.id]
       : undefined,
@@ -116,9 +114,13 @@ export default function Home() {
           </Flex>
         </Box>
         {!isConnected ? (
-          <Box>
-            <Heading>/CONNECT_YO_WALLET</Heading>
-          </Box>
+          <Flex>
+            <Spacer />
+            <Box>
+              <Heading>/CONNECT_YO_WALLET</Heading>
+            </Box>
+            <Spacer />
+          </Flex>
         ) : (
           <Flex>
             <Spacer />
@@ -181,7 +183,8 @@ export default function Home() {
               </Box>
               <Box pb={4}>
                 <Code colorScheme="yellow">
-                  Relayer fee: {relayerFeeLoading ? "..." : formatEther(BigInt(relayerFee))}{" "}
+                  Relayer fee:{" "}
+                  {relayerFeeLoading ? "..." : formatEther(BigInt(relayerFee))}{" "}
                   {walletClient?.chain.id
                     ? chains.find(
                         (chain) => chain.id === walletClient?.chain.id
