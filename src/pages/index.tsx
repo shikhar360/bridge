@@ -23,7 +23,7 @@ import {
 import { arbitrum, mainnet, polygon } from "wagmi/chains";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { formatEther, parseEther } from "viem";
-import { SdkBase, SdkConfig, create } from "@connext/sdk";
+import { SdkBase, SdkConfig, SdkUtils, create } from "@connext/sdk";
 import { erc20ABI } from "wagmi";
 import { chainIdToDomain } from "@connext/nxtp-utils";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
@@ -45,11 +45,14 @@ export default function Home() {
   const [approvalLoading, setApprovalLoading] = useState(false);
   const [xcallLoading, setXCallLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
+  const [transferComplete, setTransferComplete] = useState(false);
   const [xcallTxHash, setXCallTxHash] = useState("");
   const [destinationChain, setDestinationChain] = useState<number | undefined>(
     undefined
   );
-  const [connext, setConnext] = useState<SdkBase>();
+  const [connext, setConnext] = useState<
+    { sdkBase: SdkBase; sdkUtils: SdkUtils } | undefined
+  >();
   const { isConnected } = useAccount();
   const { data: walletClient } = useWalletClient();
   const { waitForTransactionReceipt } = usePublicClient();
@@ -79,12 +82,6 @@ export default function Home() {
               "https://rpc.ankr.com/arbitrum",
             ],
           },
-          // [chainIdToDomain(bsc.id)]: {
-          //   providers: [
-          //     "https://bscrpc.com",
-          //     "https://bsc-dataseed2.ninicoin.io",
-          //   ],
-          // },
           [chainIdToDomain(polygon.id)]: {
             providers: [
               "https://polygon.llamarpc.com",
@@ -94,8 +91,8 @@ export default function Home() {
           },
         },
       };
-      const { sdkBase } = await create(sdkConfig);
-      setConnext(sdkBase);
+      const { sdkBase, sdkUtils } = await create(sdkConfig);
+      setConnext({ sdkBase, sdkUtils });
     };
     run();
   }, [walletClient?.account?.address]);
@@ -103,7 +100,7 @@ export default function Home() {
   const getRelayerFee = async (destinationChain: string) => {
     console.log("getting relayer fee: ", destinationChain);
     setRelayerFeeLoading(true);
-    const fee = await connext?.estimateRelayerFee({
+    const fee = await connext?.sdkBase.estimateRelayerFee({
       originDomain: chainIdToDomain(walletClient!.chain.id),
       destinationDomain: chainIdToDomain(+destinationChain),
     });
@@ -122,7 +119,7 @@ export default function Home() {
         parseEther(amountIn).toString(),
         infinite
       );
-      const res = await connext!.approveIfNeeded(
+      const res = await connext!.sdkBase.approveIfNeeded(
         chainIdToDomain(walletClient!.chain.id).toString(),
         zoomer[walletClient!.chain.id],
         parseEther(amountIn).toString(),
@@ -168,7 +165,7 @@ export default function Home() {
     console.log("sdkParams: ", sdkParams);
     setXCallLoading(true);
     try {
-      const res = await connext!.xcall(sdkParams);
+      const res = await connext!.sdkBase.xcall(sdkParams);
       console.log("res: ", res);
       const tx = await walletClient!.sendTransaction({
         to: res.to! as `0x${string}`,
@@ -184,6 +181,25 @@ export default function Home() {
       console.log("error: ", e);
       setXCallLoading(false);
     }
+  };
+
+  const startMonitoringTx = async () => {
+    const interval = setInterval(async () => {
+      try {
+        const transfers = await connext?.sdkUtils.getTransfers({
+          transactionHash: xcallTxHash,
+        });
+        if (transfers && transfers[0]) {
+          if (transfers[0].status !== "XCalled") {
+            console.log("transfers[0]: ", transfers[0]);
+            setTransferComplete(true);
+            clearInterval(interval);
+          }
+        }
+      } catch (e) {
+        console.log("error: ", e);
+      }
+    });
   };
 
   return (
@@ -208,6 +224,25 @@ export default function Home() {
             <Spacer />
             <Box>
               <Heading>/CONNECT_YO_WALLET</Heading>
+            </Box>
+            <Spacer />
+          </Flex>
+        ) : transferComplete ? (
+          <Flex>
+            <Spacer />
+            <Box>
+              <Heading pb={4} pt={4}>
+                /DONE
+              </Heading>
+              <Link
+                pb={4}
+                pt={4}
+                as={NextLink}
+                isExternal
+                href={`https://connextscan.io/tx/${xcallTxHash}`}
+              >
+                /SEE_MY_TRANSFER
+              </Link>
             </Box>
             <Spacer />
           </Flex>
@@ -262,7 +297,7 @@ export default function Home() {
                       zoomer[walletClient!.chain.id],
                       parseEther(event.target.value)
                     );
-                    const res = await connext!.approveIfNeeded(
+                    const res = await connext!.sdkBase.approveIfNeeded(
                       chainIdToDomain(walletClient!.chain.id).toString(),
                       zoomer[walletClient!.chain.id],
                       parseEther(event.target.value).toString(),
