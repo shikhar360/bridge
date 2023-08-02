@@ -177,6 +177,7 @@ export default function Home() {
       setIsSending(true);
       setXCallLoading(false);
       setXCallTxHash(tx);
+      startMonitoringTx();
     } catch (e) {
       console.log("error: ", e);
       setXCallLoading(false);
@@ -190,16 +191,16 @@ export default function Home() {
           transactionHash: xcallTxHash,
         });
         if (transfers && transfers[0]) {
+          console.log("transfer: ", transfers[0]);
           if (transfers[0].status !== "XCalled") {
-            console.log("transfers[0]: ", transfers[0]);
             setTransferComplete(true);
             clearInterval(interval);
           }
         }
       } catch (e) {
-        console.log("error: ", e);
+        console.log("error monitoring xcall: ", e);
       }
-    });
+    }, 30_000);
   };
 
   return (
