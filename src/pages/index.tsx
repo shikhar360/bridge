@@ -8,7 +8,11 @@ import {
   Select,
   Button,
   Code,
+  Link,
+  Text,
 } from "@chakra-ui/react";
+import Image from "next/image";
+import NextLink from "next/link";
 import { useEffect, useState } from "react";
 import {
   useAccount,
@@ -18,7 +22,7 @@ import {
 } from "wagmi";
 import { arbitrum, mainnet, polygon } from "wagmi/chains";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { formatEther } from "viem";
+import { formatEther, parseEther } from "viem";
 import { SdkBase, SdkConfig, create } from "@connext/sdk";
 import { erc20ABI } from "wagmi";
 import { chainIdToDomain } from "@connext/nxtp-utils";
@@ -39,6 +43,9 @@ export default function Home() {
   const [relayerFeeLoading, setRelayerFeeLoading] = useState(false);
   const [approvalNeeded, setApprovalNeeded] = useState(true);
   const [approvalLoading, setApprovalLoading] = useState(false);
+  const [xcallLoading, setXCallLoading] = useState(false);
+  const [isSending, setIsSending] = useState(false);
+  const [xcallTxHash, setXCallTxHash] = useState("");
   const [destinationChain, setDestinationChain] = useState<number | undefined>(
     undefined
   );
@@ -93,32 +100,6 @@ export default function Home() {
     run();
   }, [walletClient?.account?.address]);
 
-  const handleXCall = async () => {
-    console.log(`amountIn: ${amountIn}`);
-    console.log("relayerFee: ", relayerFee);
-    const sdkParams = {
-      origin: chainIdToDomain(walletClient!.chain.id),
-      destination: chainIdToDomain(destinationChain!),
-      to: walletClient!.account.address,
-      asset: zoomer[walletClient!.chain.id],
-      delegate: walletClient!.account.address,
-      amount: "1",
-      slippage: 300,
-      callData: "0x",
-      relayerFee,
-    };
-    console.log("sdkParams: ", sdkParams);
-    const res = await connext!.xcall(sdkParams);
-    console.log("res: ", res);
-    const tx = await walletClient!.sendTransaction({
-      to: res.to! as `0x${string}`,
-      value: BigInt((res.value as any).hex),
-      data: res.data! as `0x${string}`,
-    });
-    addRecentTransaction({ hash: tx, description: "XCall" });
-    console.log("tx: ", tx);
-  };
-
   const getRelayerFee = async (destinationChain: string) => {
     console.log("getting relayer fee: ", destinationChain);
     setRelayerFeeLoading(true);
@@ -132,35 +113,77 @@ export default function Home() {
   };
 
   const handleApprove = async (infinite: boolean) => {
-    console.log(
-      "approveIfNeeded: ",
-      chainIdToDomain(walletClient!.chain.id).toString(),
-      zoomer[walletClient!.chain.id],
-      infinite
-    );
-    const res = await connext!.approveIfNeeded(
-      chainIdToDomain(walletClient!.chain.id).toString(),
-      zoomer[walletClient!.chain.id],
-      amountIn,
-      infinite
-    );
-    if (!res) {
-      console.log("approval not needed");
-      setApprovalNeeded(false);
-      return;
-    }
-    console.log("res: ", res);
-    const tx = await walletClient!.sendTransaction({
-      to: res.to! as `0x${string}`,
-      value: BigInt(0),
-      data: res.data! as `0x${string}`,
-    });
     setApprovalLoading(true);
-    addRecentTransaction({ hash: tx, description: "Approval" });
-    const receipt = await waitForTransactionReceipt({ hash: tx });
-    console.log("receipt: ", receipt);
-    setApprovalLoading(false);
-    setApprovalNeeded(false);
+    try {
+      console.log(
+        "approveIfNeeded: ",
+        chainIdToDomain(walletClient!.chain.id).toString(),
+        zoomer[walletClient!.chain.id],
+        parseEther(amountIn).toString(),
+        infinite
+      );
+      const res = await connext!.approveIfNeeded(
+        chainIdToDomain(walletClient!.chain.id).toString(),
+        zoomer[walletClient!.chain.id],
+        parseEther(amountIn).toString(),
+        infinite
+      );
+      if (!res) {
+        console.log("approval not needed");
+        setApprovalNeeded(false);
+        return;
+      }
+      console.log("res: ", res);
+      const tx = await walletClient!.sendTransaction({
+        to: res.to! as `0x${string}`,
+        value: BigInt(0),
+        data: res.data! as `0x${string}`,
+      });
+      setApprovalLoading(true);
+      addRecentTransaction({ hash: tx, description: "Approval" });
+      const receipt = await waitForTransactionReceipt({ hash: tx });
+      console.log("receipt: ", receipt);
+      setApprovalLoading(false);
+      setApprovalNeeded(false);
+    } catch (e) {
+      setApprovalLoading(false);
+      console.log("error: ", e);
+    }
+  };
+
+  const handleXCall = async () => {
+    console.log(`amountIn: ${parseEther(amountIn)}`);
+    console.log("relayerFee: ", relayerFee);
+    const sdkParams = {
+      origin: chainIdToDomain(walletClient!.chain.id),
+      destination: chainIdToDomain(destinationChain!),
+      to: walletClient!.account.address,
+      asset: zoomer[walletClient!.chain.id],
+      delegate: walletClient!.account.address,
+      amount: parseEther(amountIn).toString(),
+      slippage: 300,
+      callData: "0x",
+      relayerFee,
+    };
+    console.log("sdkParams: ", sdkParams);
+    setXCallLoading(true);
+    try {
+      const res = await connext!.xcall(sdkParams);
+      console.log("res: ", res);
+      const tx = await walletClient!.sendTransaction({
+        to: res.to! as `0x${string}`,
+        value: BigInt((res.value as any).hex),
+        data: res.data! as `0x${string}`,
+      });
+      addRecentTransaction({ hash: tx, description: "XCall" });
+      console.log("tx: ", tx);
+      setIsSending(true);
+      setXCallLoading(false);
+      setXCallTxHash(tx);
+    } catch (e) {
+      console.log("error: ", e);
+      setXCallLoading(false);
+    }
   };
 
   return (
@@ -188,6 +211,35 @@ export default function Home() {
             </Box>
             <Spacer />
           </Flex>
+        ) : isSending ? (
+          <Flex>
+            <Spacer />
+            <Flex direction={"column"} borderColor={"black"}>
+              <Heading pb={4} pt={4}>
+                /AHHHHHHHHHHHHHHHHH
+              </Heading>
+              <Image
+                src="/zoomer.gif"
+                alt={"Zoomer"}
+                width={500}
+                height={500}
+              />
+              <Link
+                pb={4}
+                pt={4}
+                as={NextLink}
+                isExternal
+                href={`https://connextscan.io/tx/${xcallTxHash}`}
+              >
+                /CHECK_MY_TX
+              </Link>
+              <Text width={500}>
+                (this might take a while, you can close this page and check your
+                wallet or the tracking link later)
+              </Text>
+            </Flex>
+            <Spacer />
+          </Flex>
         ) : (
           <Flex>
             <Spacer />
@@ -208,12 +260,12 @@ export default function Home() {
                       "approveIfNeeded: ",
                       chainIdToDomain(walletClient!.chain.id).toString(),
                       zoomer[walletClient!.chain.id],
-                      event.target.value
+                      parseEther(event.target.value)
                     );
                     const res = await connext!.approveIfNeeded(
                       chainIdToDomain(walletClient!.chain.id).toString(),
                       zoomer[walletClient!.chain.id],
-                      event.target.value,
+                      parseEther(event.target.value).toString(),
                       true
                     );
                     console.log("res: ", res);
@@ -313,11 +365,15 @@ export default function Home() {
                     !amountIn ||
                     approvalNeeded
                   }
+                  isLoading={xcallLoading}
                   onClick={handleXCall}
                 >
                   /LEZ_FUCKING_GO
                 </Button>
               </Box>
+              <Text width={500}>
+                (bridging will take 1-2 hours until we onboard instant-fill LPs)
+              </Text>
             </Flex>
             <Spacer />
           </Flex>
