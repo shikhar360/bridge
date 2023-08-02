@@ -215,16 +215,14 @@ export default function Home() {
               </Heading>
             </Box>
             <Spacer />
-            <Box>
-              <ConnectButton />
-            </Box>
+            <Box>{isConnected ? <ConnectButton /> : <></>}</Box>
           </Flex>
         </Box>
         {!isConnected ? (
           <Flex>
             <Spacer />
             <Box>
-              <Heading>/CONNECT_YO_WALLET</Heading>
+              <ConnectButton label="/CONNECT_WALLET" />
             </Box>
             <Spacer />
           </Flex>
