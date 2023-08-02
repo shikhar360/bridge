@@ -45,6 +45,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <RainbowKitProvider
           coolMode
           chains={chains}
+          showRecentTransactions={true}
           theme={darkTheme({
             accentColor: "#FEFC52",
             accentColorForeground: "black",

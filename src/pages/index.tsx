@@ -10,29 +10,42 @@ import {
   Code,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useAccount, useContractRead, useWalletClient } from "wagmi";
+import {
+  useAccount,
+  useContractRead,
+  usePublicClient,
+  useWalletClient,
+} from "wagmi";
 import { arbitrum, mainnet, polygon } from "wagmi/chains";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { formatEther } from "viem";
 import { SdkBase, SdkConfig, create } from "@connext/sdk";
 import { erc20ABI } from "wagmi";
 import { chainIdToDomain } from "@connext/nxtp-utils";
+import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 
 const chains = [mainnet, polygon, arbitrum];
 
 const zoomer: Record<number, `0x${string}`> = {
   [mainnet.id]: "0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676",
-  [polygon.id]: "0xD4CBC6359F75f261cA6f606F4B89a386aeBE1601",
-  [arbitrum.id]: "0xD4CBC6359F75f261cA6f606F4B89a386aeBE1601",
+  [polygon.id]: "0xb2588731d8f6F854037936d6ffac4c13d0b6bd62",
+  [arbitrum.id]: "0xBB1B173cdFBe464caaaCeaB2a9c8C44229d62D14",
 };
 
 export default function Home() {
+  const addRecentTransaction = useAddRecentTransaction();
   const [amountIn, setAmountIn] = useState("");
   const [relayerFee, setRelayerFee] = useState("0");
   const [relayerFeeLoading, setRelayerFeeLoading] = useState(false);
+  const [approvalNeeded, setApprovalNeeded] = useState(true);
+  const [approvalLoading, setApprovalLoading] = useState(false);
+  const [destinationChain, setDestinationChain] = useState<number | undefined>(
+    undefined
+  );
   const [connext, setConnext] = useState<SdkBase>();
   const { isConnected } = useAccount();
   const { data: walletClient } = useWalletClient();
+  const { waitForTransactionReceipt } = usePublicClient();
 
   const { data: balance } = useContractRead({
     address: walletClient?.chain?.id
@@ -82,6 +95,28 @@ export default function Home() {
 
   const handleXCall = async () => {
     console.log(`amountIn: ${amountIn}`);
+    console.log("relayerFee: ", relayerFee);
+    const sdkParams = {
+      origin: chainIdToDomain(walletClient!.chain.id),
+      destination: chainIdToDomain(destinationChain!),
+      to: walletClient!.account.address,
+      asset: zoomer[walletClient!.chain.id],
+      delegate: walletClient!.account.address,
+      amount: "1",
+      slippage: 300,
+      callData: "0x",
+      relayerFee,
+    };
+    console.log("sdkParams: ", sdkParams);
+    const res = await connext!.xcall(sdkParams);
+    console.log("res: ", res);
+    const tx = await walletClient!.sendTransaction({
+      to: res.to! as `0x${string}`,
+      value: BigInt((res.value as any).hex),
+      data: res.data! as `0x${string}`,
+    });
+    addRecentTransaction({ hash: tx, description: "XCall" });
+    console.log("tx: ", tx);
   };
 
   const getRelayerFee = async (destinationChain: string) => {
@@ -94,6 +129,38 @@ export default function Home() {
     console.log("relayer fee: ", fee);
     setRelayerFeeLoading(false);
     setRelayerFee((fee ?? "0").toString());
+  };
+
+  const handleApprove = async (infinite: boolean) => {
+    console.log(
+      "approveIfNeeded: ",
+      chainIdToDomain(walletClient!.chain.id).toString(),
+      zoomer[walletClient!.chain.id],
+      infinite
+    );
+    const res = await connext!.approveIfNeeded(
+      chainIdToDomain(walletClient!.chain.id).toString(),
+      zoomer[walletClient!.chain.id],
+      amountIn,
+      infinite
+    );
+    if (!res) {
+      console.log("approval not needed");
+      setApprovalNeeded(false);
+      return;
+    }
+    console.log("res: ", res);
+    const tx = await walletClient!.sendTransaction({
+      to: res.to! as `0x${string}`,
+      value: BigInt(0),
+      data: res.data! as `0x${string}`,
+    });
+    setApprovalLoading(true);
+    addRecentTransaction({ hash: tx, description: "Approval" });
+    const receipt = await waitForTransactionReceipt({ hash: tx });
+    console.log("receipt: ", receipt);
+    setApprovalLoading(false);
+    setApprovalNeeded(false);
   };
 
   return (
@@ -134,6 +201,24 @@ export default function Home() {
                   value={amountIn}
                   onChange={async (event) => {
                     setAmountIn(event.target.value);
+                    if (!event.target.value) {
+                      return;
+                    }
+                    console.log(
+                      "approveIfNeeded: ",
+                      chainIdToDomain(walletClient!.chain.id).toString(),
+                      zoomer[walletClient!.chain.id],
+                      event.target.value
+                    );
+                    const res = await connext!.approveIfNeeded(
+                      chainIdToDomain(walletClient!.chain.id).toString(),
+                      zoomer[walletClient!.chain.id],
+                      event.target.value,
+                      true
+                    );
+                    console.log("res: ", res);
+                    console.log("approvalNeeded: ", !!res);
+                    setApprovalNeeded(!!res);
                   }}
                   focusBorderColor="black"
                   variant="flushed"
@@ -166,7 +251,9 @@ export default function Home() {
                   size="sm"
                   w="250px"
                   focusBorderColor="black"
+                  value={destinationChain}
                   onChange={async (event) => {
+                    setDestinationChain(+event.target.value);
                     await getRelayerFee(event.target.value);
                   }}
                 >
@@ -192,11 +279,40 @@ export default function Home() {
                     : "???"}
                 </Code>
               </Box>
-              <Box pb={4} pt={4}>
+              <Box pb={2} pt={4}>
+                <Flex>
+                  <Button
+                    variant="outline"
+                    borderColor="black"
+                    mr={2}
+                    isDisabled={!approvalNeeded || !amountIn}
+                    size="sm"
+                    onClick={() => handleApprove(false)}
+                    isLoading={approvalLoading}
+                  >
+                    /APPROVE
+                  </Button>
+                  <Button
+                    variant="outline"
+                    borderColor="black"
+                    size="sm"
+                    isDisabled={!approvalNeeded || !amountIn}
+                    onClick={() => handleApprove(true)}
+                    isLoading={approvalLoading}
+                  >
+                    /APPROVE_INFINITE
+                  </Button>
+                </Flex>
+              </Box>
+              <Box pb={4} pt={2}>
                 <Button
                   variant="outline"
                   borderColor="black"
-                  isDisabled={BigInt(relayerFee) == BigInt(0)}
+                  isDisabled={
+                    BigInt(relayerFee) == BigInt(0) ||
+                    !amountIn ||
+                    approvalNeeded
+                  }
                   onClick={handleXCall}
                 >
                   /LEZ_FUCKING_GO
