@@ -41,6 +41,7 @@ export default function Home() {
   const addRecentTransaction = useAddRecentTransaction();
   const [_amountIn, setAmountIn] = useState("");
   const amountIn = useDebounce(_amountIn, 500);
+  const [balance, setBalance] = useState(BigInt(0));
   const [relayerFee, setRelayerFee] = useState("0");
   const [relayerFeeLoading, setRelayerFeeLoading] = useState(false);
   const [approvalNeeded, setApprovalNeeded] = useState(true);
@@ -57,16 +58,7 @@ export default function Home() {
   >();
   const { isConnected } = useAccount();
   const { data: walletClient } = useWalletClient();
-  const { waitForTransactionReceipt } = usePublicClient();
-
-  const { data: balance } = useContractRead({
-    address: walletClient?.chain?.id
-      ? zoomer[walletClient.chain.id]
-      : undefined,
-    args: [walletClient?.account?.address!],
-    abi: erc20ABI,
-    functionName: "balanceOf",
-  });
+  const { waitForTransactionReceipt, readContract } = usePublicClient();
 
   useEffect(() => {
     const run = async () => {
@@ -95,9 +87,25 @@ export default function Home() {
       };
       const { sdkBase, sdkUtils } = await create(sdkConfig);
       setConnext({ sdkBase, sdkUtils });
+      if (!walletClient) {
+        return;
+      }
+      const _balance = await readContract({
+        address: zoomer[walletClient!.chain.id],
+        args: [walletClient!.account!.address!],
+        abi: erc20ABI,
+        functionName: "balanceOf",
+      });
+      console.log("_balance: ", _balance);
+      setBalance(_balance);
     };
     run();
-  }, [walletClient?.account?.address]);
+  }, [
+    readContract,
+    walletClient,
+    walletClient?.account?.address,
+    walletClient?.chain?.id,
+  ]);
 
   const getRelayerFee = async (destinationChain: string) => {
     console.log("getting relayer fee: ", destinationChain);
@@ -416,7 +424,13 @@ export default function Home() {
         )}
         <Flex>
           <Spacer />
-          <Image src="/bridge2.png" width={900} height={500} alt="bridge" />
+          <Image
+            src="/bridge2.png"
+            width={900}
+            height={900}
+            alt="bridge"
+            priority={true}
+          />
         </Flex>
       </VStack>
     </>
