@@ -20,6 +20,7 @@ import {
   usePublicClient,
   useWalletClient,
 } from "wagmi";
+import { useDebounce } from "usehooks-ts";
 import { arbitrum, mainnet, polygon } from "wagmi/chains";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { formatEther, parseEther } from "viem";
@@ -38,7 +39,8 @@ const zoomer: Record<number, `0x${string}`> = {
 
 export default function Home() {
   const addRecentTransaction = useAddRecentTransaction();
-  const [amountIn, setAmountIn] = useState("");
+  const [_amountIn, setAmountIn] = useState("");
+  const amountIn = useDebounce(_amountIn, 500);
   const [relayerFee, setRelayerFee] = useState("0");
   const [relayerFeeLoading, setRelayerFeeLoading] = useState(false);
   const [approvalNeeded, setApprovalNeeded] = useState(true);
@@ -284,7 +286,7 @@ export default function Home() {
               <Box>
                 <Input
                   w="450px"
-                  value={amountIn}
+                  value={_amountIn}
                   onChange={async (event) => {
                     setAmountIn(event.target.value);
                     if (!event.target.value) {
@@ -412,6 +414,10 @@ export default function Home() {
             <Spacer />
           </Flex>
         )}
+        <Flex>
+          <Spacer />
+          <Image src="/bridge2.png" width={900} height={500} alt="bridge" />
+        </Flex>
       </VStack>
     </>
   );
