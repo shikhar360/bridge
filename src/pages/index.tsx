@@ -14,12 +14,7 @@ import {
 import Image from "next/image";
 import NextLink from "next/link";
 import { useEffect, useState } from "react";
-import {
-  useAccount,
-  useContractRead,
-  usePublicClient,
-  useWalletClient,
-} from "wagmi";
+import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 import { useDebounce } from "usehooks-ts";
 import { arbitrum, mainnet, polygon } from "wagmi/chains";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -357,8 +352,12 @@ export default function Home() {
                     .filter((chain) => chain.id !== walletClient?.chain.id)
                     .map((chain) => {
                       return (
-                        <option key={chain.id} value={chain.id}>
-                          {chain.name}
+                        <option
+                          key={chain.id}
+                          value={chain.id}
+                          disabled={chain.id === 42161}
+                        >
+                          {chain.id === 42161 ? `${chain.name} - SOON(tm)` : chain.name}
                         </option>
                       );
                     })}
