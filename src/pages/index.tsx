@@ -10,21 +10,39 @@ import {
   Code,
   Link,
   Text,
+  useDisclosure,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
+  Tabs,
+  TabList,
+  Tab,
+  TabPanels,
+  TabPanel,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import NextLink from "next/link";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 import { useDebounce } from "usehooks-ts";
-import { arbitrum, mainnet, polygon } from "wagmi/chains";
+import { arbitrum, base, mainnet, polygon } from "wagmi/chains";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { formatEther, parseEther } from "viem";
 import { SdkBase, SdkConfig, SdkUtils, create } from "@connext/sdk";
 import { erc20ABI } from "wagmi";
 import { chainIdToDomain } from "@connext/nxtp-utils";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
+import { debounce } from "lodash";
+import { prepareWriteContract } from "wagmi/actions";
+import { xerc20LockboxAbi } from "@/abi/xerc20Lockbox";
 
-const chains = [mainnet, polygon, arbitrum];
+const chains = [mainnet, base, polygon, arbitrum];
+
+const WRAPPED_ZOOMER_MAINNET = "0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A";
+const ZOOMER_WRAPPER_MAINNET = "0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393";
 
 const zoomer: Record<number, `0x${string}`> = {
   [mainnet.id]: "0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676",
@@ -37,6 +55,10 @@ export default function Home() {
   const [_amountIn, setAmountIn] = useState("");
   const amountIn = useDebounce(_amountIn, 500);
   const [balance, setBalance] = useState(BigInt(0));
+  const [amountToWrap, setAmountToWrap] = useState("");
+  const [amountToUnwrap, setAmountToUnwrap] = useState("");
+  const [wrappedBalance, setWrappedBalance] = useState(BigInt(0));
+  const [tabIndex, setTabIndex] = useState(0);
   const [relayerFee, setRelayerFee] = useState("0");
   const [relayerFeeLoading, setRelayerFeeLoading] = useState(false);
   const [approvalNeeded, setApprovalNeeded] = useState(true);
@@ -54,6 +76,8 @@ export default function Home() {
   const { isConnected } = useAccount();
   const { data: walletClient } = useWalletClient();
   const { waitForTransactionReceipt, readContract } = usePublicClient();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const cancelRef = useRef();
 
   useEffect(() => {
     const run = async () => {
@@ -114,6 +138,76 @@ export default function Home() {
     setRelayerFee((fee ?? "0").toString());
   };
 
+  const handleSwitchDestinationChain = async (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    setDestinationChain(+event.target.value);
+    if (event.target.value === base.id.toString()) {
+      setRelayerFee("0");
+      const _balance = await readContract({
+        address: WRAPPED_ZOOMER_MAINNET,
+        args: [walletClient!.account!.address!],
+        abi: erc20ABI,
+        functionName: "balanceOf",
+      });
+      console.log("wrapped _balance: ", _balance);
+      setWrappedBalance(_balance);
+    } else {
+      await getRelayerFee(event.target.value);
+    }
+  };
+
+  const getAllowance = debounce(async (amount: string) => {
+    const allowance = await readContract({
+      address: zoomer[walletClient!.chain.id],
+      args: [walletClient!.account!.address!, ZOOMER_WRAPPER_MAINNET],
+      abi: erc20ABI,
+      functionName: "allowance",
+    });
+    console.log("allowance: ", allowance);
+    console.log("amount: ", amount);
+    if (BigInt(allowance) < parseEther(amount)) {
+      setApprovalNeeded(true);
+    } else {
+      setApprovalNeeded(false);
+    }
+  });
+
+  const handleWrapAmountChanged = async (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
+    setAmountToWrap(event.target.value);
+    await getAllowance(event.target.value);
+  };
+
+  const handleApproveWrap = async () => {
+    setApprovalLoading(true);
+    try {
+      console.log(
+        "approveIfNeeded: ",
+        chainIdToDomain(walletClient!.chain.id).toString(),
+        zoomer[walletClient!.chain.id],
+        parseEther(amountToWrap).toString(),
+        true
+      );
+      const prepApprove = await prepareWriteContract({
+        abi: erc20ABI,
+        address: zoomer[walletClient!.chain.id],
+        functionName: "approve",
+        args: [ZOOMER_WRAPPER_MAINNET, parseEther(amountToWrap)],
+      });
+      console.log("prepApprove: ", prepApprove);
+      const res = await walletClient!.writeContract(prepApprove.request);
+      addRecentTransaction({ hash: res, description: "Approve Wrapper" });
+      await waitForTransactionReceipt({ hash: res });
+      setApprovalLoading(false);
+      setApprovalNeeded(false);
+    } catch (e) {
+      console.log("error approving: ", e);
+      setApprovalLoading(false);
+    }
+  };
+
   const handleApprove = async (infinite: boolean) => {
     setApprovalLoading(true);
     try {
@@ -150,6 +244,83 @@ export default function Home() {
     } catch (e) {
       setApprovalLoading(false);
       console.log("error: ", e);
+    }
+  };
+
+  const wrapZoomer = async () => {
+    try {
+      const prepWrap = await prepareWriteContract({
+        abi: xerc20LockboxAbi,
+        address: ZOOMER_WRAPPER_MAINNET,
+        functionName: "deposit",
+        args: [parseEther(amountToWrap)],
+      });
+      console.log("prepWrap: ", prepWrap);
+      const res = await walletClient!.writeContract(prepWrap.request);
+      addRecentTransaction({ hash: res, description: "Wrap Zoomer" });
+      await waitForTransactionReceipt({ hash: res });
+      setAmountToWrap("");
+      setTabIndex(0);
+      const _balance = await readContract({
+        address: zoomer[walletClient!.chain.id],
+        args: [walletClient!.account!.address!],
+        abi: erc20ABI,
+        functionName: "balanceOf",
+      });
+      console.log("_balance: ", _balance);
+      setBalance(_balance);
+
+      const _wrappedBalance = await readContract({
+        address: WRAPPED_ZOOMER_MAINNET,
+        args: [walletClient!.account!.address!],
+        abi: erc20ABI,
+        functionName: "balanceOf",
+      });
+      console.log("_wrappedBalance: ", _wrappedBalance);
+      setWrappedBalance(_wrappedBalance);
+
+      onClose();
+    } catch (e) {
+      console.log("error wrapping: ", e);
+    }
+  };
+
+  const unwrapZoomer = async () => {
+    try {
+      const prepUnwrap = await prepareWriteContract({
+        abi: xerc20LockboxAbi,
+        address: ZOOMER_WRAPPER_MAINNET,
+        functionName: "withdraw",
+        args: [parseEther(amountToUnwrap)],
+      });
+      console.log("prepUnwrap: ", prepUnwrap);
+      const res = await walletClient!.writeContract(prepUnwrap.request);
+      addRecentTransaction({ hash: res, description: "Unwrap Zoomer" });
+      await waitForTransactionReceipt({ hash: res });
+      setAmountToUnwrap("");
+      setTabIndex(0);
+
+      const _balance = await readContract({
+        address: zoomer[walletClient!.chain.id],
+        args: [walletClient!.account!.address!],
+        abi: erc20ABI,
+        functionName: "balanceOf",
+      });
+      console.log("_balance: ", _balance);
+      setBalance(_balance);
+
+      const _wrappedBalance = await readContract({
+        address: WRAPPED_ZOOMER_MAINNET,
+        args: [walletClient!.account!.address!],
+        abi: erc20ABI,
+        functionName: "balanceOf",
+      });
+      console.log("_wrappedBalance: ", _wrappedBalance);
+      setWrappedBalance(_wrappedBalance);
+
+      onClose();
+    } catch (e) {
+      console.log("error unwrapping: ", e);
     }
   };
 
@@ -318,21 +489,132 @@ export default function Home() {
                 />
               </Box>
               <Box pb={4} pt={4}>
-                <Flex>
-                  <Code colorScheme="yellow">
-                    Balance: {formatEther(balance ?? BigInt(0))} ZOOMER
-                  </Code>
-                  <Button
-                    variant="outline"
-                    borderColor="black"
-                    size="xs"
-                    onClick={() => {
-                      setAmountIn(formatEther(balance ?? BigInt(0)));
-                    }}
-                    ml={2}
-                  >
-                    /max
-                  </Button>
+                <Flex direction="column">
+                  <Flex pb={2}>
+                    <Code colorScheme="yellow" width={400}>
+                      {formatEther(balance ?? BigInt(0))} ZOOMER
+                    </Code>
+                    <Button
+                      variant="outline"
+                      borderColor="black"
+                      size="xs"
+                      onClick={() => {
+                        setAmountIn(
+                          formatEther(
+                            destinationChain === base.id
+                              ? wrappedBalance
+                              : balance ?? BigInt(0)
+                          )
+                        );
+                      }}
+                      ml={2}
+                    >
+                      /max
+                    </Button>
+                  </Flex>
+                  <Flex>
+                    <Code colorScheme="yellow" width={400}>
+                      {formatEther(wrappedBalance ?? BigInt(0))} WRAPPED ZOOMER
+                    </Code>
+                    <Button
+                      variant="outline"
+                      onClick={onOpen}
+                      borderColor="black"
+                      size="xs"
+                      ml={2}
+                    >
+                      WRAP/UNWRAP
+                    </Button>
+                    <AlertDialog
+                      isOpen={isOpen}
+                      leastDestructiveRef={cancelRef}
+                      onClose={onClose}
+                    >
+                      <AlertDialogOverlay>
+                        <AlertDialogContent>
+                          <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                            ZOOMER WRAPPER
+                          </AlertDialogHeader>
+
+                          <AlertDialogBody>
+                            <Tabs
+                              index={tabIndex}
+                              onChange={(index) => {
+                                setTabIndex(index);
+                              }}
+                            >
+                              <TabList>
+                                <Tab>WRAP</Tab>
+                                <Tab>UNWRAP</Tab>
+                              </TabList>
+
+                              <TabPanels>
+                                <TabPanel>
+                                  <Flex pb={2}>
+                                    <Input
+                                      variant="outline"
+                                      placeholder="AMOUNT TO WRAP"
+                                      size="lg"
+                                      onChange={handleWrapAmountChanged}
+                                      value={amountToWrap}
+                                    />
+                                  </Flex>
+                                  <Code>
+                                    {formatEther(balance ?? BigInt(0))} ZOOMER
+                                  </Code>
+                                </TabPanel>
+                                <TabPanel>
+                                  <Flex pb={2}>
+                                    <Input
+                                      variant="outline"
+                                      placeholder="AMOUNT TO UNWRAP"
+                                      size="lg"
+                                      onChange={(event) =>
+                                        setAmountToUnwrap(event.target.value)
+                                      }
+                                      value={amountToUnwrap}
+                                    />
+                                  </Flex>
+                                  <Code>
+                                    {formatEther(wrappedBalance ?? BigInt(0))}{" "}
+                                    ZOOMER
+                                  </Code>
+                                </TabPanel>
+                              </TabPanels>
+                            </Tabs>
+                          </AlertDialogBody>
+
+                          <AlertDialogFooter>
+                            {tabIndex === 0 ? (
+                              <Button
+                                ref={cancelRef}
+                                onClick={handleApproveWrap}
+                                isDisabled={!approvalNeeded}
+                              >
+                                APPROVE
+                              </Button>
+                            ) : (
+                              <></>
+                            )}
+                            <Button
+                              colorScheme="yellow"
+                              ml={3}
+                              isDisabled={tabIndex === 0 && approvalNeeded}
+                              onClick={() => {
+                                if (tabIndex === 0) {
+                                  wrapZoomer();
+                                } else {
+                                  unwrapZoomer();
+                                }
+                              }}
+                            >
+                              {tabIndex === 0 ? `WRAP` : `UNWRAP`}
+                            </Button>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialogOverlay>
+                    </AlertDialog>
+                  </Flex>
                 </Flex>
               </Box>
               <Box pb={4} pt={4}>
@@ -343,13 +625,12 @@ export default function Home() {
                   w="250px"
                   focusBorderColor="black"
                   value={destinationChain}
-                  onChange={async (event) => {
-                    setDestinationChain(+event.target.value);
-                    await getRelayerFee(event.target.value);
-                  }}
+                  onChange={handleSwitchDestinationChain}
                 >
                   {chains
-                    .filter((chain) => chain.id !== walletClient?.chain.id)
+                    .filter((chain) => {
+                      return chain.id !== walletClient?.chain.id;
+                    })
                     .map((chain) => {
                       return (
                         <option
@@ -357,7 +638,9 @@ export default function Home() {
                           value={chain.id}
                           disabled={chain.id === 42161}
                         >
-                          {chain.id === 42161 ? `${chain.name} - SOON(tm)` : chain.name}
+                          {chain.id === 42161
+                            ? `${chain.name} - SOON(tm)`
+                            : chain.name}
                         </option>
                       );
                     })}
@@ -374,31 +657,35 @@ export default function Home() {
                     : "???"}
                 </Code>
               </Box>
-              <Box pb={2} pt={4}>
-                <Flex>
-                  <Button
-                    variant="outline"
-                    borderColor="black"
-                    mr={2}
-                    isDisabled={!approvalNeeded || !amountIn}
-                    size="sm"
-                    onClick={() => handleApprove(false)}
-                    isLoading={approvalLoading}
-                  >
-                    /APPROVE
-                  </Button>
-                  <Button
-                    variant="outline"
-                    borderColor="black"
-                    size="sm"
-                    isDisabled={!approvalNeeded || !amountIn}
-                    onClick={() => handleApprove(true)}
-                    isLoading={approvalLoading}
-                  >
-                    /APPROVE_INFINITE
-                  </Button>
-                </Flex>
-              </Box>
+              {destinationChain === base.id ? (
+                <></>
+              ) : (
+                <Box pb={2} pt={4}>
+                  <Flex>
+                    <Button
+                      variant="outline"
+                      borderColor="black"
+                      mr={2}
+                      isDisabled={!approvalNeeded || !amountIn}
+                      size="sm"
+                      onClick={() => handleApprove(false)}
+                      isLoading={approvalLoading}
+                    >
+                      /APPROVE
+                    </Button>
+                    <Button
+                      variant="outline"
+                      borderColor="black"
+                      size="sm"
+                      isDisabled={!approvalNeeded || !amountIn}
+                      onClick={() => handleApprove(true)}
+                      isLoading={approvalLoading}
+                    >
+                      /APPROVE_INFINITE
+                    </Button>
+                  </Flex>
+                </Box>
+              )}
               <Box pb={4} pt={2}>
                 <Button
                   variant="outline"
@@ -415,7 +702,9 @@ export default function Home() {
                 </Button>
               </Box>
               <Text width={500}>
-                (bridging will take 1-2 hours until we onboard instant-fill LPs)
+                {destinationChain === base.id
+                  ? `(base bridging uses wrapped zoomer)`
+                  : `(bridging will take 1-2 hours until we onboard instant-fill LPs)`}
               </Text>
             </Flex>
             <Spacer />
