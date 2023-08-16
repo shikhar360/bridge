@@ -7,11 +7,11 @@ import {
   darkTheme,
   getDefaultWallets,
 } from "@rainbow-me/rainbowkit";
-import { mainnet, polygon, arbitrum, base } from "wagmi/chains";
+import { mainnet, polygon, base } from "wagmi/chains";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [mainnet, polygon, arbitrum, base],
+  [mainnet, polygon, base],
   [publicProvider()]
 );
 

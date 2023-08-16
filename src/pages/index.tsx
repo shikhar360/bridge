@@ -10,7 +10,6 @@ import {
   Code,
   Link,
   Text,
-  useDisclosure,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import NextLink from "next/link";
@@ -27,7 +26,7 @@ import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { prepareWriteContract } from "wagmi/actions";
 import { xerc20LockboxAbi } from "@/abi/xerc20Lockbox";
 
-const chains = [mainnet, base, polygon, arbitrum];
+const chains = [mainnet, base, polygon];
 
 const ZOOMER_WRAPPER_MAINNET = "0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87";
 
@@ -426,8 +425,13 @@ export default function Home() {
                     .filter((chain) => {
                       if (walletClient?.chain.id === base.id) {
                         return chain.id === mainnet.id;
-                      } else {
+                      } else if (walletClient?.chain.id === mainnet.id) {
                         return chain.id !== walletClient?.chain.id;
+                      } else {
+                        return (
+                          chain.id !== base.id &&
+                          chain.id !== walletClient?.chain.id
+                        );
                       }
                     })
                     .map((chain) => {
