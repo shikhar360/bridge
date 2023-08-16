@@ -13,23 +13,28 @@ import {
 } from "@chakra-ui/react";
 import Image from "next/image";
 import NextLink from "next/link";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 import { useDebounce } from "usehooks-ts";
-import { arbitrum, mainnet, polygon } from "wagmi/chains";
+import { arbitrum, base, mainnet, polygon } from "wagmi/chains";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { formatEther, parseEther } from "viem";
 import { SdkBase, SdkConfig, SdkUtils, create } from "@connext/sdk";
 import { erc20ABI } from "wagmi";
 import { chainIdToDomain } from "@connext/nxtp-utils";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
+import { prepareWriteContract } from "wagmi/actions";
+import { xerc20LockboxAbi } from "@/abi/xerc20Lockbox";
 
-const chains = [mainnet, polygon, arbitrum];
+const chains = [mainnet, base, polygon];
+
+const ZOOMER_WRAPPER_MAINNET = "0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87";
 
 const zoomer: Record<number, `0x${string}`> = {
   [mainnet.id]: "0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676",
   [polygon.id]: "0xb2588731d8f6F854037936d6ffac4c13d0b6bd62",
   [arbitrum.id]: "0xBB1B173cdFBe464caaaCeaB2a9c8C44229d62D14",
+  [base.id]: "0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2",
 };
 
 export default function Home() {
@@ -114,33 +119,107 @@ export default function Home() {
     setRelayerFee((fee ?? "0").toString());
   };
 
-  const handleApprove = async (infinite: boolean) => {
-    setApprovalLoading(true);
-    try {
+  const updateApprovals = async (amount: string) => {
+    if (destinationChain === base.id) {
+      const res = await readContract({
+        address: zoomer[walletClient!.chain.id],
+        args: [walletClient!.account!.address!, ZOOMER_WRAPPER_MAINNET],
+        abi: erc20ABI,
+        functionName: "allowance",
+      });
+      if (res < parseEther(amount)) {
+        console.log("approval needed");
+        setApprovalNeeded(true);
+      }
+    } else {
       console.log(
         "approveIfNeeded: ",
         chainIdToDomain(walletClient!.chain.id).toString(),
         zoomer[walletClient!.chain.id],
-        parseEther(amountIn).toString(),
-        infinite
+        parseEther(amount)
       );
       const res = await connext!.sdkBase.approveIfNeeded(
         chainIdToDomain(walletClient!.chain.id).toString(),
         zoomer[walletClient!.chain.id],
-        parseEther(amountIn).toString(),
-        infinite
+        parseEther(amount).toString(),
+        true
       );
-      if (!res) {
-        console.log("approval not needed");
-        setApprovalNeeded(false);
-        return;
-      }
       console.log("res: ", res);
-      const tx = await walletClient!.sendTransaction({
-        to: res.to! as `0x${string}`,
-        value: BigInt(0),
-        data: res.data! as `0x${string}`,
-      });
+      console.log("approvalNeeded: ", !!res);
+      setApprovalNeeded(!!res);
+    }
+  };
+
+  const handleAmountInChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    setAmountIn(event.target.value);
+    if (!event.target.value) {
+      return;
+    }
+    await updateApprovals(event.target.value);
+  };
+
+  const handleSwitchDestinationChain = async (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    setDestinationChain(+event.target.value);
+    if (event.target.value === base.id.toString()) {
+      setRelayerFee("0");
+    } else {
+      await getRelayerFee(event.target.value);
+    }
+    await updateApprovals(amountIn);
+  };
+
+  const handleApprove = async (infinite: boolean) => {
+    setApprovalLoading(true);
+    try {
+      let tx: `0x${string}`;
+      if (destinationChain === base.id) {
+        console.log(
+          "zoomer[walletClient!.chain.id]: ",
+          zoomer[walletClient!.chain.id]
+        );
+        const approve = await prepareWriteContract({
+          address: zoomer[walletClient!.chain.id],
+          abi: erc20ABI,
+          functionName: "approve",
+          args: [
+            ZOOMER_WRAPPER_MAINNET,
+            infinite
+              ? BigInt(
+                  "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+                )
+              : parseEther(amountIn),
+          ],
+        });
+        console.log("approve.request: ", approve.request);
+        tx = await walletClient!.writeContract(approve.request);
+      } else {
+        console.log(
+          "approveIfNeeded: ",
+          chainIdToDomain(walletClient!.chain.id).toString(),
+          zoomer[walletClient!.chain.id],
+          parseEther(amountIn).toString(),
+          infinite
+        );
+        const res = await connext!.sdkBase.approveIfNeeded(
+          chainIdToDomain(walletClient!.chain.id).toString(),
+          zoomer[walletClient!.chain.id],
+          parseEther(amountIn).toString(),
+          infinite
+        );
+        if (!res) {
+          console.log("approval not needed");
+          setApprovalNeeded(false);
+          return;
+        }
+        console.log("res: ", res);
+        tx = await walletClient!.sendTransaction({
+          to: res.to! as `0x${string}`,
+          value: BigInt(0),
+          data: res.data! as `0x${string}`,
+        });
+      }
       setApprovalLoading(true);
       addRecentTransaction({ hash: tx, description: "Approval" });
       const receipt = await waitForTransactionReceipt({ hash: tx });
@@ -156,33 +235,44 @@ export default function Home() {
   const handleXCall = async () => {
     console.log(`amountIn: ${parseEther(amountIn)}`);
     console.log("relayerFee: ", relayerFee);
-    const sdkParams = {
-      origin: chainIdToDomain(walletClient!.chain.id),
-      destination: chainIdToDomain(destinationChain!),
-      to: walletClient!.account.address,
-      asset: zoomer[walletClient!.chain.id],
-      delegate: walletClient!.account.address,
-      amount: parseEther(amountIn).toString(),
-      slippage: 300,
-      callData: "0x",
-      relayerFee,
-    };
-    console.log("sdkParams: ", sdkParams);
     setXCallLoading(true);
     try {
-      const res = await connext!.sdkBase.xcall(sdkParams);
-      console.log("res: ", res);
-      const tx = await walletClient!.sendTransaction({
-        to: res.to! as `0x${string}`,
-        value: BigInt((res.value as any).hex),
-        data: res.data! as `0x${string}`,
-      });
+      let tx: `0x${string}`;
+      if (destinationChain === base.id) {
+        const lockbox = await prepareWriteContract({
+          address: ZOOMER_WRAPPER_MAINNET,
+          abi: xerc20LockboxAbi,
+          functionName: "depositAndBridgeToL2",
+          args: [parseEther(amountIn).toString()],
+        });
+        tx = await walletClient!.writeContract(lockbox.request);
+      } else {
+        const sdkParams = {
+          origin: chainIdToDomain(walletClient!.chain.id),
+          destination: chainIdToDomain(destinationChain!),
+          to: walletClient!.account.address,
+          asset: zoomer[walletClient!.chain.id],
+          delegate: walletClient!.account.address,
+          amount: parseEther(amountIn).toString(),
+          slippage: 300,
+          callData: "0x",
+          relayerFee,
+        };
+        console.log("sdkParams: ", sdkParams);
+        const res = await connext!.sdkBase.xcall(sdkParams);
+        console.log("res: ", res);
+        tx = await walletClient!.sendTransaction({
+          to: res.to! as `0x${string}`,
+          value: BigInt((res.value as any).hex),
+          data: res.data! as `0x${string}`,
+        });
+        startMonitoringTx();
+      }
       addRecentTransaction({ hash: tx, description: "XCall" });
       console.log("tx: ", tx);
       setIsSending(true);
       setXCallLoading(false);
       setXCallTxHash(tx);
-      startMonitoringTx();
     } catch (e) {
       console.log("error: ", e);
       setXCallLoading(false);
@@ -243,7 +333,11 @@ export default function Home() {
                 pt={4}
                 as={NextLink}
                 isExternal
-                href={`https://connextscan.io/tx/${xcallTxHash}`}
+                href={
+                  destinationChain === base.id
+                    ? `https://etherscan.io/tx/${xcallTxHash}`
+                    : `https://connextscan.io/tx/${xcallTxHash}`
+                }
               >
                 /SEE_MY_TRANSFER
               </Link>
@@ -290,27 +384,7 @@ export default function Home() {
                 <Input
                   w="450px"
                   value={_amountIn}
-                  onChange={async (event) => {
-                    setAmountIn(event.target.value);
-                    if (!event.target.value) {
-                      return;
-                    }
-                    console.log(
-                      "approveIfNeeded: ",
-                      chainIdToDomain(walletClient!.chain.id).toString(),
-                      zoomer[walletClient!.chain.id],
-                      parseEther(event.target.value)
-                    );
-                    const res = await connext!.sdkBase.approveIfNeeded(
-                      chainIdToDomain(walletClient!.chain.id).toString(),
-                      zoomer[walletClient!.chain.id],
-                      parseEther(event.target.value).toString(),
-                      true
-                    );
-                    console.log("res: ", res);
-                    console.log("approvalNeeded: ", !!res);
-                    setApprovalNeeded(!!res);
-                  }}
+                  onChange={handleAmountInChange}
                   focusBorderColor="black"
                   variant="flushed"
                   placeholder="amount to bridge"
@@ -318,21 +392,23 @@ export default function Home() {
                 />
               </Box>
               <Box pb={4} pt={4}>
-                <Flex>
-                  <Code colorScheme="yellow">
-                    Balance: {formatEther(balance ?? BigInt(0))} ZOOMER
-                  </Code>
-                  <Button
-                    variant="outline"
-                    borderColor="black"
-                    size="xs"
-                    onClick={() => {
-                      setAmountIn(formatEther(balance ?? BigInt(0)));
-                    }}
-                    ml={2}
-                  >
-                    /max
-                  </Button>
+                <Flex direction="column">
+                  <Flex pb={2}>
+                    <Code colorScheme="yellow" width={400}>
+                      {formatEther(balance ?? BigInt(0))} ZOOMER
+                    </Code>
+                    <Button
+                      variant="outline"
+                      borderColor="black"
+                      size="xs"
+                      onClick={() => {
+                        setAmountIn(formatEther(balance ?? BigInt(0)));
+                      }}
+                      ml={2}
+                    >
+                      /max
+                    </Button>
+                  </Flex>
                 </Flex>
               </Box>
               <Box pb={4} pt={4}>
@@ -343,21 +419,25 @@ export default function Home() {
                   w="250px"
                   focusBorderColor="black"
                   value={destinationChain}
-                  onChange={async (event) => {
-                    setDestinationChain(+event.target.value);
-                    await getRelayerFee(event.target.value);
-                  }}
+                  onChange={handleSwitchDestinationChain}
                 >
                   {chains
-                    .filter((chain) => chain.id !== walletClient?.chain.id)
+                    .filter((chain) => {
+                      if (walletClient?.chain.id === base.id) {
+                        return chain.id === mainnet.id;
+                      } else if (walletClient?.chain.id === mainnet.id) {
+                        return chain.id !== walletClient?.chain.id;
+                      } else {
+                        return (
+                          chain.id !== base.id &&
+                          chain.id !== walletClient?.chain.id
+                        );
+                      }
+                    })
                     .map((chain) => {
                       return (
-                        <option
-                          key={chain.id}
-                          value={chain.id}
-                          disabled={chain.id === 42161}
-                        >
-                          {chain.id === 42161 ? `${chain.name} - SOON(tm)` : chain.name}
+                        <option key={chain.id} value={chain.id}>
+                          {chain.name}
                         </option>
                       );
                     })}
@@ -374,6 +454,7 @@ export default function Home() {
                     : "???"}
                 </Code>
               </Box>
+
               <Box pb={2} pt={4}>
                 <Flex>
                   <Button
@@ -404,7 +485,8 @@ export default function Home() {
                   variant="outline"
                   borderColor="black"
                   isDisabled={
-                    BigInt(relayerFee) == BigInt(0) ||
+                    (walletClient?.chain.id === base.id &&
+                      BigInt(relayerFee) == BigInt(0)) ||
                     !amountIn ||
                     approvalNeeded
                   }
@@ -415,7 +497,9 @@ export default function Home() {
                 </Button>
               </Box>
               <Text width={500}>
-                (bridging will take 1-2 hours until we onboard instant-fill LPs)
+                {destinationChain === base.id
+                  ? `(bridging to base will take up to 10 min)`
+                  : `(bridging will take 1-2 hours until we onboard instant-fill LPs)`}
               </Text>
             </Flex>
             <Spacer />
