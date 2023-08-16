@@ -436,14 +436,8 @@ export default function Home() {
                     })
                     .map((chain) => {
                       return (
-                        <option
-                          key={chain.id}
-                          value={chain.id}
-                          disabled={chain.id === 42161}
-                        >
-                          {chain.id === 42161
-                            ? `${chain.name} - SOON(tm)`
-                            : chain.name}
+                        <option key={chain.id} value={chain.id}>
+                          {chain.name}
                         </option>
                       );
                     })}
