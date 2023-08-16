@@ -93,6 +93,32 @@ export const xerc20LockboxAbi = [
   },
   {
     inputs: [],
+    name: "OWNER",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "OpL1XERC20BRIDGE",
+    outputs: [
+      {
+        internalType: "contract OpL1XERC20Bridge",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "XERC20",
     outputs: [
       {
@@ -122,6 +148,19 @@ export const xerc20LockboxAbi = [
     name: "deposit",
     outputs: [],
     stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_amount",
+        type: "uint256",
+      },
+    ],
+    name: "depositAndBridgeToL2",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -163,6 +202,19 @@ export const xerc20LockboxAbi = [
         type: "bytes[]",
       },
     ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_opL1XERC20Bridge",
+        type: "address",
+      },
+    ],
+    name: "setOpL1XERC20Bridge",
+    outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
