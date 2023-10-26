@@ -26,9 +26,9 @@ import {
   useSendTransaction,
   useWalletClient,
 } from "wagmi";
-import { arbitrum, base, mainnet, polygon } from "wagmi/chains";
+import { arbitrum, base, bsc, mainnet, optimism, polygon } from "wagmi/chains";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Address, Hash, Hex, formatEther, parseEther } from "viem";
+import { Address, Chain, Hash, Hex, formatEther, parseEther } from "viem";
 import { SdkBase, SdkConfig, SdkUtils, create } from "@connext/sdk-core";
 import { chainIdToDomain } from "@connext/nxtp-utils";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
@@ -41,14 +41,16 @@ import {
   usePrepareZoomerXerc20LockboxDepositAndBridgeToL2,
   useZoomerCoinAllowance,
   useZoomerCoinApprove,
-  useZoomerCoinBalanceOf,
   useZoomerXerc20LockboxDepositAndBridgeToL2,
   zoomerCoinAddress,
   zoomerXerc20LockboxAddress,
 } from "../generated";
 import { ZOOMER_YELLOW } from "../utils/colors";
 
-const chains = [mainnet, base, polygon];
+const chainsByAsset: Record<Assets, Chain[]> = {
+  zoomer: [mainnet, base, polygon],
+  grumpycat: [mainnet, polygon, bsc, arbitrum, optimism],
+};
 
 type Assets = "zoomer" | "grumpycat";
 
@@ -203,10 +205,12 @@ export const BridgeUI = () => {
                     assetAddress={assetAddress}
                     setAmountIn={setAmountIn}
                     walletAddress={walletClient!.account!.address!}
+                    asset={asset}
                   />
                 </Box>
                 <Box pb={4} pt={4}>
                   <SelectDestinationChain
+                    asset={asset}
                     destinationChain={destinationChain}
                     amountIn={amountIn}
                     getRelayerFee={getRelayerFee}
@@ -218,6 +222,7 @@ export const BridgeUI = () => {
                 </Box>
                 <Box pb={4}>
                   <RelayerFee
+                    asset={asset}
                     relayerFee={relayerFee}
                     relayerFeeLoading={relayerFeeLoading}
                     walletChain={walletClient.chain.id}
@@ -342,11 +347,13 @@ type AmountDisplayProps = {
   walletAddress: Address;
   setAmountIn: Dispatch<SetStateAction<string>>;
   assetAddress: Address;
+  asset: Assets;
 };
 const AmountDisplay = ({
   walletAddress,
   setAmountIn,
   assetAddress,
+  asset,
 }: AmountDisplayProps) => {
   const { data: balance, isSuccess: isSuccessBalance } = useErc20BalanceOf({
     address: assetAddress,
@@ -356,7 +363,8 @@ const AmountDisplay = ({
     <Flex direction="column">
       <Flex pb={2}>
         <Code colorScheme="yellow" width={400}>
-          {isSuccessBalance ? formatEther(balance!) : "..."} ZOOMER
+          Balance: {isSuccessBalance ? formatEther(balance!) : "..."}{" "}
+          {asset.toUpperCase()}
         </Code>
         <Button
           variant="outline"
@@ -383,6 +391,7 @@ type SelectDestinationChainProps = {
   updateApprovals: (amount: string) => Promise<void>;
   setRelayerFee: Dispatch<SetStateAction<string>>;
   amountIn: string;
+  asset: Assets;
 };
 const SelectDestinationChain = ({
   destinationChain,
@@ -392,6 +401,7 @@ const SelectDestinationChain = ({
   updateApprovals,
   setRelayerFee,
   amountIn,
+  asset,
 }: SelectDestinationChainProps) => {
   const handleSwitchDestinationChain = async (
     event: ChangeEvent<HTMLSelectElement>
@@ -415,7 +425,7 @@ const SelectDestinationChain = ({
       value={destinationChain}
       onChange={handleSwitchDestinationChain}
     >
-      {chains
+      {chainsByAsset[asset]
         .filter((chain) => {
           if (walletChain === base.id) {
             return chain.id === mainnet.id;
@@ -440,18 +450,20 @@ type RelayerFeeProps = {
   relayerFee: string;
   relayerFeeLoading: boolean;
   walletChain: number;
+  asset: Assets;
 };
 const RelayerFee = ({
   relayerFeeLoading,
   walletChain,
   relayerFee,
+  asset,
 }: RelayerFeeProps) => {
   return (
     <Code colorScheme="yellow">
       Relayer fee: {relayerFeeLoading ? "..." : formatEther(BigInt(relayerFee))}{" "}
       {walletChain
-        ? chains.find((chain) => chain.id === walletChain)?.nativeCurrency
-            .symbol
+        ? chainsByAsset[asset].find((chain) => chain.id === walletChain)
+            ?.nativeCurrency.symbol
         : "???"}
     </Code>
   );
@@ -466,6 +478,7 @@ type ActionButtonsProps = {
   relayerFee: string;
   approvalNeeded: boolean;
   setApprovalNeeded: Dispatch<SetStateAction<boolean>>;
+  assetAddress: Address;
 };
 const ActionButtons = ({
   amountIn,
@@ -476,6 +489,7 @@ const ActionButtons = ({
   walletAddress,
   approvalNeeded,
   setApprovalNeeded,
+  assetAddress,
 }: ActionButtonsProps) => {
   return (
     <Flex>
@@ -487,6 +501,7 @@ const ActionButtons = ({
           destinationChain={destinationChain}
           setApprovalNeeded={setApprovalNeeded}
           walletChain={walletChain}
+          assetAddress={assetAddress}
         />
       ) : (
         <BridgeButton
@@ -496,6 +511,7 @@ const ActionButtons = ({
           relayerFee={relayerFee}
           walletAddress={walletAddress}
           walletChain={walletChain}
+          assetAddress={assetAddress}
         />
       )}
     </Flex>
@@ -509,6 +525,7 @@ type ApproveButtonProps = {
   connext: { sdkBase: SdkBase; sdkUtils: SdkUtils };
   approvalNeeded: boolean;
   setApprovalNeeded: Dispatch<SetStateAction<boolean>>;
+  assetAddress: Address;
 };
 const ApproveButton = ({
   amountIn,
@@ -517,6 +534,7 @@ const ApproveButton = ({
   connext,
   approvalNeeded,
   setApprovalNeeded,
+  assetAddress,
 }: ApproveButtonProps) => {
   const [approvalLoading, setApprovalLoading] = useState(false);
   const [infinite, setInfinite] = useState(false);
@@ -551,13 +569,13 @@ const ApproveButton = ({
         console.log(
           "approveIfNeeded: ",
           chainIdToDomain(walletChain).toString(),
-          zoomerCoinAddress[walletChain as keyof typeof zoomerCoinAddress],
+          assetAddress,
           parseEther(amountIn).toString(),
           infinite
         );
         const res = await connext!.sdkBase.approveIfNeeded(
           chainIdToDomain(walletChain).toString(),
-          zoomerCoinAddress[walletChain as keyof typeof zoomerCoinAddress],
+          assetAddress,
           parseEther(amountIn).toString(),
           infinite
         );
