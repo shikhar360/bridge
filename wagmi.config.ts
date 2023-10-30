@@ -794,7 +794,11 @@ export default defineConfig(() => {
       },
       {
         name: "ZoomerXERC20Lockbox",
-        address: { [mainnet.id]: "0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87" },
+        address: {
+          [mainnet.id]: "0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87",
+          [polygon.id]: "0x",
+          [base.id]: "0x",
+        },
         abi: [
           {
             inputs: [],

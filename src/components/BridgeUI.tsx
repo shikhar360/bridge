@@ -26,9 +26,9 @@ import {
   useSendTransaction,
   useWalletClient,
 } from "wagmi";
-import { arbitrum, base, bsc, mainnet, optimism, polygon } from "wagmi/chains";
+import { arbitrum, base, mainnet, polygon } from "wagmi/chains";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { Address, Chain, Hash, Hex, formatEther, parseEther } from "viem";
+import { Address, Hash, Hex, formatEther, parseEther } from "viem";
 import { SdkBase, SdkConfig, SdkUtils, create } from "@connext/sdk-core";
 import { chainIdToDomain } from "@connext/nxtp-utils";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
@@ -45,18 +45,15 @@ import {
   zoomerCoinAddress,
   zoomerXerc20LockboxAddress,
 } from "../generated";
-import { ZOOMER_YELLOW } from "../utils/colors";
+import { Assets, configByAsset } from "../utils/asset";
 
-const chainsByAsset: Record<Assets, Chain[]> = {
-  zoomer: [mainnet, base, polygon],
-  grumpycat: [mainnet, polygon, bsc, arbitrum, optimism],
+type BridgeUIProps = {
+  asset: Assets;
+  setAsset: Dispatch<SetStateAction<Assets>>;
 };
 
-type Assets = "zoomer" | "grumpycat";
-
-export const BridgeUI = () => {
+export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
   const { colorMode } = useColorMode();
-  const [asset, setAsset] = useState<Assets>("zoomer");
   const [assetAddress, setAssetAddress] = useState<Address>(
     zoomerCoinAddress[1]
   );
@@ -162,9 +159,13 @@ export const BridgeUI = () => {
   return (
     <>
       <Card
-        bg={colorMode === "light" ? ZOOMER_YELLOW : "blackAlpha.100"}
-        textColor={colorMode === "light" ? "black" : ZOOMER_YELLOW}
-        borderColor={colorMode === "light" ? "blackAlpha.400" : ZOOMER_YELLOW}
+        bg={
+          colorMode === "light" ? configByAsset[asset].color : "blackAlpha.100"
+        }
+        textColor={colorMode === "light" ? "black" : configByAsset[asset].color}
+        borderColor={
+          colorMode === "light" ? "blackAlpha.400" : configByAsset[asset].color
+        }
         variant={"outline"}
         mt={4}
       >
@@ -198,6 +199,7 @@ export const BridgeUI = () => {
                     amountIn={_amountIn}
                     setAmountIn={setAmountIn}
                     updateApprovals={updateApprovals}
+                    asset={asset}
                   />
                 </Box>
                 <Box pb={4} pt={4}>
@@ -235,9 +237,15 @@ export const BridgeUI = () => {
                       isDisabled={true}
                       variant="outline"
                       backgroundColor={
-                        colorMode === "light" ? "black" : ZOOMER_YELLOW
+                        colorMode === "light"
+                          ? "black"
+                          : configByAsset[asset].color
                       }
-                      color={colorMode === "light" ? ZOOMER_YELLOW : "black"}
+                      color={
+                        colorMode === "light"
+                          ? configByAsset[asset].color
+                          : "black"
+                      }
                       width={"100%"}
                     >
                       CHOOSE DESTINATION
@@ -252,6 +260,8 @@ export const BridgeUI = () => {
                       walletChain={walletClient.chain.id}
                       approvalNeeded={approvalNeeded}
                       setApprovalNeeded={setApprovalNeeded}
+                      assetAddress={assetAddress}
+                      asset={asset}
                     />
                   )}
                 </Box>
@@ -311,11 +321,13 @@ type AmountInProps = {
   amountIn: string;
   setAmountIn: Dispatch<SetStateAction<string>>;
   updateApprovals: (amount: string) => Promise<void>;
+  asset: Assets;
 };
 const AmountInInput = ({
   amountIn,
   setAmountIn,
   updateApprovals,
+  asset,
 }: AmountInProps) => {
   const { colorMode } = useColorMode();
 
@@ -337,7 +349,9 @@ const AmountInInput = ({
         variant="outline"
         placeholder="amount to bridge"
         size="md"
-        borderColor={colorMode === "light" ? "blackAlpha.400" : ZOOMER_YELLOW}
+        borderColor={
+          colorMode === "light" ? "blackAlpha.400" : configByAsset[asset].color
+        }
       />
     </Box>
   );
@@ -425,7 +439,7 @@ const SelectDestinationChain = ({
       value={destinationChain}
       onChange={handleSwitchDestinationChain}
     >
-      {chainsByAsset[asset]
+      {configByAsset[asset].chains
         .filter((chain) => {
           if (walletChain === base.id) {
             return chain.id === mainnet.id;
@@ -462,7 +476,7 @@ const RelayerFee = ({
     <Code colorScheme="yellow">
       Relayer fee: {relayerFeeLoading ? "..." : formatEther(BigInt(relayerFee))}{" "}
       {walletChain
-        ? chainsByAsset[asset].find((chain) => chain.id === walletChain)
+        ? configByAsset[asset].chains.find((chain) => chain.id === walletChain)
             ?.nativeCurrency.symbol
         : "???"}
     </Code>
@@ -479,6 +493,7 @@ type ActionButtonsProps = {
   approvalNeeded: boolean;
   setApprovalNeeded: Dispatch<SetStateAction<boolean>>;
   assetAddress: Address;
+  asset: Assets;
 };
 const ActionButtons = ({
   amountIn,
@@ -490,6 +505,7 @@ const ActionButtons = ({
   approvalNeeded,
   setApprovalNeeded,
   assetAddress,
+  asset
 }: ActionButtonsProps) => {
   return (
     <Flex>
@@ -502,6 +518,7 @@ const ActionButtons = ({
           setApprovalNeeded={setApprovalNeeded}
           walletChain={walletChain}
           assetAddress={assetAddress}
+          asset={asset}
         />
       ) : (
         <BridgeButton
@@ -512,6 +529,7 @@ const ActionButtons = ({
           walletAddress={walletAddress}
           walletChain={walletChain}
           assetAddress={assetAddress}
+          asset={asset}
         />
       )}
     </Flex>
@@ -526,6 +544,7 @@ type ApproveButtonProps = {
   approvalNeeded: boolean;
   setApprovalNeeded: Dispatch<SetStateAction<boolean>>;
   assetAddress: Address;
+  asset: Assets;
 };
 const ApproveButton = ({
   amountIn,
@@ -535,6 +554,7 @@ const ApproveButton = ({
   approvalNeeded,
   setApprovalNeeded,
   assetAddress,
+  asset,
 }: ApproveButtonProps) => {
   const [approvalLoading, setApprovalLoading] = useState(false);
   const [infinite, setInfinite] = useState(false);
@@ -615,8 +635,10 @@ const ApproveButton = ({
       isLoading={approvalLoading}
       loadingText="/CHECK_WALLET"
       width="100%"
-      backgroundColor={colorMode === "light" ? "black" : ZOOMER_YELLOW}
-      color={colorMode === "light" ? ZOOMER_YELLOW : "black"}
+      backgroundColor={
+        colorMode === "light" ? "black" : configByAsset[asset].color
+      }
+      color={colorMode === "light" ? configByAsset[asset].color : "black"}
     >
       /APPROVE
     </Button>
@@ -630,6 +652,8 @@ type BridgeButtonProps = {
   connext: { sdkBase: SdkBase; sdkUtils: SdkUtils };
   relayerFee: string;
   walletAddress: string;
+  assetAddress: string;
+  asset: Assets;
 };
 const BridgeButton = ({
   walletChain,
@@ -638,6 +662,8 @@ const BridgeButton = ({
   destinationChain,
   walletAddress,
   connext,
+  assetAddress,
+  asset,
 }: BridgeButtonProps) => {
   const [xcallLoading, setXCallLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
@@ -669,8 +695,7 @@ const BridgeButton = ({
           origin: chainIdToDomain(walletChain).toString(),
           destination: chainIdToDomain(destinationChain!).toString(),
           to: walletAddress,
-          asset:
-            zoomerCoinAddress[walletChain as keyof typeof zoomerCoinAddress],
+          asset: assetAddress,
           delegate: walletAddress,
           amount: parseEther(amountIn).toString(),
           slippage: "300",
@@ -729,8 +754,10 @@ const BridgeButton = ({
       isLoading={xcallLoading}
       onClick={handleXCall}
       loadingText="/CHECK_WALLET"
-      backgroundColor={colorMode === "light" ? "black" : ZOOMER_YELLOW}
-      color={colorMode === "light" ? ZOOMER_YELLOW : "black"}
+      backgroundColor={
+        colorMode === "light" ? "black" : configByAsset[asset].color
+      }
+      color={colorMode === "light" ? configByAsset[asset].color : "black"}
       width="100%"
     >
       /BRIDGE

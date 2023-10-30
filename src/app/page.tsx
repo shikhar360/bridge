@@ -11,32 +11,40 @@ import {
   Image,
   useColorMode,
 } from "@chakra-ui/react";
+import { useState } from "react";
+
 import { NavBar } from "../components/NavBar";
 import { BridgeUI } from "../components/BridgeUI";
-
-const BUY_ZOOMER_LINK =
-  "https://app.uniswap.org/#/tokens/ethereum/0x0d505c03d30e65f6e9b4ef88855a47a89e4b7676";
+import { BUY_ZOOMER_LINK } from "../utils/constants";
+import { Assets, configByAsset } from "../utils/asset";
 
 const Page = () => {
   const { colorMode } = useColorMode();
+  const [asset, setAsset] = useState<Assets>("zoomer");
   return (
     <VStack
       spacing={4}
       align="stretch"
       p={4}
-      backgroundColor={colorMode === "light" ? "#FEFC52" : "black"}
-      textColor={colorMode === "light" ? "black" : "#FEFC52"}
+      backgroundColor={
+        colorMode === "light" ? configByAsset[asset].color : "black"
+      }
+      textColor={colorMode === "light" ? "black" : configByAsset[asset].color}
     >
       <NavBar />
       <Flex>
         <Spacer />
         <Box width={{ base: "100%", md: "640px" }}>
-          <BridgeUI />
+          <BridgeUI asset={asset} setAsset={setAsset} />
           <LinkBox>
             <Button
               width="100%"
-              backgroundColor={colorMode === "light" ? "black" : "#FEFC52"}
-              color={colorMode === "light" ? "#FEFC52" : "black"}
+              backgroundColor={
+                colorMode === "light" ? "black" : configByAsset[asset].color
+              }
+              color={
+                colorMode === "light" ? configByAsset[asset].color : "black"
+              }
               mt={4}
             >
               <LinkOverlay href={BUY_ZOOMER_LINK} isExternal>
@@ -49,7 +57,7 @@ const Page = () => {
                 src="/bridge2.png"
                 boxSize="600px"
                 alt="bridge"
-                objectFit='cover'
+                objectFit="cover"
               />
             </Flex>
           </LinkBox>
