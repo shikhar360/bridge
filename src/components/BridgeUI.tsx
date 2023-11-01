@@ -722,8 +722,8 @@ const BridgeButton = ({
     "getAddressByAsset(asset, walletChain): ",
     getAddressByAsset(asset, walletChain)
   );
-  const { writeAsync: sendThroughBridgeWrite } = useBridgeSendThroughBridge({
-    // enabled: asset === "grumpycat",
+  const { config: sendThroughBridge } = usePrepareBridgeSendThroughBridge({
+    enabled: asset === "grumpycat",
     args: [
       getAddressByAsset(asset, walletChain),
       walletAddress,
@@ -737,8 +737,8 @@ const BridgeButton = ({
       ),
     ],
   });
-  // const { writeAsync: sendThroughBridgeWrite } =
-  //   useBridgeSendThroughBridge(sendThroughBridge);
+  const { writeAsync: sendThroughBridgeWrite } =
+    useBridgeSendThroughBridge(sendThroughBridge);
 
   const handleXCall = async () => {
     console.log(`amountIn: ${parseEther(amountIn)}`);
