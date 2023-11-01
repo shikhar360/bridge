@@ -16,6 +16,9 @@ export default defineConfig(() => {
           [mainnet.id]: "0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676",
           [polygon.id]: "0xb2588731d8f6F854037936d6ffac4c13d0b6bd62",
           [base.id]: "0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2",
+          [optimism.id]: "0x0000000000000000000000000000000000000000",
+          [bsc.id]: "0x0000000000000000000000000000000000000000",
+          [arbitrum.id]: "0x0000000000000000000000000000000000000000",
         },
         abi: [
           {
@@ -796,8 +799,11 @@ export default defineConfig(() => {
         name: "ZoomerXERC20Lockbox",
         address: {
           [mainnet.id]: "0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87",
-          [polygon.id]: "0x",
-          [base.id]: "0x",
+          [polygon.id]: "0x0000000000000000000000000000000000000000",
+          [base.id]: "0x0000000000000000000000000000000000000000",
+          [optimism.id]: "0x0000000000000000000000000000000000000000",
+          [bsc.id]: "0x0000000000000000000000000000000000000000",
+          [arbitrum.id]: "0x0000000000000000000000000000000000000000",
         },
         abi: [
           {
@@ -1035,6 +1041,405 @@ export default defineConfig(() => {
           {
             stateMutability: "payable",
             type: "receive",
+          },
+        ],
+      },
+      {
+        name: "Bridge",
+        address: {
+          [mainnet.id]: "0xDDFC70d9932ea7297724b621CcCb17bFF96995DD",
+          [polygon.id]: "0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A",
+          [optimism.id]: "0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A",
+          [bsc.id]: "0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393",
+          [arbitrum.id]: "0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A",
+          [base.id]: "0x0000000000000000000000000000000000000000",
+        },
+        abi: [
+          {
+            inputs: [
+              {
+                internalType: "enum Bridge.BridgeType",
+                name: "_bridgeType",
+                type: "uint8",
+              },
+            ],
+            name: "BridgeContractNotSet",
+            type: "error",
+          },
+          {
+            inputs: [
+              {
+                internalType: "uint32",
+                name: "_destinationChainId",
+                type: "uint32",
+              },
+            ],
+            name: "DestinationChainNotSupported",
+            type: "error",
+          },
+          {
+            inputs: [
+              {
+                internalType: "uint32",
+                name: "_fee",
+                type: "uint32",
+              },
+            ],
+            name: "FeeOutOfBounds",
+            type: "error",
+          },
+          {
+            inputs: [],
+            name: "InvalidBridgeType",
+            type: "error",
+          },
+          {
+            inputs: [
+              {
+                internalType: "uint256",
+                name: "_length1",
+                type: "uint256",
+              },
+              {
+                internalType: "uint256",
+                name: "_length2",
+                type: "uint256",
+              },
+            ],
+            name: "LengthsMustMatch",
+            type: "error",
+          },
+          {
+            anonymous: false,
+            inputs: [
+              {
+                indexed: false,
+                internalType: "uint8",
+                name: "version",
+                type: "uint8",
+              },
+            ],
+            name: "Initialized",
+            type: "event",
+          },
+          {
+            anonymous: false,
+            inputs: [
+              {
+                indexed: true,
+                internalType: "address",
+                name: "previousOwner",
+                type: "address",
+              },
+              {
+                indexed: true,
+                internalType: "address",
+                name: "newOwner",
+                type: "address",
+              },
+            ],
+            name: "OwnershipTransferStarted",
+            type: "event",
+          },
+          {
+            anonymous: false,
+            inputs: [
+              {
+                indexed: true,
+                internalType: "address",
+                name: "previousOwner",
+                type: "address",
+              },
+              {
+                indexed: true,
+                internalType: "address",
+                name: "newOwner",
+                type: "address",
+              },
+            ],
+            name: "OwnershipTransferred",
+            type: "event",
+          },
+          {
+            anonymous: false,
+            inputs: [
+              {
+                indexed: false,
+                internalType: "address",
+                name: "account",
+                type: "address",
+              },
+            ],
+            name: "Paused",
+            type: "event",
+          },
+          {
+            anonymous: false,
+            inputs: [
+              {
+                indexed: false,
+                internalType: "address",
+                name: "account",
+                type: "address",
+              },
+            ],
+            name: "Unpaused",
+            type: "event",
+          },
+          {
+            inputs: [],
+            name: "acceptOwnership",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+          },
+          {
+            inputs: [
+              {
+                internalType: "enum Bridge.BridgeType",
+                name: "",
+                type: "uint8",
+              },
+            ],
+            name: "bridges",
+            outputs: [
+              {
+                internalType: "address",
+                name: "",
+                type: "address",
+              },
+            ],
+            stateMutability: "view",
+            type: "function",
+          },
+          {
+            inputs: [
+              {
+                internalType: "uint32",
+                name: "",
+                type: "uint32",
+              },
+            ],
+            name: "connextChainIdToDomain",
+            outputs: [
+              {
+                internalType: "uint32",
+                name: "",
+                type: "uint32",
+              },
+            ],
+            stateMutability: "view",
+            type: "function",
+          },
+          {
+            inputs: [],
+            name: "fee",
+            outputs: [
+              {
+                internalType: "uint32",
+                name: "",
+                type: "uint32",
+              },
+            ],
+            stateMutability: "view",
+            type: "function",
+          },
+          {
+            inputs: [
+              {
+                internalType: "uint32",
+                name: "_fee",
+                type: "uint32",
+              },
+              {
+                internalType: "enum Bridge.BridgeType[]",
+                name: "_bridgeTypes",
+                type: "uint8[]",
+              },
+              {
+                internalType: "address[]",
+                name: "_bridges",
+                type: "address[]",
+              },
+            ],
+            name: "initialize",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+          },
+          {
+            inputs: [],
+            name: "owner",
+            outputs: [
+              {
+                internalType: "address",
+                name: "",
+                type: "address",
+              },
+            ],
+            stateMutability: "view",
+            type: "function",
+          },
+          {
+            inputs: [],
+            name: "paused",
+            outputs: [
+              {
+                internalType: "bool",
+                name: "",
+                type: "bool",
+              },
+            ],
+            stateMutability: "view",
+            type: "function",
+          },
+          {
+            inputs: [],
+            name: "pendingOwner",
+            outputs: [
+              {
+                internalType: "address",
+                name: "",
+                type: "address",
+              },
+            ],
+            stateMutability: "view",
+            type: "function",
+          },
+          {
+            inputs: [],
+            name: "renounceOwnership",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+          },
+          {
+            inputs: [
+              {
+                internalType: "address",
+                name: "_token",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "_recipient",
+                type: "address",
+              },
+              {
+                internalType: "uint32",
+                name: "_destinationChainId",
+                type: "uint32",
+              },
+              {
+                internalType: "uint256",
+                name: "_amount",
+                type: "uint256",
+              },
+              {
+                internalType: "bytes",
+                name: "_data",
+                type: "bytes",
+              },
+              {
+                internalType: "enum Bridge.BridgeType",
+                name: "_bridgeType",
+                type: "uint8",
+              },
+              {
+                internalType: "bytes",
+                name: "_extraData",
+                type: "bytes",
+              },
+            ],
+            name: "sendThroughBridge",
+            outputs: [],
+            stateMutability: "payable",
+            type: "function",
+          },
+          {
+            inputs: [
+              {
+                internalType: "enum Bridge.BridgeType",
+                name: "_bridgeType",
+                type: "uint8",
+              },
+              {
+                internalType: "address",
+                name: "_bridge",
+                type: "address",
+              },
+            ],
+            name: "setBridge",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+          },
+          {
+            inputs: [
+              {
+                internalType: "uint32[]",
+                name: "_chainId",
+                type: "uint32[]",
+              },
+              {
+                internalType: "uint32[]",
+                name: "_connextDomain",
+                type: "uint32[]",
+              },
+            ],
+            name: "setDomains",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+          },
+          {
+            inputs: [
+              {
+                internalType: "uint32",
+                name: "_fee",
+                type: "uint32",
+              },
+            ],
+            name: "setFee",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+          },
+          {
+            inputs: [
+              {
+                internalType: "address",
+                name: "newOwner",
+                type: "address",
+              },
+            ],
+            name: "transferOwnership",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
+          },
+          {
+            inputs: [
+              {
+                internalType: "address",
+                name: "_token",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "_recipient",
+                type: "address",
+              },
+              {
+                internalType: "uint256",
+                name: "_amount",
+                type: "uint256",
+              },
+            ],
+            name: "withdraw",
+            outputs: [],
+            stateMutability: "nonpayable",
+            type: "function",
           },
         ],
       },
