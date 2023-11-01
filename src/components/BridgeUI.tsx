@@ -35,6 +35,7 @@ import {
   Address,
   Hash,
   Hex,
+  encodeAbiParameters,
   encodePacked,
   formatEther,
   parseEther,
@@ -45,17 +46,13 @@ import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 
 import { useDebounce } from "../hooks/useDebounce";
 import {
-  grumpyCatCoinAddress,
   useBridgeSendThroughBridge,
+  useErc20Allowance,
   useErc20BalanceOf,
   usePrepareBridgeSendThroughBridge,
-  usePrepareZoomerCoinApprove,
   usePrepareZoomerXerc20LockboxDepositAndBridgeToL2,
-  useZoomerCoinAllowance,
-  useZoomerCoinApprove,
   useZoomerXerc20LockboxDepositAndBridgeToL2,
   zoomerCoinAddress,
-  zoomerXerc20LockboxAddress,
 } from "../generated";
 import {
   Assets,
@@ -77,21 +74,38 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
   const [relayerFeeLoading, setRelayerFeeLoading] = useState(false);
   const [approvalNeeded, setApprovalNeeded] = useState(true);
   const [destinationChain, setDestinationChain] = useState<number | undefined>(
-    undefined
+    polygon.id
   );
   const [connext, setConnext] = useState<
     { sdkBase: SdkBase; sdkUtils: SdkUtils } | undefined
   >();
   const { isConnected } = useAccount();
   const { data: walletClient } = useWalletClient();
-  const { refetch } = useZoomerCoinAllowance({
-    chainId: 1,
+  const {
+    data: allowance,
+    isSuccess: allowanceIsSuccess,
+    isError: allowanceIsError,
+    error,
+  } = useErc20Allowance({
+    enabled:
+      !!walletClient?.chain?.id &&
+      !!walletClient?.account?.address &&
+      !!destinationChain &&
+      ((asset === "zoomer" && destinationChain === base.id) ||
+        asset === "grumpycat"),
+    address: walletClient?.chain.id
+      ? getAddressByAsset(asset, walletClient!.chain.id)
+      : "0x0000000000000000000000000000000000000000",
+    chainId: walletClient?.chain.id,
     args: [
       walletClient?.account.address ??
         "0x0000000000000000000000000000000000000000",
-      zoomerXerc20LockboxAddress[1],
+      getApproveToByAsset(
+        asset,
+        walletClient?.chain.id ?? 1,
+        destinationChain ?? 137
+      )!,
     ],
-    enabled: false,
   });
 
   useEffect(() => {
@@ -138,35 +152,53 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
   };
 
   const updateApprovals = async (amount: string) => {
-    if (destinationChain === base.id) {
-      const res = await refetch();
-      if (res.isSuccess && res.data < parseEther(amount)) {
-        console.log("approval needed");
+    if (asset === "zoomer") {
+      if (destinationChain === base.id) {
+        if (allowanceIsError) {
+          console.log("ALLOWANCE ERROR: ", error);
+        }
+        if (allowanceIsSuccess && allowance! < parseEther(amount)) {
+          console.log("approval needed: ", allowance, parseEther(amount));
+          setApprovalNeeded(true);
+        } else {
+          console.log("approval not needed: ", allowance, parseEther(amount));
+          setApprovalNeeded(false);
+        }
+      } else {
+        if (!walletClient?.chain.id) {
+          throw new Error("walletClient?.chain.id is undefined");
+        }
+        console.log(
+          "approveIfNeeded: ",
+          chainIdToDomain(walletClient?.chain.id).toString(),
+          zoomerCoinAddress[
+            walletClient?.chain.id as keyof typeof zoomerCoinAddress
+          ],
+          parseEther(amount)
+        );
+        const res = await connext!.sdkBase.approveIfNeeded(
+          chainIdToDomain(walletClient?.chain.id).toString(),
+          zoomerCoinAddress[
+            walletClient?.chain.id as keyof typeof zoomerCoinAddress
+          ],
+          parseEther(amount).toString(),
+          true
+        );
+        console.log("res: ", res);
+        console.log("approvalNeeded: ", !!res);
+        setApprovalNeeded(!!res);
+      }
+    } else if (asset === "grumpycat") {
+      if (allowanceIsError) {
+        console.log("ALLOWANCE ERROR: ", error);
+      }
+      if (allowanceIsSuccess && allowance! < parseEther(amount)) {
+        console.log("approval needed: ", allowance, parseEther(amount));
         setApprovalNeeded(true);
+      } else {
+        console.log("approval not needed: ", allowance, parseEther(amount));
+        setApprovalNeeded(false);
       }
-    } else {
-      if (!walletClient?.chain.id) {
-        throw new Error("walletClient?.chain.id is undefined");
-      }
-      console.log(
-        "approveIfNeeded: ",
-        chainIdToDomain(walletClient?.chain.id).toString(),
-        zoomerCoinAddress[
-          walletClient?.chain.id as keyof typeof zoomerCoinAddress
-        ],
-        parseEther(amount)
-      );
-      const res = await connext!.sdkBase.approveIfNeeded(
-        chainIdToDomain(walletClient?.chain.id).toString(),
-        zoomerCoinAddress[
-          walletClient?.chain.id as keyof typeof zoomerCoinAddress
-        ],
-        parseEther(amount).toString(),
-        true
-      );
-      console.log("res: ", res);
-      console.log("approvalNeeded: ", !!res);
-      setApprovalNeeded(!!res);
     }
   };
 
@@ -328,7 +360,9 @@ const AmountInInput = ({
     if (!event.target.value) {
       return;
     }
+    console.log("UPDATING APPROVALS");
     await updateApprovals(event.target.value);
+    console.log("UPDATED APPROVALS");
   };
 
   return (
@@ -550,7 +584,9 @@ const ApproveButton = ({
   const { colorMode } = useColorMode();
 
   const { config } = usePrepareContractWrite({
+    chainId: walletChain,
     abi: erc20ABI,
+    address: getAddressByAsset(asset, walletChain),
     functionName: "approve",
     args: [
       getApproveToByAsset(asset, walletChain, destinationChain) ??
@@ -603,6 +639,7 @@ const ApproveButton = ({
           tx = data.hash;
         }
       } else if (asset === "grumpycat") {
+        console.log("config: ", config);
         if (!approveWrite) {
           throw new Error("approveWrite is undefined");
         }
@@ -662,38 +699,46 @@ const BridgeButton = ({
   connext,
   asset,
 }: BridgeButtonProps) => {
+  const { colorMode } = useColorMode();
   const [xcallLoading, setXCallLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [transferComplete, setTransferComplete] = useState(false);
   const [xcallTxHash, setXCallTxHash] = useState("");
   const addRecentTransaction = useAddRecentTransaction();
   const { sendTransactionAsync } = useSendTransaction();
+
   const { config: zoomerBaseConfig } =
     usePrepareZoomerXerc20LockboxDepositAndBridgeToL2({
       args: [parseEther(amountIn)],
-      enabled: !(
+      enabled:
         asset === "zoomer" &&
         walletChain === mainnet.id &&
-        destinationChain === base.id
-      ),
+        destinationChain === base.id,
     });
   const { writeAsync: depositWriteZoomerLockbox } =
     useZoomerXerc20LockboxDepositAndBridgeToL2(zoomerBaseConfig);
-  const { colorMode } = useColorMode();
-  const { config: sendThroughBridge } = usePrepareBridgeSendThroughBridge({
-    enabled: asset === "grumpycat",
+
+  console.log(
+    "getAddressByAsset(asset, walletChain): ",
+    getAddressByAsset(asset, walletChain)
+  );
+  const { writeAsync: sendThroughBridgeWrite } = useBridgeSendThroughBridge({
+    // enabled: asset === "grumpycat",
     args: [
       getAddressByAsset(asset, walletChain),
       walletAddress,
       destinationChain,
-      BigInt(amountIn),
+      parseEther(amountIn),
       "0x",
       0,
-      encodePacked(["address", "uint256"], [walletAddress, BigInt(10)]),
+      encodeAbiParameters(
+        [{ type: "address" }, { type: "uint256" }],
+        [walletAddress, BigInt(10)]
+      ),
     ],
   });
-  const { writeAsync: sendThroughBridgeWrite } =
-    useBridgeSendThroughBridge(sendThroughBridge);
+  // const { writeAsync: sendThroughBridgeWrite } =
+  //   useBridgeSendThroughBridge(sendThroughBridge);
 
   const handleXCall = async () => {
     console.log(`amountIn: ${parseEther(amountIn)}`);
