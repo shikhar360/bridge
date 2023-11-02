@@ -722,6 +722,105 @@ export const grumpyCatCoinConfig = {
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// GrumpyCatLockboxAdapter
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export const grumpyCatLockboxAdapterABI = [
+  {
+    stateMutability: 'nonpayable',
+    type: 'constructor',
+    inputs: [
+      { name: '_connext', internalType: 'address', type: 'address' },
+      { name: '_lockbox', internalType: 'address', type: 'address' },
+      { name: '_erc20', internalType: 'address', type: 'address' },
+      { name: '_xerc20', internalType: 'address', type: 'address' },
+    ],
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'sender', internalType: 'address', type: 'address' }],
+    name: 'XReceiver__onlyConnext',
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'connext',
+    outputs: [{ name: '', internalType: 'contract IConnext', type: 'address' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'erc20',
+    outputs: [{ name: '', internalType: 'contract IERC20', type: 'address' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'lockbox',
+    outputs: [
+      { name: '', internalType: 'contract IXERC20Lockbox', type: 'address' },
+    ],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_transferId', internalType: 'bytes32', type: 'bytes32' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' },
+      { name: '_asset', internalType: 'address', type: 'address' },
+      { name: '_originSender', internalType: 'address', type: 'address' },
+      { name: '_origin', internalType: 'uint32', type: 'uint32' },
+      { name: '_callData', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'xReceive',
+    outputs: [{ name: '', internalType: 'bytes', type: 'bytes' }],
+  },
+  {
+    stateMutability: 'payable',
+    type: 'function',
+    inputs: [
+      { name: '_destination', internalType: 'uint32', type: 'uint32' },
+      { name: '_to', internalType: 'address', type: 'address' },
+      { name: '_asset', internalType: 'address', type: 'address' },
+      { name: '_delegate', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' },
+      { name: '_slippage', internalType: 'uint256', type: 'uint256' },
+      { name: '_callData', internalType: 'bytes', type: 'bytes' },
+    ],
+    name: 'xcall',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'xerc20',
+    outputs: [{ name: '', internalType: 'contract IXERC20', type: 'address' }],
+  },
+] as const
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export const grumpyCatLockboxAdapterAddress = {
+  1: '0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7',
+} as const
+
+/**
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export const grumpyCatLockboxAdapterConfig = {
+  address: grumpyCatLockboxAdapterAddress,
+  abi: grumpyCatLockboxAdapterABI,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ZoomerCoin
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -4131,6 +4230,359 @@ export function useGrumpyCatCoinTransferEvent(
     eventName: 'Transfer',
     ...config,
   } as UseContractEventConfig<typeof grumpyCatCoinABI, 'Transfer'>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__.
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useGrumpyCatLockboxAdapterRead<
+  TFunctionName extends string,
+  TSelectData = ReadContractResult<
+    typeof grumpyCatLockboxAdapterABI,
+    TFunctionName
+  >,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof grumpyCatLockboxAdapterABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address'
+  > & { chainId?: keyof typeof grumpyCatLockboxAdapterAddress } = {} as any,
+) {
+  return useContractRead({
+    abi: grumpyCatLockboxAdapterABI,
+    address: grumpyCatLockboxAdapterAddress[1],
+    ...config,
+  } as UseContractReadConfig<
+    typeof grumpyCatLockboxAdapterABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__ and `functionName` set to `"connext"`.
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useGrumpyCatLockboxAdapterConnext<
+  TFunctionName extends 'connext',
+  TSelectData = ReadContractResult<
+    typeof grumpyCatLockboxAdapterABI,
+    TFunctionName
+  >,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof grumpyCatLockboxAdapterABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof grumpyCatLockboxAdapterAddress } = {} as any,
+) {
+  return useContractRead({
+    abi: grumpyCatLockboxAdapterABI,
+    address: grumpyCatLockboxAdapterAddress[1],
+    functionName: 'connext',
+    ...config,
+  } as UseContractReadConfig<
+    typeof grumpyCatLockboxAdapterABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__ and `functionName` set to `"erc20"`.
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useGrumpyCatLockboxAdapterErc20<
+  TFunctionName extends 'erc20',
+  TSelectData = ReadContractResult<
+    typeof grumpyCatLockboxAdapterABI,
+    TFunctionName
+  >,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof grumpyCatLockboxAdapterABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof grumpyCatLockboxAdapterAddress } = {} as any,
+) {
+  return useContractRead({
+    abi: grumpyCatLockboxAdapterABI,
+    address: grumpyCatLockboxAdapterAddress[1],
+    functionName: 'erc20',
+    ...config,
+  } as UseContractReadConfig<
+    typeof grumpyCatLockboxAdapterABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__ and `functionName` set to `"lockbox"`.
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useGrumpyCatLockboxAdapterLockbox<
+  TFunctionName extends 'lockbox',
+  TSelectData = ReadContractResult<
+    typeof grumpyCatLockboxAdapterABI,
+    TFunctionName
+  >,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof grumpyCatLockboxAdapterABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof grumpyCatLockboxAdapterAddress } = {} as any,
+) {
+  return useContractRead({
+    abi: grumpyCatLockboxAdapterABI,
+    address: grumpyCatLockboxAdapterAddress[1],
+    functionName: 'lockbox',
+    ...config,
+  } as UseContractReadConfig<
+    typeof grumpyCatLockboxAdapterABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__ and `functionName` set to `"xerc20"`.
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useGrumpyCatLockboxAdapterXerc20<
+  TFunctionName extends 'xerc20',
+  TSelectData = ReadContractResult<
+    typeof grumpyCatLockboxAdapterABI,
+    TFunctionName
+  >,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof grumpyCatLockboxAdapterABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof grumpyCatLockboxAdapterAddress } = {} as any,
+) {
+  return useContractRead({
+    abi: grumpyCatLockboxAdapterABI,
+    address: grumpyCatLockboxAdapterAddress[1],
+    functionName: 'xerc20',
+    ...config,
+  } as UseContractReadConfig<
+    typeof grumpyCatLockboxAdapterABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__.
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useGrumpyCatLockboxAdapterWrite<
+  TFunctionName extends string,
+  TMode extends WriteContractMode = undefined,
+  TChainId extends number = keyof typeof grumpyCatLockboxAdapterAddress,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof grumpyCatLockboxAdapterABI,
+          string
+        >['request']['abi'],
+        TFunctionName,
+        TMode
+      > & { address?: Address; chainId?: TChainId }
+    : UseContractWriteConfig<
+        typeof grumpyCatLockboxAdapterABI,
+        TFunctionName,
+        TMode
+      > & {
+        abi?: never
+        address?: never
+        chainId?: TChainId
+      } = {} as any,
+) {
+  return useContractWrite<
+    typeof grumpyCatLockboxAdapterABI,
+    TFunctionName,
+    TMode
+  >({
+    abi: grumpyCatLockboxAdapterABI,
+    address: grumpyCatLockboxAdapterAddress[1],
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__ and `functionName` set to `"xReceive"`.
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useGrumpyCatLockboxAdapterXReceive<
+  TMode extends WriteContractMode = undefined,
+  TChainId extends number = keyof typeof grumpyCatLockboxAdapterAddress,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof grumpyCatLockboxAdapterABI,
+          'xReceive'
+        >['request']['abi'],
+        'xReceive',
+        TMode
+      > & { address?: Address; chainId?: TChainId; functionName?: 'xReceive' }
+    : UseContractWriteConfig<
+        typeof grumpyCatLockboxAdapterABI,
+        'xReceive',
+        TMode
+      > & {
+        abi?: never
+        address?: never
+        chainId?: TChainId
+        functionName?: 'xReceive'
+      } = {} as any,
+) {
+  return useContractWrite<typeof grumpyCatLockboxAdapterABI, 'xReceive', TMode>(
+    {
+      abi: grumpyCatLockboxAdapterABI,
+      address: grumpyCatLockboxAdapterAddress[1],
+      functionName: 'xReceive',
+      ...config,
+    } as any,
+  )
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__ and `functionName` set to `"xcall"`.
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useGrumpyCatLockboxAdapterXcall<
+  TMode extends WriteContractMode = undefined,
+  TChainId extends number = keyof typeof grumpyCatLockboxAdapterAddress,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof grumpyCatLockboxAdapterABI,
+          'xcall'
+        >['request']['abi'],
+        'xcall',
+        TMode
+      > & { address?: Address; chainId?: TChainId; functionName?: 'xcall' }
+    : UseContractWriteConfig<
+        typeof grumpyCatLockboxAdapterABI,
+        'xcall',
+        TMode
+      > & {
+        abi?: never
+        address?: never
+        chainId?: TChainId
+        functionName?: 'xcall'
+      } = {} as any,
+) {
+  return useContractWrite<typeof grumpyCatLockboxAdapterABI, 'xcall', TMode>({
+    abi: grumpyCatLockboxAdapterABI,
+    address: grumpyCatLockboxAdapterAddress[1],
+    functionName: 'xcall',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__.
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function usePrepareGrumpyCatLockboxAdapterWrite<
+  TFunctionName extends string,
+>(
+  config: Omit<
+    UsePrepareContractWriteConfig<
+      typeof grumpyCatLockboxAdapterABI,
+      TFunctionName
+    >,
+    'abi' | 'address'
+  > & { chainId?: keyof typeof grumpyCatLockboxAdapterAddress } = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: grumpyCatLockboxAdapterABI,
+    address: grumpyCatLockboxAdapterAddress[1],
+    ...config,
+  } as UsePrepareContractWriteConfig<
+    typeof grumpyCatLockboxAdapterABI,
+    TFunctionName
+  >)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__ and `functionName` set to `"xReceive"`.
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function usePrepareGrumpyCatLockboxAdapterXReceive(
+  config: Omit<
+    UsePrepareContractWriteConfig<
+      typeof grumpyCatLockboxAdapterABI,
+      'xReceive'
+    >,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof grumpyCatLockboxAdapterAddress } = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: grumpyCatLockboxAdapterABI,
+    address: grumpyCatLockboxAdapterAddress[1],
+    functionName: 'xReceive',
+    ...config,
+  } as UsePrepareContractWriteConfig<
+    typeof grumpyCatLockboxAdapterABI,
+    'xReceive'
+  >)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__ and `functionName` set to `"xcall"`.
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function usePrepareGrumpyCatLockboxAdapterXcall(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof grumpyCatLockboxAdapterABI, 'xcall'>,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof grumpyCatLockboxAdapterAddress } = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: grumpyCatLockboxAdapterABI,
+    address: grumpyCatLockboxAdapterAddress[1],
+    functionName: 'xcall',
+    ...config,
+  } as UsePrepareContractWriteConfig<
+    typeof grumpyCatLockboxAdapterABI,
+    'xcall'
+  >)
 }
 
 /**

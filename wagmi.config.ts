@@ -1460,6 +1460,12 @@ export default defineConfig(() => {
               [arbitrum.id]: "0x3B350F202473932411772C8Cb76DB7975f42397E",
             },
           },
+          {
+            name: "GrumpyCatLockboxAdapter",
+            address: {
+              [mainnet.id]: "0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7",
+            },
+          },
         ],
       }),
       react(),

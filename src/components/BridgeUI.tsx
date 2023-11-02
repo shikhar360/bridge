@@ -27,8 +27,10 @@ import {
   usePrepareContractWrite,
   usePublicClient,
   useSendTransaction,
+  useWaitForTransaction,
   useWalletClient,
 } from "wagmi";
+import { switchNetwork } from "@wagmi/core";
 import { arbitrum, base, mainnet, polygon } from "wagmi/chains";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import {
@@ -36,7 +38,6 @@ import {
   Hash,
   Hex,
   encodeAbiParameters,
-  encodePacked,
   formatEther,
   parseEther,
 } from "viem";
@@ -49,8 +50,6 @@ import {
   useBridgeSendThroughBridge,
   useErc20Allowance,
   useErc20BalanceOf,
-  usePrepareBridgeSendThroughBridge,
-  usePrepareZoomerXerc20LockboxDepositAndBridgeToL2,
   useZoomerXerc20LockboxDepositAndBridgeToL2,
   zoomerCoinAddress,
 } from "../generated";
@@ -59,6 +58,8 @@ import {
   configByAsset,
   getAddressByAsset,
   getApproveToByAsset,
+  getCalldataByAsset,
+  getRecipientByAsset,
 } from "../utils/asset";
 
 type BridgeUIProps = {
@@ -235,23 +236,12 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
                 <Box pt={4}>
                   <SelectAsset asset={asset} setAsset={setAsset} />
                 </Box>
-                <Box pt={4}>
-                  <AmountInInput
-                    amountIn={_amountIn}
-                    setAmountIn={setAmountIn}
-                    updateApprovals={updateApprovals}
+                <Flex pb={4} pt={4} width="100%">
+                  <SelectOriginChain
                     asset={asset}
+                    walletChain={walletClient.chain.id}
                   />
-                </Box>
-                <Box pb={4} pt={4}>
-                  <AmountDisplay
-                    setAmountIn={setAmountIn}
-                    walletAddress={walletClient!.account!.address!}
-                    asset={asset}
-                    walletChain={walletClient!.chain!.id!}
-                  />
-                </Box>
-                <Box pb={4} pt={4}>
+                  <Spacer />
                   <SelectDestinationChain
                     asset={asset}
                     destinationChain={destinationChain}
@@ -261,6 +251,25 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
                     setRelayerFee={setRelayerFee}
                     updateApprovals={updateApprovals}
                     walletChain={walletClient.chain.id}
+                  />
+                </Flex>
+                <Box pt={4}>
+                  <AmountInInput
+                    amountIn={_amountIn}
+                    setAmountIn={setAmountIn}
+                    updateApprovals={updateApprovals}
+                    asset={asset}
+                    destinationChain={destinationChain}
+                    relayerFee={relayerFee}
+                    getRelayerFee={getRelayerFee}
+                  />
+                </Box>
+                <Box pb={4} pt={4}>
+                  <AmountDisplay
+                    setAmountIn={setAmountIn}
+                    walletAddress={walletClient!.account!.address!}
+                    asset={asset}
+                    walletChain={walletClient!.chain!.id!}
                   />
                 </Box>
                 <Box pb={4}>
@@ -346,12 +355,18 @@ type AmountInProps = {
   setAmountIn: Dispatch<SetStateAction<string>>;
   updateApprovals: (amount: string) => Promise<void>;
   asset: Assets;
+  relayerFee: string;
+  destinationChain?: number;
+  getRelayerFee: (destinationChain: string) => Promise<void>;
 };
 const AmountInInput = ({
   amountIn,
   setAmountIn,
   updateApprovals,
   asset,
+  relayerFee,
+  destinationChain,
+  getRelayerFee,
 }: AmountInProps) => {
   const { colorMode } = useColorMode();
 
@@ -363,12 +378,23 @@ const AmountInInput = ({
     console.log("UPDATING APPROVALS");
     await updateApprovals(event.target.value);
     console.log("UPDATED APPROVALS");
+    if (
+      BigInt(relayerFee) === BigInt(0) &&
+      asset !== "zoomer" &&
+      destinationChain !== base.id
+    ) {
+      console.log("Getting relayer fee");
+      await getRelayerFee(destinationChain!.toString());
+      console.log("Got relayer fee");
+      return;
+    }
   };
 
   return (
     <Box>
       <Input
         w="100%"
+        isDisabled={!destinationChain}
         value={amountIn}
         onChange={handleAmountInChange}
         focusBorderColor="black"
@@ -398,6 +424,7 @@ const AmountDisplay = ({
   const { data: balance, isSuccess: isSuccessBalance } = useErc20BalanceOf({
     address: getAddressByAsset(asset, walletChain),
     args: [walletAddress],
+    watch: true,
   });
   return (
     <Flex direction="column">
@@ -420,6 +447,42 @@ const AmountDisplay = ({
         </Button>
       </Flex>
     </Flex>
+  );
+};
+
+type SelectOriginChainProps = {
+  walletChain: number;
+  asset: Assets;
+};
+const SelectOriginChain = ({ asset, walletChain }: SelectOriginChainProps) => {
+  const handleSwitchOriginChain = async (
+    event: ChangeEvent<HTMLSelectElement>
+  ) => {
+    await switchNetwork({
+      chainId: +event.target.value,
+    });
+  };
+  return (
+    <VStack>
+      <Heading size={"md"}>From</Heading>
+      <Select
+        placeholder="origin chain"
+        variant="outline"
+        size="sm"
+        w="250px"
+        focusBorderColor="black"
+        value={walletChain}
+        onChange={handleSwitchOriginChain}
+      >
+        {configByAsset[asset].chains.map((chain) => {
+          return (
+            <option key={chain.id} value={chain.id}>
+              {chain.name}
+            </option>
+          );
+        })}
+      </Select>
+    </VStack>
   );
 };
 
@@ -456,33 +519,36 @@ const SelectDestinationChain = ({
   };
 
   return (
-    <Select
-      placeholder="destination chain"
-      variant="outline"
-      size="sm"
-      w="250px"
-      focusBorderColor="black"
-      value={destinationChain}
-      onChange={handleSwitchDestinationChain}
-    >
-      {configByAsset[asset].chains
-        .filter((chain) => {
-          if (walletChain === base.id) {
-            return chain.id === mainnet.id;
-          } else if (walletChain === mainnet.id) {
-            return chain.id !== walletChain;
-          } else {
-            return chain.id !== base.id && chain.id !== walletChain;
-          }
-        })
-        .map((chain) => {
-          return (
-            <option key={chain.id} value={chain.id}>
-              {chain.name}
-            </option>
-          );
-        })}
-    </Select>
+    <VStack>
+      <Heading size={"md"}>To</Heading>
+      <Select
+        placeholder="destination chain"
+        variant="outline"
+        size="sm"
+        w="250px"
+        focusBorderColor="black"
+        value={destinationChain}
+        onChange={handleSwitchDestinationChain}
+      >
+        {configByAsset[asset].chains
+          .filter((chain) => {
+            if (walletChain === base.id) {
+              return chain.id === mainnet.id;
+            } else if (walletChain === mainnet.id) {
+              return chain.id !== walletChain;
+            } else {
+              return chain.id !== base.id && chain.id !== walletChain;
+            }
+          })
+          .map((chain) => {
+            return (
+              <option key={chain.id} value={chain.id}>
+                {chain.name}
+              </option>
+            );
+          })}
+      </Select>
+    </VStack>
   );
 };
 
@@ -584,6 +650,7 @@ const ApproveButton = ({
   const { colorMode } = useColorMode();
 
   const { config } = usePrepareContractWrite({
+    enabled: !!getApproveToByAsset(asset, walletChain, destinationChain),
     chainId: walletChain,
     abi: erc20ABI,
     address: getAddressByAsset(asset, walletChain),
@@ -703,42 +770,37 @@ const BridgeButton = ({
   const [xcallLoading, setXCallLoading] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [transferComplete, setTransferComplete] = useState(false);
-  const [xcallTxHash, setXCallTxHash] = useState("");
+  const [xcallTxHash, setXCallTxHash] = useState<Hash | undefined>();
   const addRecentTransaction = useAddRecentTransaction();
   const { sendTransactionAsync } = useSendTransaction();
+  const { data, isSuccess, isLoading } = useWaitForTransaction({
+    hash: xcallTxHash,
+  });
 
-  const { config: zoomerBaseConfig } =
-    usePrepareZoomerXerc20LockboxDepositAndBridgeToL2({
-      args: [parseEther(amountIn)],
-      enabled:
-        asset === "zoomer" &&
-        walletChain === mainnet.id &&
-        destinationChain === base.id,
-    });
   const { writeAsync: depositWriteZoomerLockbox } =
-    useZoomerXerc20LockboxDepositAndBridgeToL2(zoomerBaseConfig);
+    useZoomerXerc20LockboxDepositAndBridgeToL2({
+      args: [parseEther(amountIn)],
+    });
 
   console.log(
-    "getAddressByAsset(asset, walletChain): ",
-    getAddressByAsset(asset, walletChain)
+    "getCalldataByAsset(asset, destinationChain, walletAddress): ",
+    getCalldataByAsset(asset, destinationChain, walletAddress)
   );
-  const { config: sendThroughBridge } = usePrepareBridgeSendThroughBridge({
-    enabled: asset === "grumpycat",
+  const { writeAsync: sendThroughBridgeWrite } = useBridgeSendThroughBridge({
     args: [
       getAddressByAsset(asset, walletChain),
-      walletAddress,
+      getRecipientByAsset(asset, destinationChain, walletAddress),
       destinationChain,
       parseEther(amountIn),
-      "0x",
+      getCalldataByAsset(asset, destinationChain, walletAddress),
       0,
       encodeAbiParameters(
         [{ type: "address" }, { type: "uint256" }],
         [walletAddress, BigInt(10)]
       ),
     ],
+    value: BigInt(relayerFee),
   });
-  const { writeAsync: sendThroughBridgeWrite } =
-    useBridgeSendThroughBridge(sendThroughBridge);
 
   const handleXCall = async () => {
     console.log(`amountIn: ${parseEther(amountIn)}`);
@@ -821,9 +883,10 @@ const BridgeButton = ({
       borderColor="black"
       isDisabled={
         (walletChain === base.id && BigInt(relayerFee) == BigInt(0)) ||
+        (asset === "grumpycat" && BigInt(relayerFee) == BigInt(0)) ||
         !amountIn
       }
-      isLoading={xcallLoading}
+      isLoading={xcallLoading || isLoading}
       onClick={handleXCall}
       loadingText="/CHECK_WALLET"
       backgroundColor={

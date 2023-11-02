@@ -3,7 +3,7 @@
 import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
 import * as React from "react";
 import { WagmiConfig } from "wagmi";
-import { ChakraProvider, extendTheme, useColorMode } from "@chakra-ui/react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 
 import { chains, config } from "../wagmi";
 

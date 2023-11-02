@@ -4,10 +4,11 @@ import { GRUMPY_BLUE, ZOOMER_YELLOW } from "./colors";
 import {
   bridgeAddress,
   grumpyCatCoinAddress,
+  grumpyCatLockboxAdapterAddress,
   zoomerCoinAddress,
   zoomerXerc20LockboxAddress,
 } from "../generated";
-import { Address } from "viem";
+import { Address, Hex, encodeAbiParameters } from "viem";
 
 export type AssetConfig = {
   chains: Chain[];
@@ -54,4 +55,31 @@ export const getApproveToByAsset = (
   if (asset === "grumpycat") {
     return bridgeAddress[originChainId as keyof typeof bridgeAddress];
   }
+};
+
+export const getCalldataByAsset = (
+  asset: Assets,
+  destinationChainId: number,
+  walletAddress: Address
+): Hex => {
+  console.log(
+    "destinationChainId === mainnet.id: ",
+    destinationChainId === mainnet.id
+  );
+  console.log('asset === "grumpycat": ', asset === "grumpycat");
+  if (destinationChainId === mainnet.id && asset === "grumpycat") {
+    return encodeAbiParameters([{ type: "address" }], [walletAddress]);
+  }
+  return "0x";
+};
+
+export const getRecipientByAsset = (
+  asset: Assets,
+  destinationChainId: number,
+  walletAddress: Address
+): Address => {
+  if (destinationChainId === mainnet.id && asset === "grumpycat") {
+    return grumpyCatLockboxAdapterAddress[mainnet.id];
+  }
+  return walletAddress;
 };
