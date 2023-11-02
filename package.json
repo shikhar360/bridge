@@ -28,6 +28,7 @@
     "lodash": "^4.17.21",
     "lokijs": "^1.5.12",
     "next": "14.0.1",
+    "next-videos": "^1.4.1",
     "pino-pretty": "^10.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",

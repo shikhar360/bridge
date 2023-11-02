@@ -12,6 +12,15 @@ import {
   CardBody,
   Card,
   useColorMode,
+  Modal,
+  Link,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
 } from "@chakra-ui/react";
 import {
   ChangeEvent,
@@ -768,14 +777,13 @@ const BridgeButton = ({
 }: BridgeButtonProps) => {
   const { colorMode } = useColorMode();
   const [xcallLoading, setXCallLoading] = useState(false);
-  const [isSending, setIsSending] = useState(false);
-  const [transferComplete, setTransferComplete] = useState(false);
   const [xcallTxHash, setXCallTxHash] = useState<Hash | undefined>();
   const addRecentTransaction = useAddRecentTransaction();
   const { sendTransactionAsync } = useSendTransaction();
-  const { data, isSuccess, isLoading } = useWaitForTransaction({
+  const { isLoading } = useWaitForTransaction({
     hash: xcallTxHash,
   });
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { writeAsync: depositWriteZoomerLockbox } =
     useZoomerXerc20LockboxDepositAndBridgeToL2({
@@ -836,7 +844,6 @@ const BridgeButton = ({
             data: res.data! as Hex,
           });
           tx = data.hash;
-          startMonitoringTx();
         }
       } else if (asset === "grumpycat") {
         if (!sendThroughBridgeWrite) {
@@ -849,53 +856,84 @@ const BridgeButton = ({
       }
       addRecentTransaction({ hash: tx, description: "XCall" });
       console.log("tx: ", tx);
-      setIsSending(true);
       setXCallLoading(false);
       setXCallTxHash(tx);
+      onOpen();
     } catch (e) {
       console.log("error: ", e);
       setXCallLoading(false);
     }
   };
 
-  const startMonitoringTx = async () => {
-    const interval = setInterval(async () => {
-      try {
-        const transfers = await connext?.sdkUtils.getTransfers({
-          transactionHash: xcallTxHash,
-        });
-        if (transfers && transfers[0]) {
-          console.log("transfer: ", transfers[0]);
-          if (transfers[0].status !== "XCalled") {
-            setTransferComplete(true);
-            clearInterval(interval);
-          }
-        }
-      } catch (e) {
-        console.log("error monitoring xcall: ", e);
-      }
-    }, 30_000);
-  };
-
   return (
-    <Button
-      variant="outline"
-      borderColor="black"
-      isDisabled={
-        (walletChain === base.id && BigInt(relayerFee) == BigInt(0)) ||
-        (asset === "grumpycat" && BigInt(relayerFee) == BigInt(0)) ||
-        !amountIn
-      }
-      isLoading={xcallLoading || isLoading}
-      onClick={handleXCall}
-      loadingText="/CHECK_WALLET"
-      backgroundColor={
-        colorMode === "light" ? "black" : configByAsset[asset].color
-      }
-      color={colorMode === "light" ? configByAsset[asset].color : "black"}
-      width="100%"
-    >
-      /BRIDGE
-    </Button>
+    <>
+      <Button
+        variant="outline"
+        borderColor="black"
+        isDisabled={
+          (walletChain === base.id && BigInt(relayerFee) == BigInt(0)) ||
+          (asset === "grumpycat" && BigInt(relayerFee) == BigInt(0)) ||
+          !amountIn
+        }
+        isLoading={xcallLoading || isLoading}
+        onClick={handleXCall}
+        loadingText="/CHECK_WALLET"
+        backgroundColor={
+          colorMode === "light" ? "black" : configByAsset[asset].color
+        }
+        color={colorMode === "light" ? configByAsset[asset].color : "black"}
+        width="100%"
+      >
+        /BRIDGE
+      </Button>
+      <BridgedModal
+        isOpen={isOpen}
+        onClose={onClose}
+        txHash={xcallTxHash!}
+        asset={asset}
+        destinationChain={destinationChain}
+      />
+    </>
+  );
+};
+
+type BridgedModalProps = {
+  isOpen: boolean;
+  onClose: () => void;
+  txHash: string;
+  asset: Assets;
+  destinationChain: number;
+};
+const BridgedModal = ({
+  isOpen,
+  onClose,
+  txHash,
+  asset,
+  destinationChain,
+}: BridgedModalProps) => {
+  return (
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <ModalOverlay
+        bg="blackAlpha.300"
+        backdropFilter="blur(10px) hue-rotate(90deg)"
+      />
+      <ModalContent backgroundColor={configByAsset[asset].color}>
+        <ModalHeader>Bridging Initiated!</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody>
+          <video autoPlay loop src={require("../../public/dab.mp4")} muted />
+        </ModalBody>
+        <ModalFooter>
+          Bridging will take some time. You can close this page and check your wallet later. {" "}
+          {destinationChain !== base.id ? (
+            <Link href={`https://connextscan.io/tx/${txHash}`} isExternal color="whiteAlpha.900">
+              Check Tx
+            </Link>
+          ) : (
+            <></>
+          )}
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 };

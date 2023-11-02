@@ -62,11 +62,6 @@ export const getCalldataByAsset = (
   destinationChainId: number,
   walletAddress: Address
 ): Hex => {
-  console.log(
-    "destinationChainId === mainnet.id: ",
-    destinationChainId === mainnet.id
-  );
-  console.log('asset === "grumpycat": ', asset === "grumpycat");
   if (destinationChainId === mainnet.id && asset === "grumpycat") {
     return encodeAbiParameters([{ type: "address" }], [walletAddress]);
   }
