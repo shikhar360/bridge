@@ -21,6 +21,11 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
 } from "@chakra-ui/react";
 import {
   ChangeEvent,
@@ -71,6 +76,7 @@ import {
   getCalldataByAsset,
   getRecipientByAsset,
 } from "../utils/asset";
+import { BUY_ZOOMER_LINK } from "../utils/constants";
 
 type BridgeUIProps = {
   asset: Asset;
@@ -249,6 +255,7 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
                 <Box pb={4} pt={4}>
                   <Heading>/AHH_WE_BRIDGING</Heading>
                 </Box>
+                <BridgeDescription />
                 <Box pt={4}>
                   <SelectAsset asset={asset} setAsset={setAsset} />
                 </Box>
@@ -963,5 +970,52 @@ const BridgedModal = ({
         </ModalFooter>
       </ModalContent>
     </Modal>
+  );
+};
+
+const BridgeDescription = () => {
+  return (
+    <Accordion allowToggle>
+      <AccordionItem>
+        <h2>
+          <AccordionButton width="100%">
+            <Box as="span" flex="1" textAlign="left">
+              <Text as="b">what is this??</Text>
+            </Box>
+            <AccordionIcon />
+          </AccordionButton>
+        </h2>
+        <AccordionPanel pb={4}>
+          <Text as="b">
+            Based crosschain memecoin bridge.
+            <br />
+            <br />
+            1. Choose your asset.
+            <br />
+            2. Select your chains.
+            <br />
+            3. Approve.
+            <br />
+            4. Bridge.
+            <br />
+            5. Bridging takes time! After your transaction is sent, you can
+            close the window and check your wallet later.
+            <br />
+            6. Wait at least 4 hours before contacting support.
+            <br />
+            <br />
+            Still need support? Join the Zoomer{" "}
+            <Link
+              href="https://t.me/zoomercoinofficial"
+              isExternal
+              color="blue.400"
+            >
+              Telegram
+            </Link>
+            .
+          </Text>
+        </AccordionPanel>
+      </AccordionItem>
+    </Accordion>
   );
 };
