@@ -433,6 +433,7 @@ const AmountInInput = ({
         onChange={handleAmountInChange}
         focusBorderColor="black"
         variant="outline"
+        _placeholder={{ opacity: 1, color: colorMode === "light" ? "blackAlpha.900" : configByAsset[asset].color }}
         placeholder="amount to bridge"
         size="md"
         borderColor={
@@ -463,7 +464,7 @@ const AmountDisplay = ({
   return (
     <Flex direction="column">
       <Flex pb={2}>
-        <Code colorScheme="yellow" width={400}>
+        <Code width={400}>
           Balance: {isSuccessBalance ? formatEther(balance!) : "..."}{" "}
           {asset.toUpperCase()}
         </Code>
@@ -608,7 +609,7 @@ const RelayerFee = ({
   asset,
 }: RelayerFeeProps) => {
   return (
-    <Code colorScheme="yellow">
+    <Code>
       Relayer fee: {relayerFeeLoading ? "..." : formatEther(BigInt(relayerFee))}{" "}
       {walletChain
         ? configByAsset[asset].chains.find((chain) => chain.id === walletChain)
