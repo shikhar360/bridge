@@ -15,7 +15,7 @@ export type AssetConfig = {
   color: string;
 };
 
-export const configByAsset: Record<Assets, AssetConfig> = {
+export const configByAsset: Record<Asset, AssetConfig> = {
   zoomer: { color: ZOOMER_YELLOW, chains: [mainnet, base, polygon] },
   grumpycat: {
     color: GRUMPY_BLUE,
@@ -23,10 +23,10 @@ export const configByAsset: Record<Assets, AssetConfig> = {
   },
 };
 
-export type Assets = "zoomer" | "grumpycat";
+export type Asset = "zoomer" | "grumpycat";
 
 export const getAddressByAsset = (
-  asset: Assets,
+  asset: Asset,
   originChainId: number
 ): Address => {
   if (asset === "zoomer") {
@@ -41,7 +41,7 @@ export const getAddressByAsset = (
 };
 
 export const getApproveToByAsset = (
-  asset: Assets,
+  asset: Asset,
   originChainId: number,
   destinationChainId: number
 ): Address | undefined => {
@@ -58,7 +58,7 @@ export const getApproveToByAsset = (
 };
 
 export const getCalldataByAsset = (
-  asset: Assets,
+  asset: Asset,
   destinationChainId: number,
   walletAddress: Address
 ): Hex => {
@@ -69,7 +69,7 @@ export const getCalldataByAsset = (
 };
 
 export const getRecipientByAsset = (
-  asset: Assets,
+  asset: Asset,
   destinationChainId: number,
   walletAddress: Address
 ): Address => {

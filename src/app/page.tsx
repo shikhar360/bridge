@@ -16,11 +16,11 @@ import { useState } from "react";
 import { NavBar } from "../components/NavBar";
 import { BridgeUI } from "../components/BridgeUI";
 import { BUY_ZOOMER_LINK } from "../utils/constants";
-import { Assets, configByAsset } from "../utils/asset";
+import { Asset, configByAsset } from "../utils/asset";
 
 const Page = () => {
   const { colorMode } = useColorMode();
-  const [asset, setAsset] = useState<Assets>("zoomer");
+  const [asset, setAsset] = useState<Asset>("zoomer");
   return (
     <VStack
       spacing={4}

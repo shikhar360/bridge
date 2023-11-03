@@ -53,6 +53,7 @@ import {
 import { SdkBase, SdkConfig, SdkUtils, create } from "@connext/sdk-core";
 import { chainIdToDomain } from "@connext/nxtp-utils";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import { useDebounce } from "../hooks/useDebounce";
 import {
@@ -63,7 +64,7 @@ import {
   zoomerCoinAddress,
 } from "../generated";
 import {
-  Assets,
+  Asset,
   configByAsset,
   getAddressByAsset,
   getApproveToByAsset,
@@ -72,8 +73,8 @@ import {
 } from "../utils/asset";
 
 type BridgeUIProps = {
-  asset: Assets;
-  setAsset: Dispatch<SetStateAction<Assets>>;
+  asset: Asset;
+  setAsset: Dispatch<SetStateAction<Asset>>;
 };
 
 export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
@@ -117,6 +118,12 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
       )!,
     ],
   });
+
+  const urlParams = useSearchParams();
+  const _asset = urlParams.get("asset");
+  if (_asset) {
+    setAsset(_asset as Asset);
+  }
 
   useEffect(() => {
     const run = async () => {
@@ -338,12 +345,15 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
 };
 
 type SelectAssetProps = {
-  asset: Assets;
-  setAsset: Dispatch<SetStateAction<Assets>>;
+  asset: Asset;
+  setAsset: Dispatch<SetStateAction<Asset>>;
 };
 const SelectAsset = ({ asset, setAsset }: SelectAssetProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
   const handleChangeAsset = (event: ChangeEvent<HTMLSelectElement>) => {
-    setAsset(event.target.value as Assets);
+    setAsset(event.target.value as Asset);
+    router.replace(`${pathname}?asset=${event.target.value}`);
   };
 
   return (
@@ -363,7 +373,7 @@ type AmountInProps = {
   amountIn: string;
   setAmountIn: Dispatch<SetStateAction<string>>;
   updateApprovals: (amount: string) => Promise<void>;
-  asset: Assets;
+  asset: Asset;
   relayerFee: string;
   destinationChain?: number;
   getRelayerFee: (destinationChain: string) => Promise<void>;
@@ -422,7 +432,7 @@ type AmountDisplayProps = {
   walletAddress: Address;
   walletChain: number;
   setAmountIn: Dispatch<SetStateAction<string>>;
-  asset: Assets;
+  asset: Asset;
 };
 const AmountDisplay = ({
   walletChain,
@@ -461,7 +471,7 @@ const AmountDisplay = ({
 
 type SelectOriginChainProps = {
   walletChain: number;
-  asset: Assets;
+  asset: Asset;
 };
 const SelectOriginChain = ({ asset, walletChain }: SelectOriginChainProps) => {
   const handleSwitchOriginChain = async (
@@ -503,7 +513,7 @@ type SelectDestinationChainProps = {
   updateApprovals: (amount: string) => Promise<void>;
   setRelayerFee: Dispatch<SetStateAction<string>>;
   amountIn: string;
-  asset: Assets;
+  asset: Asset;
 };
 const SelectDestinationChain = ({
   destinationChain,
@@ -565,7 +575,7 @@ type RelayerFeeProps = {
   relayerFee: string;
   relayerFeeLoading: boolean;
   walletChain: number;
-  asset: Assets;
+  asset: Asset;
 };
 const RelayerFee = ({
   relayerFeeLoading,
@@ -593,7 +603,7 @@ type ActionButtonsProps = {
   relayerFee: string;
   approvalNeeded: boolean;
   setApprovalNeeded: Dispatch<SetStateAction<boolean>>;
-  asset: Assets;
+  asset: Asset;
 };
 const ActionButtons = ({
   amountIn,
@@ -640,7 +650,7 @@ type ApproveButtonProps = {
   connext: { sdkBase: SdkBase; sdkUtils: SdkUtils };
   approvalNeeded: boolean;
   setApprovalNeeded: Dispatch<SetStateAction<boolean>>;
-  asset: Assets;
+  asset: Asset;
 };
 const ApproveButton = ({
   amountIn,
@@ -764,7 +774,7 @@ type BridgeButtonProps = {
   connext: { sdkBase: SdkBase; sdkUtils: SdkUtils };
   relayerFee: string;
   walletAddress: Address;
-  asset: Assets;
+  asset: Asset;
 };
 const BridgeButton = ({
   walletChain,
@@ -901,7 +911,7 @@ type BridgedModalProps = {
   isOpen: boolean;
   onClose: () => void;
   txHash: string;
-  asset: Assets;
+  asset: Asset;
   destinationChain: number;
 };
 const BridgedModal = ({
@@ -924,9 +934,14 @@ const BridgedModal = ({
           <video autoPlay loop src={require("../../public/dab.mp4")} muted />
         </ModalBody>
         <ModalFooter>
-          Bridging will take some time. You can close this page and check your wallet later. {" "}
+          Bridging will take some time. You can close this page and check your
+          wallet later.{" "}
           {destinationChain !== base.id ? (
-            <Link href={`https://connextscan.io/tx/${txHash}`} isExternal color="whiteAlpha.900">
+            <Link
+              href={`https://connextscan.io/tx/${txHash}`}
+              isExternal
+              color="whiteAlpha.900"
+            >
               Check Tx
             </Link>
           ) : (
