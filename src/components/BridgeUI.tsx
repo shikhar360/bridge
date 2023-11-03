@@ -26,6 +26,7 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
+  Center,
 } from "@chakra-ui/react";
 import {
   ChangeEvent,
@@ -59,6 +60,7 @@ import { SdkBase, SdkConfig, SdkUtils, create } from "@connext/sdk-core";
 import { chainIdToDomain } from "@connext/nxtp-utils";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Image from "next/image";
 
 import { useDebounce } from "../hooks/useDebounce";
 import {
@@ -242,7 +244,7 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
         mt={4}
       >
         <CardBody>
-          <VStack spacing={4} align="stretch" p={4}>
+          <VStack spacing={4} align="stretch" p={4} pb={0}>
             {!isConnected ||
             !walletClient?.account?.address ||
             !walletClient?.chain?.id ? (
@@ -347,6 +349,16 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
                 </Text>
               </Flex>
             )}
+            <Flex>
+              <Spacer />
+              <Image
+                src={asset === "zoomer" ? "/poweredzoomer.png" : "/poweredgrumpy.png"}
+                alt="Powered By Zoomer"
+                height={109}
+                width={156}
+              />
+              <Spacer />
+            </Flex>
           </VStack>
         </CardBody>
       </Card>
@@ -363,7 +375,7 @@ const SelectAsset = ({ asset, setAsset }: SelectAssetProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const handleChangeAsset = (event: ChangeEvent<HTMLSelectElement>) => {
-    console.log('event.target.value: ', event.target.value);
+    console.log("event.target.value: ", event.target.value);
     setAsset(event.target.value as Asset);
     router.replace(`${pathname}?asset=${event.target.value}`);
   };
@@ -432,7 +444,13 @@ const AmountInInput = ({
         onChange={handleAmountInChange}
         focusBorderColor="black"
         variant="outline"
-        _placeholder={{ opacity: 1, color: colorMode === "light" ? "blackAlpha.900" : configByAsset[asset].color }}
+        _placeholder={{
+          opacity: 1,
+          color:
+            colorMode === "light"
+              ? "blackAlpha.900"
+              : configByAsset[asset].color,
+        }}
         placeholder="amount to bridge"
         size="md"
         borderColor={
@@ -1008,7 +1026,7 @@ const BridgeDescription = () => {
             6. Wait at least 4 hours before contacting support.
             <br />
             <br />
-            Still need support? Join the Zoomer{" "}
+            Still need support? Interested in taking your coin cross-chain? Join the Zoomer{" "}
             <Link
               href="https://t.me/zoomercoinofficial"
               isExternal
