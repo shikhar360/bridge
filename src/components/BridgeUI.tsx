@@ -163,6 +163,10 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
   }, [walletClient?.account?.address]);
 
   const getRelayerFee = async (destinationChain: string) => {
+    if (!destinationChain || +destinationChain === 0) {
+      console.error("destinationChain is undefined: ", destinationChain);
+      return;
+    }
     console.log("getting relayer fee: ", destinationChain);
     setRelayerFeeLoading(true);
     const fee = await connext?.sdkBase.estimateRelayerFee({
