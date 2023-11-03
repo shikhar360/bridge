@@ -349,6 +349,7 @@ type SelectAssetProps = {
   setAsset: Dispatch<SetStateAction<Asset>>;
 };
 const SelectAsset = ({ asset, setAsset }: SelectAssetProps) => {
+  const { colorMode } = useColorMode();
   const router = useRouter();
   const pathname = usePathname();
   const handleChangeAsset = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -362,6 +363,9 @@ const SelectAsset = ({ asset, setAsset }: SelectAssetProps) => {
       size="lg"
       onChange={handleChangeAsset}
       value={asset}
+      borderColor={
+        colorMode === "light" ? "blackAlpha.400" : configByAsset[asset].color
+      }
     >
       <option value="zoomer">ZOOMER</option>
       <option value="grumpycat">GRUMPY CAT</option>
@@ -474,6 +478,8 @@ type SelectOriginChainProps = {
   asset: Asset;
 };
 const SelectOriginChain = ({ asset, walletChain }: SelectOriginChainProps) => {
+  const { colorMode } = useColorMode();
+
   const handleSwitchOriginChain = async (
     event: ChangeEvent<HTMLSelectElement>
   ) => {
@@ -481,6 +487,7 @@ const SelectOriginChain = ({ asset, walletChain }: SelectOriginChainProps) => {
       chainId: +event.target.value,
     });
   };
+
   return (
     <VStack>
       <Heading size={"md"}>From</Heading>
@@ -489,7 +496,9 @@ const SelectOriginChain = ({ asset, walletChain }: SelectOriginChainProps) => {
         variant="outline"
         size="sm"
         w="250px"
-        focusBorderColor="black"
+        borderColor={
+          colorMode === "light" ? "blackAlpha.400" : configByAsset[asset].color
+        }
         value={walletChain}
         onChange={handleSwitchOriginChain}
       >
@@ -525,6 +534,8 @@ const SelectDestinationChain = ({
   amountIn,
   asset,
 }: SelectDestinationChainProps) => {
+  const { colorMode } = useColorMode();
+
   const handleSwitchDestinationChain = async (
     event: ChangeEvent<HTMLSelectElement>
   ) => {
@@ -545,7 +556,9 @@ const SelectDestinationChain = ({
         variant="outline"
         size="sm"
         w="250px"
-        focusBorderColor="black"
+        borderColor={
+          colorMode === "light" ? "blackAlpha.400" : configByAsset[asset].color
+        }
         value={destinationChain}
         onChange={handleSwitchDestinationChain}
       >
