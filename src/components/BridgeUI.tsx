@@ -245,7 +245,7 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
                 <Box pt={4}>
                   <SelectAsset asset={asset} setAsset={setAsset} />
                 </Box>
-                <Flex pb={4} pt={4} width="100%">
+                <Flex pb={4} pt={4} width="100%" flexWrap="wrap">
                   <SelectOriginChain
                     asset={asset}
                     walletChain={walletClient.chain.id}
