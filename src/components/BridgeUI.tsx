@@ -76,7 +76,6 @@ import {
   getCalldataByAsset,
   getRecipientByAsset,
 } from "../utils/asset";
-import { BUY_ZOOMER_LINK } from "../utils/constants";
 
 type BridgeUIProps = {
   asset: Asset;
@@ -364,13 +363,13 @@ const SelectAsset = ({ asset, setAsset }: SelectAssetProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const handleChangeAsset = (event: ChangeEvent<HTMLSelectElement>) => {
+    console.log('event.target.value: ', event.target.value);
     setAsset(event.target.value as Asset);
     router.replace(`${pathname}?asset=${event.target.value}`);
   };
 
   return (
     <Select
-      placeholder="SELECT ASSET"
       size="lg"
       onChange={handleChangeAsset}
       value={asset}
