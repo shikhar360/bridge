@@ -344,7 +344,7 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
                 <Text width={500}>
                   {destinationChain === base.id
                     ? `(bridging to base will take up to 10 min)`
-                    : `(bridging will take up to 4 hours)`}
+                    : `(bridging will take up to 4 hours, go make a sandwich)`}
                 </Text>
               </Flex>
             )}
