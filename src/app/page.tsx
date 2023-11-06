@@ -47,8 +47,8 @@ const Page = () => {
               }
               mt={4}
             >
-              <LinkOverlay href={BUY_ZOOMER_LINK} isExternal>
-                BUY ZOOMER
+              <LinkOverlay href={configByAsset[asset].buyLink} isExternal>
+                BUY {asset.toUpperCase()}
               </LinkOverlay>
             </Button>
             <Flex direction={"row"}>

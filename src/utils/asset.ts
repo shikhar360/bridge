@@ -9,17 +9,24 @@ import {
   zoomerXerc20LockboxAddress,
 } from "../generated";
 import { Address, Hex, encodeAbiParameters } from "viem";
+import { BUY_GRUMPYCAT_LINK, BUY_ZOOMER_LINK } from "./constants";
 
 export type AssetConfig = {
   chains: Chain[];
   color: string;
+  buyLink: string;
 };
 
 export const configByAsset: Record<Asset, AssetConfig> = {
-  zoomer: { color: ZOOMER_YELLOW, chains: [mainnet, base, polygon] },
+  zoomer: {
+    color: ZOOMER_YELLOW,
+    chains: [mainnet, base, polygon],
+    buyLink: BUY_ZOOMER_LINK,
+  },
   grumpycat: {
     color: GRUMPY_BLUE,
     chains: [mainnet, polygon, bsc, arbitrum, optimism],
+    buyLink: BUY_GRUMPYCAT_LINK,
   },
 };
 
