@@ -342,17 +342,32 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
                     />
                   )}
                 </Box>
-                <Text>
-                  {destinationChain === base.id
-                    ? `(bridging to base will take up to 10 min)`
-                    : `(bridging will take up to 4 hours, go make a sandwich)`}
-                </Text>
+
+                {destinationChain === base.id ? (
+                  <Text>bridging to base will take up to 10 min</Text>
+                ) : (
+                  <Text>
+                    bridging will take up to 4 hours, go play the{" "}
+                    <Link
+                      href="https://vape.zoomer.money"
+                      isExternal
+                      color="blue.400"
+                    >
+                      $VAPE Game
+                    </Link>
+                    {" "}while you wait!
+                  </Text>
+                )}
               </Flex>
             )}
             <Flex>
               <Spacer />
               <Image
-                src={asset === "zoomer" ? "/poweredzoomer.png" : "/poweredgrumpy.png"}
+                src={
+                  asset === "zoomer"
+                    ? "/poweredzoomer.png"
+                    : "/poweredgrumpy.png"
+                }
                 alt="Powered By Zoomer"
                 height={109}
                 width={156}
@@ -1026,7 +1041,8 @@ const BridgeDescription = () => {
             6. Wait at least 4 hours before contacting support.
             <br />
             <br />
-            Still need support? Interested in taking your coin cross-chain? Join the Zoomer{" "}
+            Still need support? Interested in taking your coin cross-chain? Join
+            the Zoomer{" "}
             <Link
               href="https://t.me/zoomercoinofficial"
               isExternal
