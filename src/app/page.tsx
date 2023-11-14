@@ -15,7 +15,6 @@ import { useState } from "react";
 
 import { NavBar } from "../components/NavBar";
 import { BridgeUI } from "../components/BridgeUI";
-import { BUY_ZOOMER_LINK } from "../utils/constants";
 import { Asset, configByAsset } from "../utils/asset";
 
 const Page = () => {
@@ -54,7 +53,11 @@ const Page = () => {
             <Flex direction={"row"}>
               <Spacer />
               <Image
-                src="/bridge2.png"
+                src={
+                  colorMode === "light"
+                    ? "/bridge2.png"
+                    : `/bridge-dark-${asset.toLowerCase()}.png`
+                }
                 boxSize="600px"
                 alt="bridge"
                 objectFit="cover"
