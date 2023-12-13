@@ -354,8 +354,8 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
                       color="blue.400"
                     >
                       $VAPE Game
-                    </Link>
-                    {" "}while you wait!
+                    </Link>{" "}
+                    while you wait!
                   </Text>
                 )}
               </Flex>
@@ -673,9 +673,26 @@ const ActionButtons = ({
   setApprovalNeeded,
   asset,
 }: ActionButtonsProps) => {
+  const { colorMode } = useColorMode();
+
   return (
     <Flex>
-      {approvalNeeded ? (
+      {asset === "zoomer" ? (
+        <Button
+        variant="outline"
+        borderColor="black"
+        mr={2}
+        isDisabled={true}
+        size="md"
+        width="100%"
+        backgroundColor={
+          colorMode === "light" ? "black" : configByAsset[asset].color
+        }
+        color={colorMode === "light" ? configByAsset[asset].color : "black"}
+      >
+        /UNDER_MAINTENANCE
+      </Button>
+      ) : approvalNeeded ? (
         <ApproveButton
           amountIn={amountIn}
           approvalNeeded={approvalNeeded}
