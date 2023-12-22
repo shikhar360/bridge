@@ -14,11 +14,11 @@ export default defineConfig(() => {
         name: "ZoomerCoin",
         address: {
           [mainnet.id]: "0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676",
-          [polygon.id]: "0xb2588731d8f6F854037936d6ffac4c13d0b6bd62",
+          [polygon.id]: "0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33",
           [base.id]: "0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2",
-          [optimism.id]: "0x0000000000000000000000000000000000000000",
-          [bsc.id]: "0x0000000000000000000000000000000000000000",
-          [arbitrum.id]: "0x0000000000000000000000000000000000000000",
+          [optimism.id]: "0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33",
+          [bsc.id]: "0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33",
+          [arbitrum.id]: "0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33",
         },
         abi: [
           {
@@ -796,7 +796,7 @@ export default defineConfig(() => {
         ],
       },
       {
-        name: "ZoomerXERC20Lockbox",
+        name: "ZoomerXERC20LockboxBase",
         address: {
           [mainnet.id]: "0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87",
           [polygon.id]: "0x0000000000000000000000000000000000000000",
@@ -1464,6 +1464,12 @@ export default defineConfig(() => {
             name: "GrumpyCatLockboxAdapter",
             address: {
               [mainnet.id]: "0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7",
+            },
+          },
+          {
+            name: "ZoomerXERC20LockboxAll",
+            address: {
+              [mainnet.id]: "0xB3bC2AaabB4C27890dBB491550eac3843A946625",
             },
           },
         ],

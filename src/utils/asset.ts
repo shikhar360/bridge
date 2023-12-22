@@ -6,7 +6,7 @@ import {
   grumpyCatCoinAddress,
   grumpyCatLockboxAdapterAddress,
   zoomerCoinAddress,
-  zoomerXerc20LockboxAddress,
+  zoomerXerc20LockboxBaseAddress,
 } from "../generated";
 import { Address, Hex, encodeAbiParameters } from "viem";
 import { BUY_GRUMPYCAT_LINK, BUY_ZOOMER_LINK } from "./constants";
@@ -20,7 +20,7 @@ export type AssetConfig = {
 export const configByAsset: Record<Asset, AssetConfig> = {
   zoomer: {
     color: ZOOMER_YELLOW,
-    chains: [mainnet, base, polygon],
+    chains: [mainnet, base, polygon, bsc, arbitrum, optimism],
     buyLink: BUY_ZOOMER_LINK,
   },
   grumpycat: {
@@ -54,8 +54,8 @@ export const getApproveToByAsset = (
 ): Address | undefined => {
   if (asset === "zoomer") {
     if (destinationChainId === base.id) {
-      return zoomerXerc20LockboxAddress[
-        originChainId as keyof typeof zoomerXerc20LockboxAddress
+      return zoomerXerc20LockboxBaseAddress[
+        originChainId as keyof typeof zoomerXerc20LockboxBaseAddress
       ];
     }
   }

@@ -56,8 +56,7 @@ import {
   formatEther,
   parseEther,
 } from "viem";
-import { SdkBase, SdkConfig, SdkUtils, create } from "@connext/sdk-core";
-import { chainIdToDomain } from "@connext/nxtp-utils";
+import { SdkBase, SdkConfig, SdkUtils, create } from "@connext/sdk";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
@@ -67,7 +66,7 @@ import {
   useBridgeSendThroughBridge,
   useErc20Allowance,
   useErc20BalanceOf,
-  useZoomerXerc20LockboxDepositAndBridgeToL2,
+  useZoomerXerc20LockboxBaseDepositAndBridgeToL2,
   zoomerCoinAddress,
 } from "../generated";
 import {
@@ -78,6 +77,7 @@ import {
   getCalldataByAsset,
   getRecipientByAsset,
 } from "../utils/asset";
+import { chainIdToDomain } from "@connext/nxtp-utils";
 
 type BridgeUIProps = {
   asset: Asset;
@@ -132,6 +132,23 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
     setAsset(_asset as Asset);
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const getRelayerFee = async (destinationChain: string) => {
+    if (!destinationChain || +destinationChain === 0) {
+      console.error("destinationChain is undefined: ", destinationChain);
+      return;
+    }
+    console.log("getting relayer fee: ", destinationChain);
+    setRelayerFeeLoading(true);
+    const fee = await connext?.sdkBase.estimateRelayerFee({
+      originDomain: chainIdToDomain(walletClient!.chain.id).toString(),
+      destinationDomain: chainIdToDomain(+destinationChain).toString(),
+    });
+    console.log("relayer fee: ", fee);
+    setRelayerFeeLoading(false);
+    setRelayerFee((fee ?? "0").toString());
+  };
+
   useEffect(() => {
     const run = async () => {
       const sdkConfig: SdkConfig = {
@@ -159,25 +176,13 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
       };
       const { sdkBase, sdkUtils } = await create(sdkConfig);
       setConnext({ sdkBase, sdkUtils });
+      if (destinationChain) {
+        await getRelayerFee(destinationChain.toString());
+      }
     };
     run();
-  }, [walletClient?.account?.address]);
-
-  const getRelayerFee = async (destinationChain: string) => {
-    if (!destinationChain || +destinationChain === 0) {
-      console.error("destinationChain is undefined: ", destinationChain);
-      return;
-    }
-    console.log("getting relayer fee: ", destinationChain);
-    setRelayerFeeLoading(true);
-    const fee = await connext?.sdkBase.estimateRelayerFee({
-      originDomain: chainIdToDomain(walletClient!.chain.id).toString(),
-      destinationDomain: chainIdToDomain(+destinationChain).toString(),
-    });
-    console.log("relayer fee: ", fee);
-    setRelayerFeeLoading(false);
-    setRelayerFee((fee ?? "0").toString());
-  };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [destinationChain, walletClient?.account?.address]);
 
   const updateApprovals = async (amount: string) => {
     if (asset === "zoomer") {
@@ -347,15 +352,7 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
                   <Text>bridging to base will take up to 10 min</Text>
                 ) : (
                   <Text>
-                    bridging will take up to 4 hours, go play the{" "}
-                    <Link
-                      href="https://vape.zoomer.money"
-                      isExternal
-                      color="blue.400"
-                    >
-                      $VAPE Game
-                    </Link>{" "}
-                    while you wait!
+                    bridging will take up to 2 hours. check your wallet later!
                   </Text>
                 )}
               </Flex>
@@ -673,26 +670,9 @@ const ActionButtons = ({
   setApprovalNeeded,
   asset,
 }: ActionButtonsProps) => {
-  const { colorMode } = useColorMode();
-
   return (
     <Flex>
-      {asset === "zoomer" ? (
-        <Button
-        variant="outline"
-        borderColor="black"
-        mr={2}
-        isDisabled={true}
-        size="md"
-        width="100%"
-        backgroundColor={
-          colorMode === "light" ? "black" : configByAsset[asset].color
-        }
-        color={colorMode === "light" ? configByAsset[asset].color : "black"}
-      >
-        /UNDER_MAINTENANCE
-      </Button>
-      ) : approvalNeeded ? (
+      {approvalNeeded ? (
         <ApproveButton
           amountIn={amountIn}
           approvalNeeded={approvalNeeded}
@@ -870,7 +850,7 @@ const BridgeButton = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const { writeAsync: depositWriteZoomerLockbox } =
-    useZoomerXerc20LockboxDepositAndBridgeToL2({
+    useZoomerXerc20LockboxBaseDepositAndBridgeToL2({
       args: [parseEther(amountIn)],
     });
 
