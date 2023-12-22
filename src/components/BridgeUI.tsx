@@ -133,10 +133,10 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const getRelayerFee = async (destinationChain: string) => {
+  const getRelayerFee = async (destinationChain: string): Promise<string> => {
     if (!destinationChain || +destinationChain === 0) {
       console.error("destinationChain is undefined: ", destinationChain);
-      return;
+      return "0";
     }
     console.log("getting relayer fee: ", destinationChain);
     setRelayerFeeLoading(true);
@@ -147,6 +147,7 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
     console.log("relayer fee: ", fee);
     setRelayerFeeLoading(false);
     setRelayerFee((fee ?? "0").toString());
+    return (fee ?? "0").toString();
   };
 
   useEffect(() => {
@@ -181,7 +182,7 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
       }
     };
     run();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [destinationChain, walletClient?.account?.address]);
 
   const updateApprovals = async (amount: string) => {
@@ -344,6 +345,7 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
                       approvalNeeded={approvalNeeded}
                       setApprovalNeeded={setApprovalNeeded}
                       asset={asset}
+                      getRelayerFee={getRelayerFee}
                     />
                   )}
                 </Box>
@@ -414,7 +416,7 @@ type AmountInProps = {
   asset: Asset;
   relayerFee: string;
   destinationChain?: number;
-  getRelayerFee: (destinationChain: string) => Promise<void>;
+  getRelayerFee: (destinationChain: string) => Promise<string>;
 };
 const AmountInInput = ({
   amountIn,
@@ -559,7 +561,7 @@ type SelectDestinationChainProps = {
   destinationChain: number | undefined;
   setDestinationChain: Dispatch<SetStateAction<number | undefined>>;
   walletChain: number;
-  getRelayerFee: (destinationChain: string) => Promise<void>;
+  getRelayerFee: (destinationChain: string) => Promise<string>;
   updateApprovals: (amount: string) => Promise<void>;
   setRelayerFee: Dispatch<SetStateAction<string>>;
   amountIn: string;
@@ -657,6 +659,7 @@ type ActionButtonsProps = {
   relayerFee: string;
   approvalNeeded: boolean;
   setApprovalNeeded: Dispatch<SetStateAction<boolean>>;
+  getRelayerFee: (destinationChain: string) => Promise<string>;
   asset: Asset;
 };
 const ActionButtons = ({
@@ -669,6 +672,7 @@ const ActionButtons = ({
   approvalNeeded,
   setApprovalNeeded,
   asset,
+  getRelayerFee,
 }: ActionButtonsProps) => {
   return (
     <Flex>
@@ -691,6 +695,7 @@ const ActionButtons = ({
           walletAddress={walletAddress}
           walletChain={walletChain}
           asset={asset}
+          getRelayerFee={getRelayerFee}
         />
       )}
     </Flex>
@@ -829,6 +834,7 @@ type BridgeButtonProps = {
   relayerFee: string;
   walletAddress: Address;
   asset: Asset;
+  getRelayerFee: (destinationChain: string) => Promise<string>;
 };
 const BridgeButton = ({
   walletChain,
@@ -838,6 +844,7 @@ const BridgeButton = ({
   walletAddress,
   connext,
   asset,
+  getRelayerFee,
 }: BridgeButtonProps) => {
   const { colorMode } = useColorMode();
   const [xcallLoading, setXCallLoading] = useState(false);
@@ -878,6 +885,7 @@ const BridgeButton = ({
     console.log(`amountIn: ${parseEther(amountIn)}`);
     console.log("relayerFee: ", relayerFee);
     setXCallLoading(true);
+    let _relayerFee = relayerFee;
     try {
       let tx: Hash;
       if (asset === "zoomer") {
@@ -888,6 +896,12 @@ const BridgeButton = ({
           const data = await depositWriteZoomerLockbox();
           tx = data.hash;
         } else {
+          if (relayerFee === "0") {
+            _relayerFee = await getRelayerFee(destinationChain.toString());
+            if (_relayerFee === "0") {
+              throw new Error("relayerFee is 0");
+            }
+          }
           const sdkParams = {
             origin: chainIdToDomain(walletChain).toString(),
             destination: chainIdToDomain(destinationChain!).toString(),
@@ -897,14 +911,14 @@ const BridgeButton = ({
             amount: parseEther(amountIn).toString(),
             slippage: "300",
             callData: "0x",
-            relayerFee,
+            relayerFee: _relayerFee,
           };
           console.log("sdkParams: ", sdkParams);
           const res = await connext!.sdkBase.xcall(sdkParams);
           console.log("res: ", res);
           const data = await sendTransactionAsync({
             to: res.to! as Address,
-            value: BigInt(0),
+            value: BigInt(_relayerFee),
             data: res.data! as Hex,
           });
           tx = data.hash;
