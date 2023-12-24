@@ -81,7 +81,7 @@ export const Migrate = () => {
               <Flex>
                 <Spacer />
                 <Box>
-                  <ConnectButton label="/CONNECT_TO_POLYGON" />
+                  <Heading>SWITCH TO POLYGON</Heading>
                 </Box>
                 <Spacer />
               </Flex>
