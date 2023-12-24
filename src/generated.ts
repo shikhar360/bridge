@@ -1256,6 +1256,141 @@ export const zoomerCoinConfig = {
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ZoomerMigrator
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export const zoomerMigratorABI = [
+  {
+    stateMutability: 'nonpayable',
+    type: 'constructor',
+    inputs: [
+      { name: '_oldZoomer', internalType: 'address', type: 'address' },
+      { name: '_newZoomer', internalType: 'address', type: 'address' },
+    ],
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'newAuthority',
+        internalType: 'contract Authority',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'AuthorityUpdated',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'user', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'OwnerUpdated',
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'NEW_ZOOMER',
+    outputs: [{ name: '', internalType: 'contract IERC20', type: 'address' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'OLD_ZOOMER',
+    outputs: [{ name: '', internalType: 'contract IERC20', type: 'address' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'authority',
+    outputs: [
+      { name: '', internalType: 'contract Authority', type: 'address' },
+    ],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_amount', internalType: 'uint256', type: 'uint256' }],
+    name: 'migrate',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [],
+    name: 'migrate',
+    outputs: [],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_token', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'rescue',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      {
+        name: 'newAuthority',
+        internalType: 'contract Authority',
+        type: 'address',
+      },
+    ],
+    name: 'setAuthority',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: 'newOwner', internalType: 'address', type: 'address' }],
+    name: 'setOwner',
+    outputs: [],
+  },
+] as const
+
+/**
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export const zoomerMigratorAddress = {
+  137: '0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7',
+} as const
+
+/**
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export const zoomerMigratorConfig = {
+  address: zoomerMigratorAddress,
+  abi: zoomerMigratorABI,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ZoomerXERC20LockboxAll
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -1585,6 +1720,375 @@ export const zoomerXerc20LockboxBaseAddress = {
 export const zoomerXerc20LockboxBaseConfig = {
   address: zoomerXerc20LockboxBaseAddress,
   abi: zoomerXerc20LockboxBaseABI,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// ZoomerXERC20Old
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const zoomerXerc20OldABI = [
+  { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
+  { type: 'error', inputs: [], name: 'XERC20__addBridge_alreadyAdded' },
+  { type: 'error', inputs: [], name: 'XERC20__onlyBridge_notBridge' },
+  { type: 'error', inputs: [], name: 'XERC20__removeBridge_alreadyRemoved' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'owner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'spender',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Approval',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'bridge',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'BridgeAdded',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'bridge',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'BridgeRemoved',
+  },
+  { type: 'event', anonymous: false, inputs: [], name: 'EIP712DomainChanged' },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'version', internalType: 'uint8', type: 'uint8', indexed: false },
+    ],
+    name: 'Initialized',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'proposedOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'OwnershipProposed',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'previousOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+      {
+        name: 'newOwner',
+        internalType: 'address',
+        type: 'address',
+        indexed: true,
+      },
+    ],
+    name: 'OwnershipTransferred',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+      {
+        name: 'value',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'Transfer',
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'DOMAIN_SEPARATOR',
+    outputs: [{ name: '', internalType: 'bytes32', type: 'bytes32' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [],
+    name: 'acceptProposedOwner',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_bridge', internalType: 'address', type: 'address' }],
+    name: 'addBridge',
+    outputs: [],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+    ],
+    name: 'allowance',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: 'account', internalType: 'address', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_from', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'burn',
+    outputs: [],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ name: '', internalType: 'uint8', type: 'uint8' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'subtractedValue', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'decreaseAllowance',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'delay',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'eip712Domain',
+    outputs: [
+      { name: 'fields', internalType: 'bytes1', type: 'bytes1' },
+      { name: 'name', internalType: 'string', type: 'string' },
+      { name: 'version', internalType: 'string', type: 'string' },
+      { name: 'chainId', internalType: 'uint256', type: 'uint256' },
+      { name: 'verifyingContract', internalType: 'address', type: 'address' },
+      { name: 'salt', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'extensions', internalType: 'uint256[]', type: 'uint256[]' },
+    ],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'addedValue', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'increaseAllowance',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_owner', internalType: 'address', type: 'address' },
+      { name: '_name', internalType: 'string', type: 'string' },
+      { name: '_symbol', internalType: 'string', type: 'string' },
+    ],
+    name: 'initialize',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_to', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'mint',
+    outputs: [],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: 'owner', internalType: 'address', type: 'address' }],
+    name: 'nonces',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'spender', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+      { name: 'deadline', internalType: 'uint256', type: 'uint256' },
+      { name: 'v', internalType: 'uint8', type: 'uint8' },
+      { name: 'r', internalType: 'bytes32', type: 'bytes32' },
+      { name: 's', internalType: 'bytes32', type: 'bytes32' },
+    ],
+    name: 'permit',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'newlyProposed', internalType: 'address', type: 'address' },
+    ],
+    name: 'proposeNewOwner',
+    outputs: [],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'proposed',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'proposedTimestamp',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_bridge', internalType: 'address', type: 'address' }],
+    name: 'removeBridge',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [],
+    name: 'renounceOwnership',
+    outputs: [],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'renounced',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ name: '', internalType: 'string', type: 'string' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transfer',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address' },
+      { name: 'to', internalType: 'address', type: 'address' },
+      { name: 'amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'transferFrom',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+  },
+] as const
+
+export const zoomerXerc20OldAddress =
+  '0xb2588731d8f6F854037936d6ffac4c13d0b6bd62' as const
+
+export const zoomerXerc20OldConfig = {
+  address: zoomerXerc20OldAddress,
+  abi: zoomerXerc20OldABI,
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -6471,6 +6975,457 @@ export function useZoomerCoinTransferEvent(
 }
 
 /**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerMigratorABI}__.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useZoomerMigratorRead<
+  TFunctionName extends string,
+  TSelectData = ReadContractResult<typeof zoomerMigratorABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<typeof zoomerMigratorABI, TFunctionName, TSelectData>,
+    'abi' | 'address'
+  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerMigratorABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"NEW_ZOOMER"`.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useZoomerMigratorNewZoomer<
+  TFunctionName extends 'NEW_ZOOMER',
+  TSelectData = ReadContractResult<typeof zoomerMigratorABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<typeof zoomerMigratorABI, TFunctionName, TSelectData>,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    functionName: 'NEW_ZOOMER',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerMigratorABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"OLD_ZOOMER"`.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useZoomerMigratorOldZoomer<
+  TFunctionName extends 'OLD_ZOOMER',
+  TSelectData = ReadContractResult<typeof zoomerMigratorABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<typeof zoomerMigratorABI, TFunctionName, TSelectData>,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    functionName: 'OLD_ZOOMER',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerMigratorABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"authority"`.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useZoomerMigratorAuthority<
+  TFunctionName extends 'authority',
+  TSelectData = ReadContractResult<typeof zoomerMigratorABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<typeof zoomerMigratorABI, TFunctionName, TSelectData>,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    functionName: 'authority',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerMigratorABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"owner"`.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useZoomerMigratorOwner<
+  TFunctionName extends 'owner',
+  TSelectData = ReadContractResult<typeof zoomerMigratorABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<typeof zoomerMigratorABI, TFunctionName, TSelectData>,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    functionName: 'owner',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerMigratorABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useZoomerMigratorWrite<
+  TFunctionName extends string,
+  TMode extends WriteContractMode = undefined,
+  TChainId extends number = keyof typeof zoomerMigratorAddress,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerMigratorABI,
+          string
+        >['request']['abi'],
+        TFunctionName,
+        TMode
+      > & { address?: Address; chainId?: TChainId }
+    : UseContractWriteConfig<typeof zoomerMigratorABI, TFunctionName, TMode> & {
+        abi?: never
+        address?: never
+        chainId?: TChainId
+      } = {} as any,
+) {
+  return useContractWrite<typeof zoomerMigratorABI, TFunctionName, TMode>({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"migrate"`.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useZoomerMigratorMigrate<
+  TMode extends WriteContractMode = undefined,
+  TChainId extends number = keyof typeof zoomerMigratorAddress,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerMigratorABI,
+          'migrate'
+        >['request']['abi'],
+        'migrate',
+        TMode
+      > & { address?: Address; chainId?: TChainId; functionName?: 'migrate' }
+    : UseContractWriteConfig<typeof zoomerMigratorABI, 'migrate', TMode> & {
+        abi?: never
+        address?: never
+        chainId?: TChainId
+        functionName?: 'migrate'
+      } = {} as any,
+) {
+  return useContractWrite<typeof zoomerMigratorABI, 'migrate', TMode>({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    functionName: 'migrate',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"rescue"`.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useZoomerMigratorRescue<
+  TMode extends WriteContractMode = undefined,
+  TChainId extends number = keyof typeof zoomerMigratorAddress,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerMigratorABI,
+          'rescue'
+        >['request']['abi'],
+        'rescue',
+        TMode
+      > & { address?: Address; chainId?: TChainId; functionName?: 'rescue' }
+    : UseContractWriteConfig<typeof zoomerMigratorABI, 'rescue', TMode> & {
+        abi?: never
+        address?: never
+        chainId?: TChainId
+        functionName?: 'rescue'
+      } = {} as any,
+) {
+  return useContractWrite<typeof zoomerMigratorABI, 'rescue', TMode>({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    functionName: 'rescue',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"setAuthority"`.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useZoomerMigratorSetAuthority<
+  TMode extends WriteContractMode = undefined,
+  TChainId extends number = keyof typeof zoomerMigratorAddress,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerMigratorABI,
+          'setAuthority'
+        >['request']['abi'],
+        'setAuthority',
+        TMode
+      > & {
+        address?: Address
+        chainId?: TChainId
+        functionName?: 'setAuthority'
+      }
+    : UseContractWriteConfig<
+        typeof zoomerMigratorABI,
+        'setAuthority',
+        TMode
+      > & {
+        abi?: never
+        address?: never
+        chainId?: TChainId
+        functionName?: 'setAuthority'
+      } = {} as any,
+) {
+  return useContractWrite<typeof zoomerMigratorABI, 'setAuthority', TMode>({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    functionName: 'setAuthority',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"setOwner"`.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useZoomerMigratorSetOwner<
+  TMode extends WriteContractMode = undefined,
+  TChainId extends number = keyof typeof zoomerMigratorAddress,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerMigratorABI,
+          'setOwner'
+        >['request']['abi'],
+        'setOwner',
+        TMode
+      > & { address?: Address; chainId?: TChainId; functionName?: 'setOwner' }
+    : UseContractWriteConfig<typeof zoomerMigratorABI, 'setOwner', TMode> & {
+        abi?: never
+        address?: never
+        chainId?: TChainId
+        functionName?: 'setOwner'
+      } = {} as any,
+) {
+  return useContractWrite<typeof zoomerMigratorABI, 'setOwner', TMode>({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    functionName: 'setOwner',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function usePrepareZoomerMigratorWrite<TFunctionName extends string>(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof zoomerMigratorABI, TFunctionName>,
+    'abi' | 'address'
+  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof zoomerMigratorABI, TFunctionName>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"migrate"`.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function usePrepareZoomerMigratorMigrate(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof zoomerMigratorABI, 'migrate'>,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    functionName: 'migrate',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof zoomerMigratorABI, 'migrate'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"rescue"`.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function usePrepareZoomerMigratorRescue(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof zoomerMigratorABI, 'rescue'>,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    functionName: 'rescue',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof zoomerMigratorABI, 'rescue'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"setAuthority"`.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function usePrepareZoomerMigratorSetAuthority(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof zoomerMigratorABI, 'setAuthority'>,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    functionName: 'setAuthority',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof zoomerMigratorABI, 'setAuthority'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"setOwner"`.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function usePrepareZoomerMigratorSetOwner(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof zoomerMigratorABI, 'setOwner'>,
+    'abi' | 'address' | 'functionName'
+  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    functionName: 'setOwner',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof zoomerMigratorABI, 'setOwner'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerMigratorABI}__.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useZoomerMigratorEvent<TEventName extends string>(
+  config: Omit<
+    UseContractEventConfig<typeof zoomerMigratorABI, TEventName>,
+    'abi' | 'address'
+  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
+) {
+  return useContractEvent({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    ...config,
+  } as UseContractEventConfig<typeof zoomerMigratorABI, TEventName>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerMigratorABI}__ and `eventName` set to `"AuthorityUpdated"`.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useZoomerMigratorAuthorityUpdatedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof zoomerMigratorABI, 'AuthorityUpdated'>,
+    'abi' | 'address' | 'eventName'
+  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
+) {
+  return useContractEvent({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    eventName: 'AuthorityUpdated',
+    ...config,
+  } as UseContractEventConfig<typeof zoomerMigratorABI, 'AuthorityUpdated'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerMigratorABI}__ and `eventName` set to `"OwnerUpdated"`.
+ *
+ * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export function useZoomerMigratorOwnerUpdatedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof zoomerMigratorABI, 'OwnerUpdated'>,
+    'abi' | 'address' | 'eventName'
+  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
+) {
+  return useContractEvent({
+    abi: zoomerMigratorABI,
+    address: zoomerMigratorAddress[137],
+    eventName: 'OwnerUpdated',
+    ...config,
+  } as UseContractEventConfig<typeof zoomerMigratorABI, 'OwnerUpdated'>)
+}
+
+/**
  * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__.
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
@@ -8106,4 +9061,1326 @@ export function useZoomerXerc20LockboxBaseWithdrawEvent(
     eventName: 'Withdraw',
     ...config,
   } as UseContractEventConfig<typeof zoomerXerc20LockboxBaseABI, 'Withdraw'>)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__.
+ */
+export function useZoomerXerc20OldRead<
+  TFunctionName extends string,
+  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof zoomerXerc20OldABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerXerc20OldABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"DOMAIN_SEPARATOR"`.
+ */
+export function useZoomerXerc20OldDomainSeparator<
+  TFunctionName extends 'DOMAIN_SEPARATOR',
+  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof zoomerXerc20OldABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'DOMAIN_SEPARATOR',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerXerc20OldABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"allowance"`.
+ */
+export function useZoomerXerc20OldAllowance<
+  TFunctionName extends 'allowance',
+  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof zoomerXerc20OldABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'allowance',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerXerc20OldABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"balanceOf"`.
+ */
+export function useZoomerXerc20OldBalanceOf<
+  TFunctionName extends 'balanceOf',
+  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof zoomerXerc20OldABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'balanceOf',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerXerc20OldABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"decimals"`.
+ */
+export function useZoomerXerc20OldDecimals<
+  TFunctionName extends 'decimals',
+  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof zoomerXerc20OldABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'decimals',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerXerc20OldABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"delay"`.
+ */
+export function useZoomerXerc20OldDelay<
+  TFunctionName extends 'delay',
+  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof zoomerXerc20OldABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'delay',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerXerc20OldABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"eip712Domain"`.
+ */
+export function useZoomerXerc20OldEip712Domain<
+  TFunctionName extends 'eip712Domain',
+  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof zoomerXerc20OldABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'eip712Domain',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerXerc20OldABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"name"`.
+ */
+export function useZoomerXerc20OldName<
+  TFunctionName extends 'name',
+  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof zoomerXerc20OldABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'name',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerXerc20OldABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"nonces"`.
+ */
+export function useZoomerXerc20OldNonces<
+  TFunctionName extends 'nonces',
+  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof zoomerXerc20OldABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'nonces',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerXerc20OldABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"owner"`.
+ */
+export function useZoomerXerc20OldOwner<
+  TFunctionName extends 'owner',
+  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof zoomerXerc20OldABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'owner',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerXerc20OldABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"proposed"`.
+ */
+export function useZoomerXerc20OldProposed<
+  TFunctionName extends 'proposed',
+  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof zoomerXerc20OldABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'proposed',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerXerc20OldABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"proposedTimestamp"`.
+ */
+export function useZoomerXerc20OldProposedTimestamp<
+  TFunctionName extends 'proposedTimestamp',
+  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof zoomerXerc20OldABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'proposedTimestamp',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerXerc20OldABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"renounced"`.
+ */
+export function useZoomerXerc20OldRenounced<
+  TFunctionName extends 'renounced',
+  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof zoomerXerc20OldABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'renounced',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerXerc20OldABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"symbol"`.
+ */
+export function useZoomerXerc20OldSymbol<
+  TFunctionName extends 'symbol',
+  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof zoomerXerc20OldABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'symbol',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerXerc20OldABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"totalSupply"`.
+ */
+export function useZoomerXerc20OldTotalSupply<
+  TFunctionName extends 'totalSupply',
+  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
+>(
+  config: Omit<
+    UseContractReadConfig<
+      typeof zoomerXerc20OldABI,
+      TFunctionName,
+      TSelectData
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return useContractRead({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'totalSupply',
+    ...config,
+  } as UseContractReadConfig<
+    typeof zoomerXerc20OldABI,
+    TFunctionName,
+    TSelectData
+  >)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__.
+ */
+export function useZoomerXerc20OldWrite<
+  TFunctionName extends string,
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerXerc20OldABI,
+          string
+        >['request']['abi'],
+        TFunctionName,
+        TMode
+      >
+    : UseContractWriteConfig<
+        typeof zoomerXerc20OldABI,
+        TFunctionName,
+        TMode
+      > & {
+        abi?: never
+      } = {} as any,
+) {
+  return useContractWrite<typeof zoomerXerc20OldABI, TFunctionName, TMode>({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"acceptProposedOwner"`.
+ */
+export function useZoomerXerc20OldAcceptProposedOwner<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerXerc20OldABI,
+          'acceptProposedOwner'
+        >['request']['abi'],
+        'acceptProposedOwner',
+        TMode
+      > & { functionName?: 'acceptProposedOwner' }
+    : UseContractWriteConfig<
+        typeof zoomerXerc20OldABI,
+        'acceptProposedOwner',
+        TMode
+      > & {
+        abi?: never
+        functionName?: 'acceptProposedOwner'
+      } = {} as any,
+) {
+  return useContractWrite<
+    typeof zoomerXerc20OldABI,
+    'acceptProposedOwner',
+    TMode
+  >({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'acceptProposedOwner',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"addBridge"`.
+ */
+export function useZoomerXerc20OldAddBridge<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerXerc20OldABI,
+          'addBridge'
+        >['request']['abi'],
+        'addBridge',
+        TMode
+      > & { functionName?: 'addBridge' }
+    : UseContractWriteConfig<typeof zoomerXerc20OldABI, 'addBridge', TMode> & {
+        abi?: never
+        functionName?: 'addBridge'
+      } = {} as any,
+) {
+  return useContractWrite<typeof zoomerXerc20OldABI, 'addBridge', TMode>({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'addBridge',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"approve"`.
+ */
+export function useZoomerXerc20OldApprove<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerXerc20OldABI,
+          'approve'
+        >['request']['abi'],
+        'approve',
+        TMode
+      > & { functionName?: 'approve' }
+    : UseContractWriteConfig<typeof zoomerXerc20OldABI, 'approve', TMode> & {
+        abi?: never
+        functionName?: 'approve'
+      } = {} as any,
+) {
+  return useContractWrite<typeof zoomerXerc20OldABI, 'approve', TMode>({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'approve',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"burn"`.
+ */
+export function useZoomerXerc20OldBurn<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerXerc20OldABI,
+          'burn'
+        >['request']['abi'],
+        'burn',
+        TMode
+      > & { functionName?: 'burn' }
+    : UseContractWriteConfig<typeof zoomerXerc20OldABI, 'burn', TMode> & {
+        abi?: never
+        functionName?: 'burn'
+      } = {} as any,
+) {
+  return useContractWrite<typeof zoomerXerc20OldABI, 'burn', TMode>({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'burn',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"decreaseAllowance"`.
+ */
+export function useZoomerXerc20OldDecreaseAllowance<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerXerc20OldABI,
+          'decreaseAllowance'
+        >['request']['abi'],
+        'decreaseAllowance',
+        TMode
+      > & { functionName?: 'decreaseAllowance' }
+    : UseContractWriteConfig<
+        typeof zoomerXerc20OldABI,
+        'decreaseAllowance',
+        TMode
+      > & {
+        abi?: never
+        functionName?: 'decreaseAllowance'
+      } = {} as any,
+) {
+  return useContractWrite<
+    typeof zoomerXerc20OldABI,
+    'decreaseAllowance',
+    TMode
+  >({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'decreaseAllowance',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"increaseAllowance"`.
+ */
+export function useZoomerXerc20OldIncreaseAllowance<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerXerc20OldABI,
+          'increaseAllowance'
+        >['request']['abi'],
+        'increaseAllowance',
+        TMode
+      > & { functionName?: 'increaseAllowance' }
+    : UseContractWriteConfig<
+        typeof zoomerXerc20OldABI,
+        'increaseAllowance',
+        TMode
+      > & {
+        abi?: never
+        functionName?: 'increaseAllowance'
+      } = {} as any,
+) {
+  return useContractWrite<
+    typeof zoomerXerc20OldABI,
+    'increaseAllowance',
+    TMode
+  >({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'increaseAllowance',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"initialize"`.
+ */
+export function useZoomerXerc20OldInitialize<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerXerc20OldABI,
+          'initialize'
+        >['request']['abi'],
+        'initialize',
+        TMode
+      > & { functionName?: 'initialize' }
+    : UseContractWriteConfig<typeof zoomerXerc20OldABI, 'initialize', TMode> & {
+        abi?: never
+        functionName?: 'initialize'
+      } = {} as any,
+) {
+  return useContractWrite<typeof zoomerXerc20OldABI, 'initialize', TMode>({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'initialize',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"mint"`.
+ */
+export function useZoomerXerc20OldMint<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerXerc20OldABI,
+          'mint'
+        >['request']['abi'],
+        'mint',
+        TMode
+      > & { functionName?: 'mint' }
+    : UseContractWriteConfig<typeof zoomerXerc20OldABI, 'mint', TMode> & {
+        abi?: never
+        functionName?: 'mint'
+      } = {} as any,
+) {
+  return useContractWrite<typeof zoomerXerc20OldABI, 'mint', TMode>({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'mint',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"permit"`.
+ */
+export function useZoomerXerc20OldPermit<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerXerc20OldABI,
+          'permit'
+        >['request']['abi'],
+        'permit',
+        TMode
+      > & { functionName?: 'permit' }
+    : UseContractWriteConfig<typeof zoomerXerc20OldABI, 'permit', TMode> & {
+        abi?: never
+        functionName?: 'permit'
+      } = {} as any,
+) {
+  return useContractWrite<typeof zoomerXerc20OldABI, 'permit', TMode>({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'permit',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"proposeNewOwner"`.
+ */
+export function useZoomerXerc20OldProposeNewOwner<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerXerc20OldABI,
+          'proposeNewOwner'
+        >['request']['abi'],
+        'proposeNewOwner',
+        TMode
+      > & { functionName?: 'proposeNewOwner' }
+    : UseContractWriteConfig<
+        typeof zoomerXerc20OldABI,
+        'proposeNewOwner',
+        TMode
+      > & {
+        abi?: never
+        functionName?: 'proposeNewOwner'
+      } = {} as any,
+) {
+  return useContractWrite<typeof zoomerXerc20OldABI, 'proposeNewOwner', TMode>({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'proposeNewOwner',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"removeBridge"`.
+ */
+export function useZoomerXerc20OldRemoveBridge<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerXerc20OldABI,
+          'removeBridge'
+        >['request']['abi'],
+        'removeBridge',
+        TMode
+      > & { functionName?: 'removeBridge' }
+    : UseContractWriteConfig<
+        typeof zoomerXerc20OldABI,
+        'removeBridge',
+        TMode
+      > & {
+        abi?: never
+        functionName?: 'removeBridge'
+      } = {} as any,
+) {
+  return useContractWrite<typeof zoomerXerc20OldABI, 'removeBridge', TMode>({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'removeBridge',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"renounceOwnership"`.
+ */
+export function useZoomerXerc20OldRenounceOwnership<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerXerc20OldABI,
+          'renounceOwnership'
+        >['request']['abi'],
+        'renounceOwnership',
+        TMode
+      > & { functionName?: 'renounceOwnership' }
+    : UseContractWriteConfig<
+        typeof zoomerXerc20OldABI,
+        'renounceOwnership',
+        TMode
+      > & {
+        abi?: never
+        functionName?: 'renounceOwnership'
+      } = {} as any,
+) {
+  return useContractWrite<
+    typeof zoomerXerc20OldABI,
+    'renounceOwnership',
+    TMode
+  >({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'renounceOwnership',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"transfer"`.
+ */
+export function useZoomerXerc20OldTransfer<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerXerc20OldABI,
+          'transfer'
+        >['request']['abi'],
+        'transfer',
+        TMode
+      > & { functionName?: 'transfer' }
+    : UseContractWriteConfig<typeof zoomerXerc20OldABI, 'transfer', TMode> & {
+        abi?: never
+        functionName?: 'transfer'
+      } = {} as any,
+) {
+  return useContractWrite<typeof zoomerXerc20OldABI, 'transfer', TMode>({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'transfer',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"transferFrom"`.
+ */
+export function useZoomerXerc20OldTransferFrom<
+  TMode extends WriteContractMode = undefined,
+>(
+  config: TMode extends 'prepared'
+    ? UseContractWriteConfig<
+        PrepareWriteContractResult<
+          typeof zoomerXerc20OldABI,
+          'transferFrom'
+        >['request']['abi'],
+        'transferFrom',
+        TMode
+      > & { functionName?: 'transferFrom' }
+    : UseContractWriteConfig<
+        typeof zoomerXerc20OldABI,
+        'transferFrom',
+        TMode
+      > & {
+        abi?: never
+        functionName?: 'transferFrom'
+      } = {} as any,
+) {
+  return useContractWrite<typeof zoomerXerc20OldABI, 'transferFrom', TMode>({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'transferFrom',
+    ...config,
+  } as any)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__.
+ */
+export function usePrepareZoomerXerc20OldWrite<TFunctionName extends string>(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, TFunctionName>,
+    'abi' | 'address'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, TFunctionName>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"acceptProposedOwner"`.
+ */
+export function usePrepareZoomerXerc20OldAcceptProposedOwner(
+  config: Omit<
+    UsePrepareContractWriteConfig<
+      typeof zoomerXerc20OldABI,
+      'acceptProposedOwner'
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'acceptProposedOwner',
+    ...config,
+  } as UsePrepareContractWriteConfig<
+    typeof zoomerXerc20OldABI,
+    'acceptProposedOwner'
+  >)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"addBridge"`.
+ */
+export function usePrepareZoomerXerc20OldAddBridge(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'addBridge'>,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'addBridge',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'addBridge'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"approve"`.
+ */
+export function usePrepareZoomerXerc20OldApprove(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'approve'>,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'approve',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'approve'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"burn"`.
+ */
+export function usePrepareZoomerXerc20OldBurn(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'burn'>,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'burn',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'burn'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"decreaseAllowance"`.
+ */
+export function usePrepareZoomerXerc20OldDecreaseAllowance(
+  config: Omit<
+    UsePrepareContractWriteConfig<
+      typeof zoomerXerc20OldABI,
+      'decreaseAllowance'
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'decreaseAllowance',
+    ...config,
+  } as UsePrepareContractWriteConfig<
+    typeof zoomerXerc20OldABI,
+    'decreaseAllowance'
+  >)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"increaseAllowance"`.
+ */
+export function usePrepareZoomerXerc20OldIncreaseAllowance(
+  config: Omit<
+    UsePrepareContractWriteConfig<
+      typeof zoomerXerc20OldABI,
+      'increaseAllowance'
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'increaseAllowance',
+    ...config,
+  } as UsePrepareContractWriteConfig<
+    typeof zoomerXerc20OldABI,
+    'increaseAllowance'
+  >)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"initialize"`.
+ */
+export function usePrepareZoomerXerc20OldInitialize(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'initialize'>,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'initialize',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'initialize'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"mint"`.
+ */
+export function usePrepareZoomerXerc20OldMint(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'mint'>,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'mint',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'mint'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"permit"`.
+ */
+export function usePrepareZoomerXerc20OldPermit(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'permit'>,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'permit',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'permit'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"proposeNewOwner"`.
+ */
+export function usePrepareZoomerXerc20OldProposeNewOwner(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'proposeNewOwner'>,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'proposeNewOwner',
+    ...config,
+  } as UsePrepareContractWriteConfig<
+    typeof zoomerXerc20OldABI,
+    'proposeNewOwner'
+  >)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"removeBridge"`.
+ */
+export function usePrepareZoomerXerc20OldRemoveBridge(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'removeBridge'>,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'removeBridge',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'removeBridge'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"renounceOwnership"`.
+ */
+export function usePrepareZoomerXerc20OldRenounceOwnership(
+  config: Omit<
+    UsePrepareContractWriteConfig<
+      typeof zoomerXerc20OldABI,
+      'renounceOwnership'
+    >,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'renounceOwnership',
+    ...config,
+  } as UsePrepareContractWriteConfig<
+    typeof zoomerXerc20OldABI,
+    'renounceOwnership'
+  >)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"transfer"`.
+ */
+export function usePrepareZoomerXerc20OldTransfer(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'transfer'>,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'transfer',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'transfer'>)
+}
+
+/**
+ * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"transferFrom"`.
+ */
+export function usePrepareZoomerXerc20OldTransferFrom(
+  config: Omit<
+    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'transferFrom'>,
+    'abi' | 'address' | 'functionName'
+  > = {} as any,
+) {
+  return usePrepareContractWrite({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    functionName: 'transferFrom',
+    ...config,
+  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'transferFrom'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__.
+ */
+export function useZoomerXerc20OldEvent<TEventName extends string>(
+  config: Omit<
+    UseContractEventConfig<typeof zoomerXerc20OldABI, TEventName>,
+    'abi' | 'address'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    ...config,
+  } as UseContractEventConfig<typeof zoomerXerc20OldABI, TEventName>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `eventName` set to `"Approval"`.
+ */
+export function useZoomerXerc20OldApprovalEvent(
+  config: Omit<
+    UseContractEventConfig<typeof zoomerXerc20OldABI, 'Approval'>,
+    'abi' | 'address' | 'eventName'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    eventName: 'Approval',
+    ...config,
+  } as UseContractEventConfig<typeof zoomerXerc20OldABI, 'Approval'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `eventName` set to `"BridgeAdded"`.
+ */
+export function useZoomerXerc20OldBridgeAddedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof zoomerXerc20OldABI, 'BridgeAdded'>,
+    'abi' | 'address' | 'eventName'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    eventName: 'BridgeAdded',
+    ...config,
+  } as UseContractEventConfig<typeof zoomerXerc20OldABI, 'BridgeAdded'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `eventName` set to `"BridgeRemoved"`.
+ */
+export function useZoomerXerc20OldBridgeRemovedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof zoomerXerc20OldABI, 'BridgeRemoved'>,
+    'abi' | 'address' | 'eventName'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    eventName: 'BridgeRemoved',
+    ...config,
+  } as UseContractEventConfig<typeof zoomerXerc20OldABI, 'BridgeRemoved'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `eventName` set to `"EIP712DomainChanged"`.
+ */
+export function useZoomerXerc20OldEip712DomainChangedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof zoomerXerc20OldABI, 'EIP712DomainChanged'>,
+    'abi' | 'address' | 'eventName'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    eventName: 'EIP712DomainChanged',
+    ...config,
+  } as UseContractEventConfig<typeof zoomerXerc20OldABI, 'EIP712DomainChanged'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `eventName` set to `"Initialized"`.
+ */
+export function useZoomerXerc20OldInitializedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof zoomerXerc20OldABI, 'Initialized'>,
+    'abi' | 'address' | 'eventName'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    eventName: 'Initialized',
+    ...config,
+  } as UseContractEventConfig<typeof zoomerXerc20OldABI, 'Initialized'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `eventName` set to `"OwnershipProposed"`.
+ */
+export function useZoomerXerc20OldOwnershipProposedEvent(
+  config: Omit<
+    UseContractEventConfig<typeof zoomerXerc20OldABI, 'OwnershipProposed'>,
+    'abi' | 'address' | 'eventName'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    eventName: 'OwnershipProposed',
+    ...config,
+  } as UseContractEventConfig<typeof zoomerXerc20OldABI, 'OwnershipProposed'>)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `eventName` set to `"OwnershipTransferred"`.
+ */
+export function useZoomerXerc20OldOwnershipTransferredEvent(
+  config: Omit<
+    UseContractEventConfig<typeof zoomerXerc20OldABI, 'OwnershipTransferred'>,
+    'abi' | 'address' | 'eventName'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    eventName: 'OwnershipTransferred',
+    ...config,
+  } as UseContractEventConfig<
+    typeof zoomerXerc20OldABI,
+    'OwnershipTransferred'
+  >)
+}
+
+/**
+ * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `eventName` set to `"Transfer"`.
+ */
+export function useZoomerXerc20OldTransferEvent(
+  config: Omit<
+    UseContractEventConfig<typeof zoomerXerc20OldABI, 'Transfer'>,
+    'abi' | 'address' | 'eventName'
+  > = {} as any,
+) {
+  return useContractEvent({
+    abi: zoomerXerc20OldABI,
+    address: zoomerXerc20OldAddress,
+    eventName: 'Transfer',
+    ...config,
+  } as UseContractEventConfig<typeof zoomerXerc20OldABI, 'Transfer'>)
 }

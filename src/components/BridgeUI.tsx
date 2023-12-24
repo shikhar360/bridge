@@ -26,8 +26,11 @@ import {
   AccordionIcon,
   AccordionItem,
   AccordionPanel,
-  Center,
+  Alert,
+  AlertDescription,
+  AlertIcon,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 import {
   ChangeEvent,
   Dispatch,
@@ -67,6 +70,7 @@ import {
   useErc20Allowance,
   useErc20BalanceOf,
   useZoomerXerc20LockboxBaseDepositAndBridgeToL2,
+  useZoomerXerc20OldBalanceOf,
   zoomerCoinAddress,
 } from "../generated";
 import {
@@ -267,6 +271,14 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
                   <Heading>/AHH_WE_BRIDGING</Heading>
                 </Box>
                 <BridgeDescription />
+                {asset === "zoomer" ? (
+                  <>
+                    <Box pt={4} />
+                    <CheckOldZoomer address={walletClient.account.address} />
+                  </>
+                ) : (
+                  <></>
+                )}
                 <Box pt={4}>
                   <SelectAsset asset={asset} setAsset={setAsset} />
                 </Box>
@@ -1066,5 +1078,28 @@ const BridgeDescription = () => {
         </AccordionPanel>
       </AccordionItem>
     </Accordion>
+  );
+};
+
+type CheckOldZoomerProps = {
+  address: Address;
+};
+const CheckOldZoomer = ({ address }: CheckOldZoomerProps) => {
+  const { data: balance, isSuccess: isSuccessBalance } =
+    useZoomerXerc20OldBalanceOf({ args: [address], watch: true, chainId: 137 });
+
+  return isSuccessBalance && balance! > BigInt(0) ? (
+    <Alert status="error">
+      <AlertIcon />
+      <AlertDescription>
+        You have the old Zoomer on Polygon! Please visit the{" "}
+        <Link as={NextLink} href="/migrate" color="blue.400">
+          MIGRATION UI
+        </Link>{" "}
+        to migrate!
+      </AlertDescription>
+    </Alert>
+  ) : (
+    <></>
   );
 };
