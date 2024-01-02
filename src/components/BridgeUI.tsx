@@ -63,6 +63,7 @@ import { SdkBase, SdkConfig, SdkUtils, create } from "@connext/sdk";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
+import WormholeBridge from "@wormhole-foundation/wormhole-connect";
 
 import { useDebounce } from "../hooks/useDebounce";
 import {
