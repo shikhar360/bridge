@@ -1192,7 +1192,7 @@ const SolanaDescription = () => {
       Still need support? Join the Zoomer{" "}
       <Link href="https://t.me/zoomercoinofficial" isExternal color="blue.400">
         Telegram
-      </Link>
+      </Link>{" "}
       and contact the mods.
     </Text>
   );
