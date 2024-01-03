@@ -63,6 +63,7 @@ import { SdkBase, SdkConfig, SdkUtils, create } from "@connext/sdk";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
+import { chainIdToDomain } from "@connext/nxtp-utils";
 
 import { useDebounce } from "../hooks/useDebounce";
 import {
@@ -81,14 +82,18 @@ import {
   getCalldataByAsset,
   getRecipientByAsset,
 } from "../utils/asset";
-import { chainIdToDomain } from "@connext/nxtp-utils";
 
 type BridgeUIProps = {
   asset: Asset;
   setAsset: Dispatch<SetStateAction<Asset>>;
 };
 
+const solana = {
+  id: 0,
+};
+
 export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
+  const { data: walletClient } = useWalletClient();
   const { colorMode } = useColorMode();
   const [_amountIn, setAmountIn] = useState("");
   const amountIn = useDebounce(_amountIn, 500);
@@ -98,11 +103,13 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
   const [destinationChain, setDestinationChain] = useState<number | undefined>(
     polygon.id
   );
+  const [originChain, setOriginChain] = useState<number | undefined>(
+    walletClient?.chain.id ?? mainnet.id
+  );
   const [connext, setConnext] = useState<
     { sdkBase: SdkBase; sdkUtils: SdkUtils } | undefined
   >();
   const { isConnected } = useAccount();
-  const { data: walletClient } = useWalletClient();
   const {
     data: allowance,
     isSuccess: allowanceIsSuccess,
@@ -181,13 +188,25 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
       };
       const { sdkBase, sdkUtils } = await create(sdkConfig);
       setConnext({ sdkBase, sdkUtils });
-      if (destinationChain) {
+    };
+    run();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [walletClient?.account?.address]);
+
+  useEffect(() => {
+    const run = async () => {
+      if (
+        destinationChain &&
+        originChain &&
+        destinationChain !== solana.id &&
+        originChain !== solana.id
+      ) {
         await getRelayerFee(destinationChain.toString());
       }
     };
     run();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [destinationChain, walletClient?.account?.address]);
+  }, [destinationChain, originChain]);
 
   const updateApprovals = async (amount: string) => {
     if (asset === "zoomer") {
@@ -285,6 +304,8 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
                 <Flex pb={4} pt={4} width="100%" flexWrap="wrap">
                   <SelectOriginChain
                     asset={asset}
+                    originChain={originChain}
+                    setOriginChain={setOriginChain}
                     walletChain={walletClient.chain.id}
                   />
                   <Spacer />
@@ -299,75 +320,82 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
                     walletChain={walletClient.chain.id}
                   />
                 </Flex>
-                <Box pt={4}>
-                  <AmountInInput
-                    amountIn={_amountIn}
-                    setAmountIn={setAmountIn}
-                    updateApprovals={updateApprovals}
-                    asset={asset}
-                    destinationChain={destinationChain}
-                    relayerFee={relayerFee}
-                    getRelayerFee={getRelayerFee}
-                  />
-                </Box>
-                <Box pb={4} pt={4}>
-                  <AmountDisplay
-                    setAmountIn={setAmountIn}
-                    walletAddress={walletClient!.account!.address!}
-                    asset={asset}
-                    walletChain={walletClient!.chain!.id!}
-                  />
-                </Box>
-                <Box pb={4}>
-                  <RelayerFee
-                    asset={asset}
-                    relayerFee={relayerFee}
-                    relayerFeeLoading={relayerFeeLoading}
-                    walletChain={walletClient.chain.id}
-                  />
-                </Box>
-
-                <Box pb={2} pt={4}>
-                  {!connext || !destinationChain || !relayerFee ? (
-                    <Button
-                      isDisabled={true}
-                      variant="outline"
-                      backgroundColor={
-                        colorMode === "light"
-                          ? "black"
-                          : configByAsset[asset].color
-                      }
-                      color={
-                        colorMode === "light"
-                          ? configByAsset[asset].color
-                          : "black"
-                      }
-                      width={"100%"}
-                    >
-                      CHOOSE DESTINATION
-                    </Button>
-                  ) : (
-                    <ActionButtons
-                      amountIn={amountIn}
-                      connext={connext}
-                      destinationChain={destinationChain}
-                      relayerFee={relayerFee}
-                      walletAddress={walletClient.account.address}
-                      walletChain={walletClient.chain.id}
-                      approvalNeeded={approvalNeeded}
-                      setApprovalNeeded={setApprovalNeeded}
-                      asset={asset}
-                      getRelayerFee={getRelayerFee}
-                    />
-                  )}
-                </Box>
-
-                {destinationChain === base.id ? (
-                  <Text>bridging to base will take up to 10 min</Text>
+                {originChain === solana.id ? (
+                  <SolanaDescription />
                 ) : (
-                  <Text>
-                    bridging will take up to 2 hours. check your wallet later!
-                  </Text>
+                  <>
+                    <Box pt={4}>
+                      <AmountInInput
+                        amountIn={_amountIn}
+                        setAmountIn={setAmountIn}
+                        updateApprovals={updateApprovals}
+                        asset={asset}
+                        destinationChain={destinationChain}
+                        relayerFee={relayerFee}
+                        getRelayerFee={getRelayerFee}
+                      />
+                    </Box>
+                    <Box pb={4} pt={4}>
+                      <AmountDisplay
+                        setAmountIn={setAmountIn}
+                        walletAddress={walletClient!.account!.address!}
+                        asset={asset}
+                        walletChain={walletClient!.chain!.id!}
+                      />
+                    </Box>
+                    <Box pb={4}>
+                      <RelayerFee
+                        asset={asset}
+                        relayerFee={relayerFee}
+                        relayerFeeLoading={relayerFeeLoading}
+                        walletChain={walletClient.chain.id}
+                      />
+                    </Box>
+
+                    <Box pb={2} pt={4}>
+                      {!connext || !destinationChain || !relayerFee ? (
+                        <Button
+                          isDisabled={true}
+                          variant="outline"
+                          backgroundColor={
+                            colorMode === "light"
+                              ? "black"
+                              : configByAsset[asset].color
+                          }
+                          color={
+                            colorMode === "light"
+                              ? configByAsset[asset].color
+                              : "black"
+                          }
+                          width={"100%"}
+                        >
+                          CHOOSE DESTINATION
+                        </Button>
+                      ) : (
+                        <ActionButtons
+                          amountIn={amountIn}
+                          connext={connext}
+                          destinationChain={destinationChain}
+                          relayerFee={relayerFee}
+                          walletAddress={walletClient.account.address}
+                          walletChain={walletClient.chain.id}
+                          approvalNeeded={approvalNeeded}
+                          setApprovalNeeded={setApprovalNeeded}
+                          asset={asset}
+                          getRelayerFee={getRelayerFee}
+                        />
+                      )}
+                    </Box>
+
+                    {destinationChain === base.id ? (
+                      <Text>bridging to base will take up to 10 min</Text>
+                    ) : (
+                      <Text>
+                        bridging will take up to 2 hours. check your wallet
+                        later!
+                      </Text>
+                    )}
+                  </>
                 )}
               </Flex>
             )}
@@ -531,16 +559,25 @@ const AmountDisplay = ({
 type SelectOriginChainProps = {
   walletChain: number;
   asset: Asset;
+  setOriginChain: Dispatch<SetStateAction<number | undefined>>;
+  originChain?: number;
 };
-const SelectOriginChain = ({ asset, walletChain }: SelectOriginChainProps) => {
+const SelectOriginChain = ({
+  asset,
+  setOriginChain,
+  originChain,
+}: SelectOriginChainProps) => {
   const { colorMode } = useColorMode();
 
   const handleSwitchOriginChain = async (
     event: ChangeEvent<HTMLSelectElement>
   ) => {
-    await switchNetwork({
-      chainId: +event.target.value,
-    });
+    setOriginChain(+event.target.value);
+    if (+event.target.value !== solana.id) {
+      await switchNetwork({
+        chainId: +event.target.value,
+      });
+    }
   };
 
   return (
@@ -554,16 +591,26 @@ const SelectOriginChain = ({ asset, walletChain }: SelectOriginChainProps) => {
         borderColor={
           colorMode === "light" ? "blackAlpha.400" : configByAsset[asset].color
         }
-        value={walletChain}
+        value={originChain}
         onChange={handleSwitchOriginChain}
       >
-        {configByAsset[asset].chains.map((chain) => {
-          return (
-            <option key={chain.id} value={chain.id}>
-              {chain.name}
-            </option>
-          );
-        })}
+        {configByAsset[asset].chains
+          .map((chain) => {
+            return (
+              <option key={chain.id} value={chain.id}>
+                {chain.name}
+              </option>
+            );
+          })
+          .concat(
+            asset === "zoomer"
+              ? [
+                  <option key={0} value={0}>
+                    Solana
+                  </option>,
+                ]
+              : []
+          )}
       </Select>
     </VStack>
   );
@@ -633,7 +680,16 @@ const SelectDestinationChain = ({
                 {chain.name}
               </option>
             );
-          })}
+          })
+          .concat(
+            asset === "zoomer"
+              ? [
+                  <option key={0} value={0}>
+                    Solana
+                  </option>,
+                ]
+              : []
+          )}
       </Select>
     </VStack>
   );
@@ -1078,6 +1134,67 @@ const BridgeDescription = () => {
         </AccordionPanel>
       </AccordionItem>
     </Accordion>
+  );
+};
+
+const SolanaDescription = () => {
+  return (
+    <Text as="b">
+      Bridging to and from Solana requires using Wormhole Portal Bridge (for
+      now).
+      <br />
+      You will need to use an external website to bridge your coins!
+      <br />
+      Use the following instructions to use the Portal Bridge:
+      <br />
+      <br />
+      1. Navigate to the{" "}
+      <Link
+        href="https://portalbridge.com/advanced-tools/#/transfer"
+        isExternal
+        color="blue.400"
+      >
+        Wormhole Portal Bridge
+      </Link>
+      .
+      <br />
+      2. Select your chains, ONLY selecting Ethereum and Solana as
+      source/target.
+      <br />
+      3. Connect your source wallet.
+      <br />
+      3. If Ethereum is source, paste the address{" "}
+      <Link
+        href="https://etherscan.io/token/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676"
+        isExternal
+        color="blue.400"
+      >
+        0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676
+      </Link>
+      .
+      <br />
+      4. If Solana is source, paste the address{" "}
+      <Link
+        href="https://solscan.io/token/nBZEcHSG771mRbi4y2sSgKjfDUH8jsM2Eo5fNcASLeU"
+        isExternal
+        color="blue.400"
+      >
+        nBZEcHSG771mRbi4y2sSgKjfDUH8jsM2Eo5fNcASLeU
+      </Link>
+      <br />
+      5. Connect your target wallet. Verify that the addresses match the above!
+      <br />
+      6. Use the {"Next"} dialog button to proceed and send the tokens through
+      the bridge. There will be a few transactions and long confirmation times,
+      so make sure you keep the page open and complete the process!
+      <br />
+      <br />
+      Still need support? Join the Zoomer{" "}
+      <Link href="https://t.me/zoomercoinofficial" isExternal color="blue.400">
+        Telegram
+      </Link>
+      and contact the mods.
+    </Text>
   );
 };
 
