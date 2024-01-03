@@ -320,7 +320,7 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
                     walletChain={walletClient.chain.id}
                   />
                 </Flex>
-                {originChain === solana.id ? (
+                {originChain === solana.id || destinationChain === solana.id ? (
                   <SolanaDescription />
                 ) : (
                   <>
