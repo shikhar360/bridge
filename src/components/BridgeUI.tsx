@@ -154,7 +154,8 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
     let fee;
     if (
       destinationChain === base.id.toString() ||
-      destinationChain === solana.id.toString()
+      destinationChain === solana.id.toString() ||
+      walletClient?.chain.id === base.id
     ) {
       fee = "0";
     } else {
@@ -215,7 +216,9 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
 
   const updateApprovals = async (amount: string) => {
     if (asset === "zoomer") {
-      if (destinationChain === base.id) {
+      if (walletClient?.chain.id === base.id) {
+        setApprovalNeeded(false);
+      } else if (destinationChain === base.id) {
         if (allowanceIsError) {
           console.log("ALLOWANCE ERROR: ", error);
         }
@@ -394,6 +397,10 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
 
                     {destinationChain === base.id ? (
                       <Text>bridging to base will take up to 10 min</Text>
+                    ) : walletClient.chain.id === base.id ? (
+                      <Text>
+                        routes from base to other chains will be available soon!
+                      </Text>
                     ) : (
                       <Text>
                         bridging will take up to 2 hours. check your wallet
@@ -687,7 +694,7 @@ const SelectDestinationChain = ({
             );
           })
           .concat(
-            asset === "zoomer"
+            asset === "zoomer" && walletChain !== base.id
               ? [
                   <option key={0} value={0}>
                     Solana
@@ -1023,8 +1030,9 @@ const BridgeButton = ({
         variant="outline"
         borderColor="black"
         isDisabled={
-          (walletChain === base.id && BigInt(relayerFee) == BigInt(0)) ||
-          (asset === "grumpycat" && BigInt(relayerFee) == BigInt(0)) ||
+          (destinationChain !== base.id && BigInt(relayerFee) === BigInt(0)) ||
+          (asset === "grumpycat" && BigInt(relayerFee) === BigInt(0)) ||
+          walletChain === base.id ||
           !amountIn
         }
         isLoading={xcallLoading || isLoading}
@@ -1036,7 +1044,7 @@ const BridgeButton = ({
         color={colorMode === "light" ? configByAsset[asset].color : "black"}
         width="100%"
       >
-        /BRIDGE
+        {walletChain === base.id ? "/ROUTE_COMING_SOON" : "/BRIDGE"}
       </Button>
       <BridgedModal
         isOpen={isOpen}
