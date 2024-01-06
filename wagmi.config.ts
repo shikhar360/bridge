@@ -806,21 +806,9 @@ export default defineConfig(() => {
           [arbitrum.id]: "0x0000000000000000000000000000000000000000",
         },
         abi: [
-          {
-            inputs: [],
-            name: "IXERC20Lockbox_Native",
-            type: "error",
-          },
-          {
-            inputs: [],
-            name: "IXERC20Lockbox_NotNative",
-            type: "error",
-          },
-          {
-            inputs: [],
-            name: "IXERC20Lockbox_WithdrawFailed",
-            type: "error",
-          },
+          { inputs: [], name: "IXERC20Lockbox_Native", type: "error" },
+          { inputs: [], name: "IXERC20Lockbox_NotNative", type: "error" },
+          { inputs: [], name: "IXERC20Lockbox_WithdrawFailed", type: "error" },
           {
             anonymous: false,
             inputs: [
@@ -876,11 +864,7 @@ export default defineConfig(() => {
             inputs: [],
             name: "ERC20",
             outputs: [
-              {
-                internalType: "contract IERC20",
-                name: "",
-                type: "address",
-              },
+              { internalType: "contract IERC20", name: "", type: "address" },
             ],
             stateMutability: "view",
             type: "function",
@@ -888,26 +872,14 @@ export default defineConfig(() => {
           {
             inputs: [],
             name: "IS_NATIVE",
-            outputs: [
-              {
-                internalType: "bool",
-                name: "",
-                type: "bool",
-              },
-            ],
+            outputs: [{ internalType: "bool", name: "", type: "bool" }],
             stateMutability: "view",
             type: "function",
           },
           {
             inputs: [],
             name: "OWNER",
-            outputs: [
-              {
-                internalType: "address",
-                name: "",
-                type: "address",
-              },
-            ],
+            outputs: [{ internalType: "address", name: "", type: "address" }],
             stateMutability: "view",
             type: "function",
           },
@@ -928,22 +900,14 @@ export default defineConfig(() => {
             inputs: [],
             name: "XERC20",
             outputs: [
-              {
-                internalType: "contract IXERC20",
-                name: "",
-                type: "address",
-              },
+              { internalType: "contract IXERC20", name: "", type: "address" },
             ],
             stateMutability: "view",
             type: "function",
           },
           {
             inputs: [
-              {
-                internalType: "uint256",
-                name: "_amount",
-                type: "uint256",
-              },
+              { internalType: "uint256", name: "_amount", type: "uint256" },
             ],
             name: "deposit",
             outputs: [],
@@ -959,11 +923,7 @@ export default defineConfig(() => {
           },
           {
             inputs: [
-              {
-                internalType: "uint256",
-                name: "_amount",
-                type: "uint256",
-              },
+              { internalType: "uint256", name: "_amount", type: "uint256" },
             ],
             name: "depositAndBridgeToL2",
             outputs: [],
@@ -972,21 +932,9 @@ export default defineConfig(() => {
           },
           {
             inputs: [
-              {
-                internalType: "address",
-                name: "_xerc20",
-                type: "address",
-              },
-              {
-                internalType: "address",
-                name: "_erc20",
-                type: "address",
-              },
-              {
-                internalType: "bool",
-                name: "_isNative",
-                type: "bool",
-              },
+              { internalType: "address", name: "_xerc20", type: "address" },
+              { internalType: "address", name: "_erc20", type: "address" },
+              { internalType: "bool", name: "_isNative", type: "bool" },
             ],
             name: "initialize",
             outputs: [],
@@ -995,19 +943,11 @@ export default defineConfig(() => {
           },
           {
             inputs: [
-              {
-                internalType: "bytes[]",
-                name: "data",
-                type: "bytes[]",
-              },
+              { internalType: "bytes[]", name: "data", type: "bytes[]" },
             ],
             name: "multicall",
             outputs: [
-              {
-                internalType: "bytes[]",
-                name: "results",
-                type: "bytes[]",
-              },
+              { internalType: "bytes[]", name: "results", type: "bytes[]" },
             ],
             stateMutability: "nonpayable",
             type: "function",
@@ -1027,21 +967,14 @@ export default defineConfig(() => {
           },
           {
             inputs: [
-              {
-                internalType: "uint256",
-                name: "_amount",
-                type: "uint256",
-              },
+              { internalType: "uint256", name: "_amount", type: "uint256" },
             ],
             name: "withdraw",
             outputs: [],
             stateMutability: "nonpayable",
             type: "function",
           },
-          {
-            stateMutability: "payable",
-            type: "receive",
-          },
+          { stateMutability: "payable", type: "receive" },
         ],
       },
       {

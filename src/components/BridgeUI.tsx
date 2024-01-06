@@ -73,6 +73,8 @@ import {
   useZoomerXerc20LockboxBaseDepositAndBridgeToL2,
   useZoomerXerc20OldBalanceOf,
   zoomerCoinAddress,
+  zoomerXerc20LockboxBaseABI,
+  zoomerXerc20LockboxBaseAddress,
 } from "../generated";
 import {
   Asset,
@@ -145,16 +147,24 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getRelayerFee = async (destinationChain: string): Promise<string> => {
-    if (!destinationChain || +destinationChain === 0) {
+    if (!destinationChain) {
       console.error("destinationChain is undefined: ", destinationChain);
       return "0";
     }
-    console.log("getting relayer fee: ", destinationChain);
-    setRelayerFeeLoading(true);
-    const fee = await connext?.sdkBase.estimateRelayerFee({
-      originDomain: chainIdToDomain(walletClient!.chain.id).toString(),
-      destinationDomain: chainIdToDomain(+destinationChain).toString(),
-    });
+    let fee;
+    if (
+      destinationChain === base.id.toString() ||
+      destinationChain === solana.id.toString()
+    ) {
+      fee = "0";
+    } else {
+      console.log("getting relayer fee: ", destinationChain);
+      setRelayerFeeLoading(true);
+      fee = await connext?.sdkBase.estimateRelayerFee({
+        originDomain: chainIdToDomain(walletClient!.chain.id).toString(),
+        destinationDomain: chainIdToDomain(+destinationChain).toString(),
+      });
+    }
     console.log("relayer fee: ", fee);
     setRelayerFeeLoading(false);
     setRelayerFee((fee ?? "0").toString());
@@ -195,12 +205,7 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
 
   useEffect(() => {
     const run = async () => {
-      if (
-        destinationChain &&
-        originChain &&
-        destinationChain !== solana.id &&
-        originChain !== solana.id
-      ) {
+      if (destinationChain !== undefined && originChain !== undefined) {
         await getRelayerFee(destinationChain.toString());
       }
     };
@@ -927,6 +932,7 @@ const BridgeButton = ({
   const { writeAsync: depositWriteZoomerLockbox } =
     useZoomerXerc20LockboxBaseDepositAndBridgeToL2({
       args: [parseEther(amountIn)],
+      chainId: walletChain,
     });
 
   console.log(
