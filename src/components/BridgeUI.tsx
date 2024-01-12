@@ -73,8 +73,6 @@ import {
   useZoomerXerc20LockboxBaseDepositAndBridgeToL2,
   useZoomerXerc20OldBalanceOf,
   zoomerCoinAddress,
-  zoomerXerc20LockboxBaseABI,
-  zoomerXerc20LockboxBaseAddress,
 } from "../generated";
 import {
   Asset,
