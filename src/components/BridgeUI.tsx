@@ -59,7 +59,7 @@ import {
   formatEther,
   parseEther,
 } from "viem";
-import { SdkBase, SdkConfig, SdkUtils, create } from "@connext/sdk";
+import { SdkBase, SdkConfig, SdkUtils, create } from "@connext/sdk-core";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
@@ -82,6 +82,7 @@ import {
   getCalldataByAsset,
   getRecipientByAsset,
 } from "../utils/asset";
+import { configuredChains } from "../wagmi";
 
 type BridgeUIProps = {
   asset: Asset;
@@ -91,6 +92,10 @@ type BridgeUIProps = {
 const solana = {
   id: 0,
 };
+
+const getRPCForChain = (chainId: number): string =>
+  configuredChains.find((chain) => chain.id === chainId)?.rpcUrls.default
+    .http[0];
 
 export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
   const { data: walletClient } = useWalletClient();
@@ -212,9 +217,10 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [destinationChain, originChain]);
 
-  const updateApprovals = async (amount: string) => {
+  const updateApprovals = async (amount: string, _chainId?: number) => {
+    const chainId = walletClient?.chain.id ?? _chainId;
     if (asset === "zoomer") {
-      if (walletClient?.chain.id === base.id) {
+      if (chainId === base.id) {
         setApprovalNeeded(false);
       } else if (destinationChain === base.id) {
         if (allowanceIsError) {
@@ -228,24 +234,23 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
           setApprovalNeeded(false);
         }
       } else {
-        if (!walletClient?.chain.id) {
-          throw new Error("walletClient?.chain.id is undefined");
+        if (!chainId) {
+          throw new Error("chainId is undefined");
         }
         console.log(
           "approveIfNeeded: ",
-          chainIdToDomain(walletClient?.chain.id).toString(),
-          zoomerCoinAddress[
-            walletClient?.chain.id as keyof typeof zoomerCoinAddress
-          ],
+          chainIdToDomain(chainId).toString(),
+          zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
           parseEther(amount)
         );
         const res = await connext!.sdkBase.approveIfNeeded(
-          chainIdToDomain(walletClient?.chain.id).toString(),
-          zoomerCoinAddress[
-            walletClient?.chain.id as keyof typeof zoomerCoinAddress
-          ],
+          chainIdToDomain(chainId).toString(),
+          zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
           parseEther(amount).toString(),
-          true
+          true,
+          {
+            originProviderUrl: chainId ? getRPCForChain(chainId) : undefined,
+          }
         );
         console.log("res: ", res);
         console.log("approvalNeeded: ", !!res);
@@ -631,7 +636,7 @@ type SelectDestinationChainProps = {
   setDestinationChain: Dispatch<SetStateAction<number | undefined>>;
   walletChain: number;
   getRelayerFee: (destinationChain: string) => Promise<string>;
-  updateApprovals: (amount: string) => Promise<void>;
+  updateApprovals: (amount: string, chainId?: number) => Promise<void>;
   setRelayerFee: Dispatch<SetStateAction<string>>;
   amountIn: string;
   asset: Asset;
@@ -657,7 +662,7 @@ const SelectDestinationChain = ({
     } else {
       await getRelayerFee(event.target.value);
     }
-    await updateApprovals(amountIn);
+    await updateApprovals(amountIn, walletChain);
   };
 
   return (
@@ -846,7 +851,8 @@ const ApproveButton = ({
             chainIdToDomain(walletChain).toString(),
             getAddressByAsset(asset, walletChain),
             parseEther(amountIn).toString(),
-            infinite
+            infinite,
+            { originProviderUrl: getRPCForChain(walletChain) }
           );
           if (!res) {
             console.log("approval not needed");

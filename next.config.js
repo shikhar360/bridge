@@ -4,7 +4,12 @@ const withVideos = require("next-videos");
 const nextConfig = withVideos({
   reactStrictMode: true,
   webpack: (config) => {
-    config.resolve.fallback = { fs: false, net: false, tls: false };
+    config.resolve.fallback = {
+      fs: false,
+      net: false,
+      tls: false,
+      child_process: false,
+    };
     return config;
   },
 });
