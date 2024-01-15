@@ -93,7 +93,7 @@ const solana = {
   id: 0,
 };
 
-const getRPCForChain = (chainId: number): string =>
+const getRPCForChain = (chainId: number): string | undefined =>
   configuredChains.find((chain) => chain.id === chainId)?.rpcUrls.default
     .http[0];
 
