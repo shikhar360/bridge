@@ -49,7 +49,7 @@ import {
   useWalletClient,
 } from "wagmi";
 import { switchNetwork } from "@wagmi/core";
-import { arbitrum, base, mainnet, polygon } from "wagmi/chains";
+import { arbitrum, base, bsc, mainnet, optimism, polygon } from "wagmi/chains";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import {
   Address,
@@ -92,10 +92,6 @@ type BridgeUIProps = {
 const solana = {
   id: 0,
 };
-
-const getRPCForChain = (chainId: number): string | undefined =>
-  configuredChains.find((chain) => chain.id === chainId)?.rpcUrls.default
-    .http[0];
 
 export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
   const { data: walletClient } = useWalletClient();
@@ -198,6 +194,25 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
               "https://polygon-bor.publicnode.com",
             ],
           },
+          [chainIdToDomain(bsc.id)]: {
+            providers: [
+              "https://bsc.llamarpc.com",
+              "https://bsc-dataseed.binance.org",
+              "https://bsc-dataseed1.defibit.io",
+              "https://bsc-dataseed1.ninicoin.io",
+              "https://bsc-dataseed2.defibit.io",
+              "https://bsc-dataseed3.defibit.io",
+            ],
+          },
+          [chainIdToDomain(optimism.id)]: {
+            providers: [
+              "https://optimism.llamarpc.com",
+              "https://mainnet.optimism.io",
+              "https://optimism.gateway.tenderly.co",
+              "https://rpc.optimism.gateway.fm",
+              "https://optimism.drpc.org",
+            ],
+          },
         },
       };
       const { sdkBase, sdkUtils } = await create(sdkConfig);
@@ -247,10 +262,7 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
           chainIdToDomain(chainId).toString(),
           zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
           parseEther(amount).toString(),
-          true,
-          {
-            originProviderUrl: chainId ? getRPCForChain(chainId) : undefined,
-          }
+          true
         );
         console.log("res: ", res);
         console.log("approvalNeeded: ", !!res);
@@ -851,8 +863,7 @@ const ApproveButton = ({
             chainIdToDomain(walletChain).toString(),
             getAddressByAsset(asset, walletChain),
             parseEther(amountIn).toString(),
-            infinite,
-            { originProviderUrl: getRPCForChain(walletChain) }
+            infinite
           );
           if (!res) {
             console.log("approval not needed");
