@@ -1,21 +1,9 @@
 import {
-  useNetwork,
-  useChainId,
-  useContractRead,
-  UseContractReadConfig,
-  useContractWrite,
-  Address,
-  UseContractWriteConfig,
-  usePrepareContractWrite,
-  UsePrepareContractWriteConfig,
-  useContractEvent,
-  UseContractEventConfig,
-} from 'wagmi'
-import {
-  ReadContractResult,
-  WriteContractMode,
-  PrepareWriteContractResult,
-} from 'wagmi/actions'
+  createUseReadContract,
+  createUseWriteContract,
+  createUseSimulateContract,
+  createUseWatchContractEvent,
+} from 'wagmi/codegen'
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Bridge
@@ -29,7 +17,7 @@ import {
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export const bridgeABI = [
+export const bridgeAbi = [
   {
     type: 'error',
     inputs: [
@@ -302,128 +290,7 @@ export const bridgeAddress = {
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export const bridgeConfig = { address: bridgeAddress, abi: bridgeABI } as const
-
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ERC20
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-export const erc20ABI = [
-  {
-    type: 'event',
-    inputs: [
-      { name: 'owner', type: 'address', indexed: true },
-      { name: 'spender', type: 'address', indexed: true },
-      { name: 'value', type: 'uint256', indexed: false },
-    ],
-    name: 'Approval',
-  },
-  {
-    type: 'event',
-    inputs: [
-      { name: 'from', type: 'address', indexed: true },
-      { name: 'to', type: 'address', indexed: true },
-      { name: 'value', type: 'uint256', indexed: false },
-    ],
-    name: 'Transfer',
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [
-      { name: 'owner', type: 'address' },
-      { name: 'spender', type: 'address' },
-    ],
-    name: 'allowance',
-    outputs: [{ type: 'uint256' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'spender', type: 'address' },
-      { name: 'amount', type: 'uint256' },
-    ],
-    name: 'approve',
-    outputs: [{ type: 'bool' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [{ name: 'account', type: 'address' }],
-    name: 'balanceOf',
-    outputs: [{ type: 'uint256' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'decimals',
-    outputs: [{ type: 'uint8' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'name',
-    outputs: [{ type: 'string' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'symbol',
-    outputs: [{ type: 'string' }],
-  },
-  {
-    stateMutability: 'view',
-    type: 'function',
-    inputs: [],
-    name: 'totalSupply',
-    outputs: [{ type: 'uint256' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'recipient', type: 'address' },
-      { name: 'amount', type: 'uint256' },
-    ],
-    name: 'transfer',
-    outputs: [{ type: 'bool' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'sender', type: 'address' },
-      { name: 'recipient', type: 'address' },
-      { name: 'amount', type: 'uint256' },
-    ],
-    name: 'transferFrom',
-    outputs: [{ type: 'bool' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'spender', type: 'address' },
-      { name: 'addedValue', type: 'uint256' },
-    ],
-    name: 'increaseAllowance',
-    outputs: [{ type: 'bool' }],
-  },
-  {
-    stateMutability: 'nonpayable',
-    type: 'function',
-    inputs: [
-      { name: 'spender', type: 'address' },
-      { name: 'subtractedValue', type: 'uint256' },
-    ],
-    name: 'decreaseAllowance',
-    outputs: [{ type: 'bool' }],
-  },
-] as const
+export const bridgeConfig = { address: bridgeAddress, abi: bridgeAbi } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GrumpyCatCoin
@@ -436,7 +303,7 @@ export const erc20ABI = [
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export const grumpyCatCoinABI = [
+export const grumpyCatCoinAbi = [
   {
     stateMutability: 'nonpayable',
     type: 'constructor',
@@ -718,7 +585,7 @@ export const grumpyCatCoinAddress = {
  */
 export const grumpyCatCoinConfig = {
   address: grumpyCatCoinAddress,
-  abi: grumpyCatCoinABI,
+  abi: grumpyCatCoinAbi,
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -728,7 +595,7 @@ export const grumpyCatCoinConfig = {
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export const grumpyCatLockboxAdapterABI = [
+export const grumpyCatLockboxAdapterAbi = [
   {
     stateMutability: 'nonpayable',
     type: 'constructor',
@@ -817,7 +684,7 @@ export const grumpyCatLockboxAdapterAddress = {
  */
 export const grumpyCatLockboxAdapterConfig = {
   address: grumpyCatLockboxAdapterAddress,
-  abi: grumpyCatLockboxAdapterABI,
+  abi: grumpyCatLockboxAdapterAbi,
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -832,7 +699,7 @@ export const grumpyCatLockboxAdapterConfig = {
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export const zoomerCoinABI = [
+export const zoomerCoinAbi = [
   { type: 'error', inputs: [], name: 'IXERC20_NotFactory' },
   { type: 'error', inputs: [], name: 'IXERC20_NotHighEnoughLimits' },
   {
@@ -1252,7 +1119,7 @@ export const zoomerCoinAddress = {
  */
 export const zoomerCoinConfig = {
   address: zoomerCoinAddress,
-  abi: zoomerCoinABI,
+  abi: zoomerCoinAbi,
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1262,7 +1129,7 @@ export const zoomerCoinConfig = {
 /**
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export const zoomerMigratorABI = [
+export const zoomerMigratorAbi = [
   {
     stateMutability: 'nonpayable',
     type: 'constructor',
@@ -1387,7 +1254,7 @@ export const zoomerMigratorAddress = {
  */
 export const zoomerMigratorConfig = {
   address: zoomerMigratorAddress,
-  abi: zoomerMigratorABI,
+  abi: zoomerMigratorAbi,
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1397,7 +1264,7 @@ export const zoomerMigratorConfig = {
 /**
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export const zoomerXerc20LockboxAllABI = [
+export const zoomerXerc20LockboxAllAbi = [
   {
     stateMutability: 'nonpayable',
     type: 'constructor',
@@ -1532,7 +1399,7 @@ export const zoomerXerc20LockboxAllAddress = {
  */
 export const zoomerXerc20LockboxAllConfig = {
   address: zoomerXerc20LockboxAllAddress,
-  abi: zoomerXerc20LockboxAllABI,
+  abi: zoomerXerc20LockboxAllAbi,
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1547,7 +1414,7 @@ export const zoomerXerc20LockboxAllConfig = {
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
  */
-export const zoomerXerc20LockboxBaseABI = [
+export const zoomerXerc20LockboxBaseAbi = [
   { type: 'error', inputs: [], name: 'IXERC20Lockbox_Native' },
   { type: 'error', inputs: [], name: 'IXERC20Lockbox_NotNative' },
   { type: 'error', inputs: [], name: 'IXERC20Lockbox_WithdrawFailed' },
@@ -1719,14 +1586,14 @@ export const zoomerXerc20LockboxBaseAddress = {
  */
 export const zoomerXerc20LockboxBaseConfig = {
   address: zoomerXerc20LockboxBaseAddress,
-  abi: zoomerXerc20LockboxBaseABI,
+  abi: zoomerXerc20LockboxBaseAbi,
 } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ZoomerXERC20Old
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const zoomerXerc20OldABI = [
+export const zoomerXerc20OldAbi = [
   { stateMutability: 'nonpayable', type: 'constructor', inputs: [] },
   { type: 'error', inputs: [], name: 'XERC20__addBridge_alreadyAdded' },
   { type: 'error', inputs: [], name: 'XERC20__onlyBridge_notBridge' },
@@ -2088,15 +1955,116 @@ export const zoomerXerc20OldAddress =
 
 export const zoomerXerc20OldConfig = {
   address: zoomerXerc20OldAddress,
-  abi: zoomerXerc20OldABI,
+  abi: zoomerXerc20OldAbi,
 } as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// erc20
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const erc20Abi = [
+  {
+    type: 'event',
+    inputs: [
+      { name: 'owner', type: 'address', indexed: true },
+      { name: 'spender', type: 'address', indexed: true },
+      { name: 'value', type: 'uint256', indexed: false },
+    ],
+    name: 'Approval',
+  },
+  {
+    type: 'event',
+    inputs: [
+      { name: 'from', type: 'address', indexed: true },
+      { name: 'to', type: 'address', indexed: true },
+      { name: 'value', type: 'uint256', indexed: false },
+    ],
+    name: 'Transfer',
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [
+      { name: 'owner', type: 'address' },
+      { name: 'spender', type: 'address' },
+    ],
+    name: 'allowance',
+    outputs: [{ type: 'uint256' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'spender', type: 'address' },
+      { name: 'amount', type: 'uint256' },
+    ],
+    name: 'approve',
+    outputs: [{ type: 'bool' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: 'account', type: 'address' }],
+    name: 'balanceOf',
+    outputs: [{ type: 'uint256' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'decimals',
+    outputs: [{ type: 'uint8' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'name',
+    outputs: [{ type: 'string' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'symbol',
+    outputs: [{ type: 'string' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'totalSupply',
+    outputs: [{ type: 'uint256' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'recipient', type: 'address' },
+      { name: 'amount', type: 'uint256' },
+    ],
+    name: 'transfer',
+    outputs: [{ type: 'bool' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: 'sender', type: 'address' },
+      { name: 'recipient', type: 'address' },
+      { name: 'amount', type: 'uint256' },
+    ],
+    name: 'transferFrom',
+    outputs: [{ type: 'bool' }],
+  },
+] as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // React
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link bridgeABI}__.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link bridgeAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2105,27 +2073,13 @@ export const zoomerXerc20OldConfig = {
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof bridgeABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof bridgeABI, TFunctionName, TSelectData>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
-    ...config,
-  } as UseContractReadConfig<typeof bridgeABI, TFunctionName, TSelectData>)
-}
+export const useReadBridge = /*#__PURE__*/ createUseReadContract({
+  abi: bridgeAbi,
+  address: bridgeAddress,
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"bridges"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"bridges"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2134,28 +2088,14 @@ export function useBridgeRead<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeBridges<
-  TFunctionName extends 'bridges',
-  TSelectData = ReadContractResult<typeof bridgeABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof bridgeABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
-    functionName: 'bridges',
-    ...config,
-  } as UseContractReadConfig<typeof bridgeABI, TFunctionName, TSelectData>)
-}
+export const useReadBridgeBridges = /*#__PURE__*/ createUseReadContract({
+  abi: bridgeAbi,
+  address: bridgeAddress,
+  functionName: 'bridges',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"connextChainIdToDomain"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"connextChainIdToDomain"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2164,28 +2104,15 @@ export function useBridgeBridges<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeConnextChainIdToDomain<
-  TFunctionName extends 'connextChainIdToDomain',
-  TSelectData = ReadContractResult<typeof bridgeABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof bridgeABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useReadBridgeConnextChainIdToDomain =
+  /*#__PURE__*/ createUseReadContract({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     functionName: 'connextChainIdToDomain',
-    ...config,
-  } as UseContractReadConfig<typeof bridgeABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"fee"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"fee"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2194,28 +2121,14 @@ export function useBridgeConnextChainIdToDomain<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeFee<
-  TFunctionName extends 'fee',
-  TSelectData = ReadContractResult<typeof bridgeABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof bridgeABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
-    functionName: 'fee',
-    ...config,
-  } as UseContractReadConfig<typeof bridgeABI, TFunctionName, TSelectData>)
-}
+export const useReadBridgeFee = /*#__PURE__*/ createUseReadContract({
+  abi: bridgeAbi,
+  address: bridgeAddress,
+  functionName: 'fee',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"owner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"owner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2224,28 +2137,14 @@ export function useBridgeFee<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeOwner<
-  TFunctionName extends 'owner',
-  TSelectData = ReadContractResult<typeof bridgeABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof bridgeABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
-    functionName: 'owner',
-    ...config,
-  } as UseContractReadConfig<typeof bridgeABI, TFunctionName, TSelectData>)
-}
+export const useReadBridgeOwner = /*#__PURE__*/ createUseReadContract({
+  abi: bridgeAbi,
+  address: bridgeAddress,
+  functionName: 'owner',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"paused"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"paused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2254,28 +2153,14 @@ export function useBridgeOwner<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgePaused<
-  TFunctionName extends 'paused',
-  TSelectData = ReadContractResult<typeof bridgeABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof bridgeABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
-    functionName: 'paused',
-    ...config,
-  } as UseContractReadConfig<typeof bridgeABI, TFunctionName, TSelectData>)
-}
+export const useReadBridgePaused = /*#__PURE__*/ createUseReadContract({
+  abi: bridgeAbi,
+  address: bridgeAddress,
+  functionName: 'paused',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"pendingOwner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"pendingOwner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2284,28 +2169,14 @@ export function useBridgePaused<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgePendingOwner<
-  TFunctionName extends 'pendingOwner',
-  TSelectData = ReadContractResult<typeof bridgeABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof bridgeABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
-    functionName: 'pendingOwner',
-    ...config,
-  } as UseContractReadConfig<typeof bridgeABI, TFunctionName, TSelectData>)
-}
+export const useReadBridgePendingOwner = /*#__PURE__*/ createUseReadContract({
+  abi: bridgeAbi,
+  address: bridgeAddress,
+  functionName: 'pendingOwner',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link bridgeABI}__.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2314,35 +2185,13 @@ export function useBridgePendingOwner<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof bridgeAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof bridgeABI, string>['request']['abi'],
-        TFunctionName,
-        TMode
-      > & { address?: Address; chainId?: TChainId }
-    : UseContractWriteConfig<typeof bridgeABI, TFunctionName, TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof bridgeABI, TFunctionName, TMode>({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
-    ...config,
-  } as any)
-}
+export const useWriteBridge = /*#__PURE__*/ createUseWriteContract({
+  abi: bridgeAbi,
+  address: bridgeAddress,
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"acceptOwnership"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"acceptOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2351,43 +2200,15 @@ export function useBridgeWrite<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeAcceptOwnership<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof bridgeAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof bridgeABI,
-          'acceptOwnership'
-        >['request']['abi'],
-        'acceptOwnership',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'acceptOwnership'
-      }
-    : UseContractWriteConfig<typeof bridgeABI, 'acceptOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'acceptOwnership'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof bridgeABI, 'acceptOwnership', TMode>({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useWriteBridgeAcceptOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     functionName: 'acceptOwnership',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"initialize"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2396,39 +2217,14 @@ export function useBridgeAcceptOwnership<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeInitialize<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof bridgeAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof bridgeABI,
-          'initialize'
-        >['request']['abi'],
-        'initialize',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'initialize' }
-    : UseContractWriteConfig<typeof bridgeABI, 'initialize', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'initialize'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof bridgeABI, 'initialize', TMode>({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
-    functionName: 'initialize',
-    ...config,
-  } as any)
-}
+export const useWriteBridgeInitialize = /*#__PURE__*/ createUseWriteContract({
+  abi: bridgeAbi,
+  address: bridgeAddress,
+  functionName: 'initialize',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2437,43 +2233,15 @@ export function useBridgeInitialize<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeRenounceOwnership<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof bridgeAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof bridgeABI,
-          'renounceOwnership'
-        >['request']['abi'],
-        'renounceOwnership',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'renounceOwnership'
-      }
-    : UseContractWriteConfig<typeof bridgeABI, 'renounceOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'renounceOwnership'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof bridgeABI, 'renounceOwnership', TMode>({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useWriteBridgeRenounceOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"sendThroughBridge"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"sendThroughBridge"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2482,43 +2250,15 @@ export function useBridgeRenounceOwnership<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeSendThroughBridge<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof bridgeAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof bridgeABI,
-          'sendThroughBridge'
-        >['request']['abi'],
-        'sendThroughBridge',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'sendThroughBridge'
-      }
-    : UseContractWriteConfig<typeof bridgeABI, 'sendThroughBridge', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'sendThroughBridge'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof bridgeABI, 'sendThroughBridge', TMode>({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useWriteBridgeSendThroughBridge =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     functionName: 'sendThroughBridge',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"setBridge"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"setBridge"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2527,39 +2267,14 @@ export function useBridgeSendThroughBridge<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeSetBridge<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof bridgeAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof bridgeABI,
-          'setBridge'
-        >['request']['abi'],
-        'setBridge',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'setBridge' }
-    : UseContractWriteConfig<typeof bridgeABI, 'setBridge', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'setBridge'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof bridgeABI, 'setBridge', TMode>({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
-    functionName: 'setBridge',
-    ...config,
-  } as any)
-}
+export const useWriteBridgeSetBridge = /*#__PURE__*/ createUseWriteContract({
+  abi: bridgeAbi,
+  address: bridgeAddress,
+  functionName: 'setBridge',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"setDomains"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"setDomains"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2568,39 +2283,14 @@ export function useBridgeSetBridge<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeSetDomains<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof bridgeAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof bridgeABI,
-          'setDomains'
-        >['request']['abi'],
-        'setDomains',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'setDomains' }
-    : UseContractWriteConfig<typeof bridgeABI, 'setDomains', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'setDomains'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof bridgeABI, 'setDomains', TMode>({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
-    functionName: 'setDomains',
-    ...config,
-  } as any)
-}
+export const useWriteBridgeSetDomains = /*#__PURE__*/ createUseWriteContract({
+  abi: bridgeAbi,
+  address: bridgeAddress,
+  functionName: 'setDomains',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"setFee"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"setFee"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2609,39 +2299,14 @@ export function useBridgeSetDomains<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeSetFee<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof bridgeAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof bridgeABI,
-          'setFee'
-        >['request']['abi'],
-        'setFee',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'setFee' }
-    : UseContractWriteConfig<typeof bridgeABI, 'setFee', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'setFee'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof bridgeABI, 'setFee', TMode>({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
-    functionName: 'setFee',
-    ...config,
-  } as any)
-}
+export const useWriteBridgeSetFee = /*#__PURE__*/ createUseWriteContract({
+  abi: bridgeAbi,
+  address: bridgeAddress,
+  functionName: 'setFee',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2650,43 +2315,15 @@ export function useBridgeSetFee<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeTransferOwnership<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof bridgeAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof bridgeABI,
-          'transferOwnership'
-        >['request']['abi'],
-        'transferOwnership',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'transferOwnership'
-      }
-    : UseContractWriteConfig<typeof bridgeABI, 'transferOwnership', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'transferOwnership'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof bridgeABI, 'transferOwnership', TMode>({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useWriteBridgeTransferOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     functionName: 'transferOwnership',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"withdraw"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"withdraw"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2695,39 +2332,14 @@ export function useBridgeTransferOwnership<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeWithdraw<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof bridgeAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof bridgeABI,
-          'withdraw'
-        >['request']['abi'],
-        'withdraw',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'withdraw' }
-    : UseContractWriteConfig<typeof bridgeABI, 'withdraw', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'withdraw'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof bridgeABI, 'withdraw', TMode>({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
-    functionName: 'withdraw',
-    ...config,
-  } as any)
-}
+export const useWriteBridgeWithdraw = /*#__PURE__*/ createUseWriteContract({
+  abi: bridgeAbi,
+  address: bridgeAddress,
+  functionName: 'withdraw',
+})
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link bridgeABI}__.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2736,24 +2348,13 @@ export function useBridgeWithdraw<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function usePrepareBridgeWrite<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof bridgeABI, TFunctionName>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof bridgeABI, TFunctionName>)
-}
+export const useSimulateBridge = /*#__PURE__*/ createUseSimulateContract({
+  abi: bridgeAbi,
+  address: bridgeAddress,
+})
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"acceptOwnership"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"acceptOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2762,25 +2363,15 @@ export function usePrepareBridgeWrite<TFunctionName extends string>(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function usePrepareBridgeAcceptOwnership(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof bridgeABI, 'acceptOwnership'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useSimulateBridgeAcceptOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     functionName: 'acceptOwnership',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof bridgeABI, 'acceptOwnership'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"initialize"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2789,25 +2380,15 @@ export function usePrepareBridgeAcceptOwnership(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function usePrepareBridgeInitialize(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof bridgeABI, 'initialize'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useSimulateBridgeInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     functionName: 'initialize',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof bridgeABI, 'initialize'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2816,25 +2397,15 @@ export function usePrepareBridgeInitialize(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function usePrepareBridgeRenounceOwnership(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof bridgeABI, 'renounceOwnership'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useSimulateBridgeRenounceOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof bridgeABI, 'renounceOwnership'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"sendThroughBridge"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"sendThroughBridge"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2843,25 +2414,15 @@ export function usePrepareBridgeRenounceOwnership(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function usePrepareBridgeSendThroughBridge(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof bridgeABI, 'sendThroughBridge'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useSimulateBridgeSendThroughBridge =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     functionName: 'sendThroughBridge',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof bridgeABI, 'sendThroughBridge'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"setBridge"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"setBridge"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2870,25 +2431,15 @@ export function usePrepareBridgeSendThroughBridge(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function usePrepareBridgeSetBridge(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof bridgeABI, 'setBridge'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useSimulateBridgeSetBridge =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     functionName: 'setBridge',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof bridgeABI, 'setBridge'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"setDomains"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"setDomains"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2897,25 +2448,15 @@ export function usePrepareBridgeSetBridge(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function usePrepareBridgeSetDomains(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof bridgeABI, 'setDomains'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useSimulateBridgeSetDomains =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     functionName: 'setDomains',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof bridgeABI, 'setDomains'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"setFee"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"setFee"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2924,25 +2465,14 @@ export function usePrepareBridgeSetDomains(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function usePrepareBridgeSetFee(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof bridgeABI, 'setFee'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
-    functionName: 'setFee',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof bridgeABI, 'setFee'>)
-}
+export const useSimulateBridgeSetFee = /*#__PURE__*/ createUseSimulateContract({
+  abi: bridgeAbi,
+  address: bridgeAddress,
+  functionName: 'setFee',
+})
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2951,25 +2481,15 @@ export function usePrepareBridgeSetFee(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function usePrepareBridgeTransferOwnership(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof bridgeABI, 'transferOwnership'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useSimulateBridgeTransferOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     functionName: 'transferOwnership',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof bridgeABI, 'transferOwnership'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link bridgeABI}__ and `functionName` set to `"withdraw"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"withdraw"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -2978,25 +2498,15 @@ export function usePrepareBridgeTransferOwnership(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function usePrepareBridgeWithdraw(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof bridgeABI, 'withdraw'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useSimulateBridgeWithdraw =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     functionName: 'withdraw',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof bridgeABI, 'withdraw'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link bridgeABI}__.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link bridgeAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -3005,24 +2515,13 @@ export function usePrepareBridgeWithdraw(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeEvent<TEventName extends string>(
-  config: Omit<
-    UseContractEventConfig<typeof bridgeABI, TEventName>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
-    ...config,
-  } as UseContractEventConfig<typeof bridgeABI, TEventName>)
-}
+export const useWatchBridgeEvent = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: bridgeAbi,
+  address: bridgeAddress,
+})
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link bridgeABI}__ and `eventName` set to `"Initialized"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link bridgeAbi}__ and `eventName` set to `"Initialized"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -3031,25 +2530,15 @@ export function useBridgeEvent<TEventName extends string>(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeInitializedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof bridgeABI, 'Initialized'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useWatchBridgeInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     eventName: 'Initialized',
-    ...config,
-  } as UseContractEventConfig<typeof bridgeABI, 'Initialized'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link bridgeABI}__ and `eventName` set to `"OwnershipTransferStarted"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link bridgeAbi}__ and `eventName` set to `"OwnershipTransferStarted"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -3058,25 +2547,15 @@ export function useBridgeInitializedEvent(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeOwnershipTransferStartedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof bridgeABI, 'OwnershipTransferStarted'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useWatchBridgeOwnershipTransferStartedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     eventName: 'OwnershipTransferStarted',
-    ...config,
-  } as UseContractEventConfig<typeof bridgeABI, 'OwnershipTransferStarted'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link bridgeABI}__ and `eventName` set to `"OwnershipTransferred"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link bridgeAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -3085,25 +2564,15 @@ export function useBridgeOwnershipTransferStartedEvent(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeOwnershipTransferredEvent(
-  config: Omit<
-    UseContractEventConfig<typeof bridgeABI, 'OwnershipTransferred'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useWatchBridgeOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     eventName: 'OwnershipTransferred',
-    ...config,
-  } as UseContractEventConfig<typeof bridgeABI, 'OwnershipTransferred'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link bridgeABI}__ and `eventName` set to `"Paused"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link bridgeAbi}__ and `eventName` set to `"Paused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -3112,25 +2581,15 @@ export function useBridgeOwnershipTransferredEvent(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgePausedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof bridgeABI, 'Paused'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useWatchBridgePausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     eventName: 'Paused',
-    ...config,
-  } as UseContractEventConfig<typeof bridgeABI, 'Paused'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link bridgeABI}__ and `eventName` set to `"Unpaused"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link bridgeAbi}__ and `eventName` set to `"Unpaused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
@@ -3139,454 +2598,15 @@ export function useBridgePausedEvent(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  */
-export function useBridgeUnpausedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof bridgeABI, 'Unpaused'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof bridgeAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: bridgeABI,
-    address: bridgeAddress[chainId as keyof typeof bridgeAddress],
+export const useWatchBridgeUnpausedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: bridgeAbi,
+    address: bridgeAddress,
     eventName: 'Unpaused',
-    ...config,
-  } as UseContractEventConfig<typeof bridgeABI, 'Unpaused'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link erc20ABI}__.
- */
-export function useErc20Read<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof erc20ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>,
-    'abi'
-  > = {} as any,
-) {
-  return useContractRead({ abi: erc20ABI, ...config } as UseContractReadConfig<
-    typeof erc20ABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"allowance"`.
- */
-export function useErc20Allowance<
-  TFunctionName extends 'allowance',
-  TSelectData = ReadContractResult<typeof erc20ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: erc20ABI,
-    functionName: 'allowance',
-    ...config,
-  } as UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"balanceOf"`.
- */
-export function useErc20BalanceOf<
-  TFunctionName extends 'balanceOf',
-  TSelectData = ReadContractResult<typeof erc20ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: erc20ABI,
-    functionName: 'balanceOf',
-    ...config,
-  } as UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"decimals"`.
- */
-export function useErc20Decimals<
-  TFunctionName extends 'decimals',
-  TSelectData = ReadContractResult<typeof erc20ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: erc20ABI,
-    functionName: 'decimals',
-    ...config,
-  } as UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"name"`.
- */
-export function useErc20Name<
-  TFunctionName extends 'name',
-  TSelectData = ReadContractResult<typeof erc20ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: erc20ABI,
-    functionName: 'name',
-    ...config,
-  } as UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"symbol"`.
- */
-export function useErc20Symbol<
-  TFunctionName extends 'symbol',
-  TSelectData = ReadContractResult<typeof erc20ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: erc20ABI,
-    functionName: 'symbol',
-    ...config,
-  } as UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"totalSupply"`.
- */
-export function useErc20TotalSupply<
-  TFunctionName extends 'totalSupply',
-  TSelectData = ReadContractResult<typeof erc20ABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: erc20ABI,
-    functionName: 'totalSupply',
-    ...config,
-  } as UseContractReadConfig<typeof erc20ABI, TFunctionName, TSelectData>)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20ABI}__.
- */
-export function useErc20Write<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<typeof erc20ABI, string>['request']['abi'],
-        TFunctionName,
-        TMode
-      >
-    : UseContractWriteConfig<typeof erc20ABI, TFunctionName, TMode> & {
-        abi?: never
-      } = {} as any,
-) {
-  return useContractWrite<typeof erc20ABI, TFunctionName, TMode>({
-    abi: erc20ABI,
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"approve"`.
- */
-export function useErc20Approve<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof erc20ABI,
-          'approve'
-        >['request']['abi'],
-        'approve',
-        TMode
-      > & { functionName?: 'approve' }
-    : UseContractWriteConfig<typeof erc20ABI, 'approve', TMode> & {
-        abi?: never
-        functionName?: 'approve'
-      } = {} as any,
-) {
-  return useContractWrite<typeof erc20ABI, 'approve', TMode>({
-    abi: erc20ABI,
-    functionName: 'approve',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"transfer"`.
- */
-export function useErc20Transfer<TMode extends WriteContractMode = undefined>(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof erc20ABI,
-          'transfer'
-        >['request']['abi'],
-        'transfer',
-        TMode
-      > & { functionName?: 'transfer' }
-    : UseContractWriteConfig<typeof erc20ABI, 'transfer', TMode> & {
-        abi?: never
-        functionName?: 'transfer'
-      } = {} as any,
-) {
-  return useContractWrite<typeof erc20ABI, 'transfer', TMode>({
-    abi: erc20ABI,
-    functionName: 'transfer',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"transferFrom"`.
- */
-export function useErc20TransferFrom<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof erc20ABI,
-          'transferFrom'
-        >['request']['abi'],
-        'transferFrom',
-        TMode
-      > & { functionName?: 'transferFrom' }
-    : UseContractWriteConfig<typeof erc20ABI, 'transferFrom', TMode> & {
-        abi?: never
-        functionName?: 'transferFrom'
-      } = {} as any,
-) {
-  return useContractWrite<typeof erc20ABI, 'transferFrom', TMode>({
-    abi: erc20ABI,
-    functionName: 'transferFrom',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function useErc20IncreaseAllowance<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof erc20ABI,
-          'increaseAllowance'
-        >['request']['abi'],
-        'increaseAllowance',
-        TMode
-      > & { functionName?: 'increaseAllowance' }
-    : UseContractWriteConfig<typeof erc20ABI, 'increaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'increaseAllowance'
-      } = {} as any,
-) {
-  return useContractWrite<typeof erc20ABI, 'increaseAllowance', TMode>({
-    abi: erc20ABI,
-    functionName: 'increaseAllowance',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function useErc20DecreaseAllowance<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof erc20ABI,
-          'decreaseAllowance'
-        >['request']['abi'],
-        'decreaseAllowance',
-        TMode
-      > & { functionName?: 'decreaseAllowance' }
-    : UseContractWriteConfig<typeof erc20ABI, 'decreaseAllowance', TMode> & {
-        abi?: never
-        functionName?: 'decreaseAllowance'
-      } = {} as any,
-) {
-  return useContractWrite<typeof erc20ABI, 'decreaseAllowance', TMode>({
-    abi: erc20ABI,
-    functionName: 'decreaseAllowance',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20ABI}__.
- */
-export function usePrepareErc20Write<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof erc20ABI, TFunctionName>,
-    'abi'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: erc20ABI,
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof erc20ABI, TFunctionName>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"approve"`.
- */
-export function usePrepareErc20Approve(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof erc20ABI, 'approve'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: erc20ABI,
-    functionName: 'approve',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof erc20ABI, 'approve'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"transfer"`.
- */
-export function usePrepareErc20Transfer(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof erc20ABI, 'transfer'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: erc20ABI,
-    functionName: 'transfer',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof erc20ABI, 'transfer'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"transferFrom"`.
- */
-export function usePrepareErc20TransferFrom(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof erc20ABI, 'transferFrom'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: erc20ABI,
-    functionName: 'transferFrom',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof erc20ABI, 'transferFrom'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"increaseAllowance"`.
- */
-export function usePrepareErc20IncreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof erc20ABI, 'increaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: erc20ABI,
-    functionName: 'increaseAllowance',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof erc20ABI, 'increaseAllowance'>)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link erc20ABI}__ and `functionName` set to `"decreaseAllowance"`.
- */
-export function usePrepareErc20DecreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof erc20ABI, 'decreaseAllowance'>,
-    'abi' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: erc20ABI,
-    functionName: 'decreaseAllowance',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof erc20ABI, 'decreaseAllowance'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link erc20ABI}__.
- */
-export function useErc20Event<TEventName extends string>(
-  config: Omit<
-    UseContractEventConfig<typeof erc20ABI, TEventName>,
-    'abi'
-  > = {} as any,
-) {
-  return useContractEvent({
-    abi: erc20ABI,
-    ...config,
-  } as UseContractEventConfig<typeof erc20ABI, TEventName>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link erc20ABI}__ and `eventName` set to `"Approval"`.
- */
-export function useErc20ApprovalEvent(
-  config: Omit<
-    UseContractEventConfig<typeof erc20ABI, 'Approval'>,
-    'abi' | 'eventName'
-  > = {} as any,
-) {
-  return useContractEvent({
-    abi: erc20ABI,
-    eventName: 'Approval',
-    ...config,
-  } as UseContractEventConfig<typeof erc20ABI, 'Approval'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link erc20ABI}__ and `eventName` set to `"Transfer"`.
- */
-export function useErc20TransferEvent(
-  config: Omit<
-    UseContractEventConfig<typeof erc20ABI, 'Transfer'>,
-    'abi' | 'eventName'
-  > = {} as any,
-) {
-  return useContractEvent({
-    abi: erc20ABI,
-    eventName: 'Transfer',
-    ...config,
-  } as UseContractEventConfig<typeof erc20ABI, 'Transfer'>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatCoinABI}__.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3594,31 +2614,13 @@ export function useErc20TransferEvent(
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof grumpyCatCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof grumpyCatCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
-    ...config,
-  } as UseContractReadConfig<
-    typeof grumpyCatCoinABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+export const useReadGrumpyCatCoin = /*#__PURE__*/ createUseReadContract({
+  abi: grumpyCatCoinAbi,
+  address: grumpyCatCoinAddress,
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"airdropLimit"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"airdropLimit"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3626,32 +2628,15 @@ export function useGrumpyCatCoinRead<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinAirdropLimit<
-  TFunctionName extends 'airdropLimit',
-  TSelectData = ReadContractResult<typeof grumpyCatCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof grumpyCatCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useReadGrumpyCatCoinAirdropLimit =
+  /*#__PURE__*/ createUseReadContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'airdropLimit',
-    ...config,
-  } as UseContractReadConfig<
-    typeof grumpyCatCoinABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"allowance"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"allowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3659,32 +2644,15 @@ export function useGrumpyCatCoinAirdropLimit<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinAllowance<
-  TFunctionName extends 'allowance',
-  TSelectData = ReadContractResult<typeof grumpyCatCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof grumpyCatCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useReadGrumpyCatCoinAllowance =
+  /*#__PURE__*/ createUseReadContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'allowance',
-    ...config,
-  } as UseContractReadConfig<
-    typeof grumpyCatCoinABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"balanceOf"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"balanceOf"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3692,32 +2660,15 @@ export function useGrumpyCatCoinAllowance<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinBalanceOf<
-  TFunctionName extends 'balanceOf',
-  TSelectData = ReadContractResult<typeof grumpyCatCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof grumpyCatCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useReadGrumpyCatCoinBalanceOf =
+  /*#__PURE__*/ createUseReadContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'balanceOf',
-    ...config,
-  } as UseContractReadConfig<
-    typeof grumpyCatCoinABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"burntGrumpyCat"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"burntGrumpyCat"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3725,32 +2676,15 @@ export function useGrumpyCatCoinBalanceOf<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinBurntGrumpyCat<
-  TFunctionName extends 'burntGrumpyCat',
-  TSelectData = ReadContractResult<typeof grumpyCatCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof grumpyCatCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useReadGrumpyCatCoinBurntGrumpyCat =
+  /*#__PURE__*/ createUseReadContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'burntGrumpyCat',
-    ...config,
-  } as UseContractReadConfig<
-    typeof grumpyCatCoinABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"decimals"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"decimals"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3758,32 +2692,16 @@ export function useGrumpyCatCoinBurntGrumpyCat<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinDecimals<
-  TFunctionName extends 'decimals',
-  TSelectData = ReadContractResult<typeof grumpyCatCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof grumpyCatCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useReadGrumpyCatCoinDecimals = /*#__PURE__*/ createUseReadContract(
+  {
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'decimals',
-    ...config,
-  } as UseContractReadConfig<
-    typeof grumpyCatCoinABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  },
+)
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"maxWallet"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"maxWallet"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3791,32 +2709,15 @@ export function useGrumpyCatCoinDecimals<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinMaxWallet<
-  TFunctionName extends 'maxWallet',
-  TSelectData = ReadContractResult<typeof grumpyCatCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof grumpyCatCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useReadGrumpyCatCoinMaxWallet =
+  /*#__PURE__*/ createUseReadContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'maxWallet',
-    ...config,
-  } as UseContractReadConfig<
-    typeof grumpyCatCoinABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"maxWalletTimer"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"maxWalletTimer"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3824,32 +2725,15 @@ export function useGrumpyCatCoinMaxWallet<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinMaxWalletTimer<
-  TFunctionName extends 'maxWalletTimer',
-  TSelectData = ReadContractResult<typeof grumpyCatCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof grumpyCatCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useReadGrumpyCatCoinMaxWalletTimer =
+  /*#__PURE__*/ createUseReadContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'maxWalletTimer',
-    ...config,
-  } as UseContractReadConfig<
-    typeof grumpyCatCoinABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"name"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"name"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3857,32 +2741,14 @@ export function useGrumpyCatCoinMaxWalletTimer<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinName<
-  TFunctionName extends 'name',
-  TSelectData = ReadContractResult<typeof grumpyCatCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof grumpyCatCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
-    functionName: 'name',
-    ...config,
-  } as UseContractReadConfig<
-    typeof grumpyCatCoinABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+export const useReadGrumpyCatCoinName = /*#__PURE__*/ createUseReadContract({
+  abi: grumpyCatCoinAbi,
+  address: grumpyCatCoinAddress,
+  functionName: 'name',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"owner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"owner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3890,32 +2756,14 @@ export function useGrumpyCatCoinName<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinOwner<
-  TFunctionName extends 'owner',
-  TSelectData = ReadContractResult<typeof grumpyCatCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof grumpyCatCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
-    functionName: 'owner',
-    ...config,
-  } as UseContractReadConfig<
-    typeof grumpyCatCoinABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+export const useReadGrumpyCatCoinOwner = /*#__PURE__*/ createUseReadContract({
+  abi: grumpyCatCoinAbi,
+  address: grumpyCatCoinAddress,
+  functionName: 'owner',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"symbol"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"symbol"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3923,32 +2771,14 @@ export function useGrumpyCatCoinOwner<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinSymbol<
-  TFunctionName extends 'symbol',
-  TSelectData = ReadContractResult<typeof grumpyCatCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof grumpyCatCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
-    functionName: 'symbol',
-    ...config,
-  } as UseContractReadConfig<
-    typeof grumpyCatCoinABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+export const useReadGrumpyCatCoinSymbol = /*#__PURE__*/ createUseReadContract({
+  abi: grumpyCatCoinAbi,
+  address: grumpyCatCoinAddress,
+  functionName: 'symbol',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"totalSupply"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"totalSupply"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3956,32 +2786,15 @@ export function useGrumpyCatCoinSymbol<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinTotalSupply<
-  TFunctionName extends 'totalSupply',
-  TSelectData = ReadContractResult<typeof grumpyCatCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof grumpyCatCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useReadGrumpyCatCoinTotalSupply =
+  /*#__PURE__*/ createUseReadContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'totalSupply',
-    ...config,
-  } as UseContractReadConfig<
-    typeof grumpyCatCoinABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3989,38 +2802,13 @@ export function useGrumpyCatCoinTotalSupply<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof grumpyCatCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof grumpyCatCoinABI,
-          string
-        >['request']['abi'],
-        TFunctionName,
-        TMode
-      > & { address?: Address; chainId?: TChainId }
-    : UseContractWriteConfig<typeof grumpyCatCoinABI, TFunctionName, TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof grumpyCatCoinABI, TFunctionName, TMode>({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
-    ...config,
-  } as any)
-}
+export const useWriteGrumpyCatCoin = /*#__PURE__*/ createUseWriteContract({
+  abi: grumpyCatCoinAbi,
+  address: grumpyCatCoinAddress,
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"addPair"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"addPair"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4028,39 +2816,15 @@ export function useGrumpyCatCoinWrite<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinAddPair<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof grumpyCatCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof grumpyCatCoinABI,
-          'addPair'
-        >['request']['abi'],
-        'addPair',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'addPair' }
-    : UseContractWriteConfig<typeof grumpyCatCoinABI, 'addPair', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'addPair'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof grumpyCatCoinABI, 'addPair', TMode>({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useWriteGrumpyCatCoinAddPair =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'addPair',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"airdrop"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"airdrop"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4068,39 +2832,15 @@ export function useGrumpyCatCoinAddPair<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinAirdrop<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof grumpyCatCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof grumpyCatCoinABI,
-          'airdrop'
-        >['request']['abi'],
-        'airdrop',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'airdrop' }
-    : UseContractWriteConfig<typeof grumpyCatCoinABI, 'airdrop', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'airdrop'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof grumpyCatCoinABI, 'airdrop', TMode>({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useWriteGrumpyCatCoinAirdrop =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'airdrop',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"approve"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"approve"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4108,39 +2848,15 @@ export function useGrumpyCatCoinAirdrop<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinApprove<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof grumpyCatCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof grumpyCatCoinABI,
-          'approve'
-        >['request']['abi'],
-        'approve',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'approve' }
-    : UseContractWriteConfig<typeof grumpyCatCoinABI, 'approve', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'approve'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof grumpyCatCoinABI, 'approve', TMode>({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useWriteGrumpyCatCoinApprove =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'approve',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"burn"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"burn"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4148,39 +2864,14 @@ export function useGrumpyCatCoinApprove<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinBurn<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof grumpyCatCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof grumpyCatCoinABI,
-          'burn'
-        >['request']['abi'],
-        'burn',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'burn' }
-    : UseContractWriteConfig<typeof grumpyCatCoinABI, 'burn', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'burn'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof grumpyCatCoinABI, 'burn', TMode>({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
-    functionName: 'burn',
-    ...config,
-  } as any)
-}
+export const useWriteGrumpyCatCoinBurn = /*#__PURE__*/ createUseWriteContract({
+  abi: grumpyCatCoinAbi,
+  address: grumpyCatCoinAddress,
+  functionName: 'burn',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"decreaseAllowance"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"decreaseAllowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4188,47 +2879,15 @@ export function useGrumpyCatCoinBurn<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinDecreaseAllowance<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof grumpyCatCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof grumpyCatCoinABI,
-          'decreaseAllowance'
-        >['request']['abi'],
-        'decreaseAllowance',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'decreaseAllowance'
-      }
-    : UseContractWriteConfig<
-        typeof grumpyCatCoinABI,
-        'decreaseAllowance',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'decreaseAllowance'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof grumpyCatCoinABI, 'decreaseAllowance', TMode>({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useWriteGrumpyCatCoinDecreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'decreaseAllowance',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"increaseAllowance"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"increaseAllowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4236,47 +2895,15 @@ export function useGrumpyCatCoinDecreaseAllowance<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinIncreaseAllowance<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof grumpyCatCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof grumpyCatCoinABI,
-          'increaseAllowance'
-        >['request']['abi'],
-        'increaseAllowance',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'increaseAllowance'
-      }
-    : UseContractWriteConfig<
-        typeof grumpyCatCoinABI,
-        'increaseAllowance',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'increaseAllowance'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof grumpyCatCoinABI, 'increaseAllowance', TMode>({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useWriteGrumpyCatCoinIncreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'increaseAllowance',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4284,47 +2911,15 @@ export function useGrumpyCatCoinIncreaseAllowance<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinRenounceOwnership<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof grumpyCatCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof grumpyCatCoinABI,
-          'renounceOwnership'
-        >['request']['abi'],
-        'renounceOwnership',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'renounceOwnership'
-      }
-    : UseContractWriteConfig<
-        typeof grumpyCatCoinABI,
-        'renounceOwnership',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'renounceOwnership'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof grumpyCatCoinABI, 'renounceOwnership', TMode>({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useWriteGrumpyCatCoinRenounceOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"transfer"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"transfer"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4332,39 +2927,15 @@ export function useGrumpyCatCoinRenounceOwnership<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinTransfer<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof grumpyCatCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof grumpyCatCoinABI,
-          'transfer'
-        >['request']['abi'],
-        'transfer',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'transfer' }
-    : UseContractWriteConfig<typeof grumpyCatCoinABI, 'transfer', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'transfer'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof grumpyCatCoinABI, 'transfer', TMode>({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useWriteGrumpyCatCoinTransfer =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'transfer',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"transferFrom"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"transferFrom"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4372,43 +2943,15 @@ export function useGrumpyCatCoinTransfer<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinTransferFrom<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof grumpyCatCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof grumpyCatCoinABI,
-          'transferFrom'
-        >['request']['abi'],
-        'transferFrom',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'transferFrom'
-      }
-    : UseContractWriteConfig<typeof grumpyCatCoinABI, 'transferFrom', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'transferFrom'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof grumpyCatCoinABI, 'transferFrom', TMode>({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useWriteGrumpyCatCoinTransferFrom =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'transferFrom',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4416,47 +2959,15 @@ export function useGrumpyCatCoinTransferFrom<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinTransferOwnership<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof grumpyCatCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof grumpyCatCoinABI,
-          'transferOwnership'
-        >['request']['abi'],
-        'transferOwnership',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'transferOwnership'
-      }
-    : UseContractWriteConfig<
-        typeof grumpyCatCoinABI,
-        'transferOwnership',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'transferOwnership'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof grumpyCatCoinABI, 'transferOwnership', TMode>({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useWriteGrumpyCatCoinTransferOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'transferOwnership',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4464,24 +2975,12 @@ export function useGrumpyCatCoinTransferOwnership<
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function usePrepareGrumpyCatCoinWrite<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, TFunctionName>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, TFunctionName>)
-}
+export const useSimulateGrumpyCatCoin = /*#__PURE__*/ createUseSimulateContract(
+  { abi: grumpyCatCoinAbi, address: grumpyCatCoinAddress },
+)
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"addPair"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"addPair"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4489,25 +2988,15 @@ export function usePrepareGrumpyCatCoinWrite<TFunctionName extends string>(
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function usePrepareGrumpyCatCoinAddPair(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, 'addPair'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useSimulateGrumpyCatCoinAddPair =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'addPair',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, 'addPair'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"airdrop"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"airdrop"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4515,25 +3004,15 @@ export function usePrepareGrumpyCatCoinAddPair(
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function usePrepareGrumpyCatCoinAirdrop(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, 'airdrop'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useSimulateGrumpyCatCoinAirdrop =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'airdrop',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, 'airdrop'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"approve"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"approve"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4541,25 +3020,15 @@ export function usePrepareGrumpyCatCoinAirdrop(
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function usePrepareGrumpyCatCoinApprove(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, 'approve'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useSimulateGrumpyCatCoinApprove =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'approve',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, 'approve'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"burn"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"burn"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4567,25 +3036,15 @@ export function usePrepareGrumpyCatCoinApprove(
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function usePrepareGrumpyCatCoinBurn(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, 'burn'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useSimulateGrumpyCatCoinBurn =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'burn',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, 'burn'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"decreaseAllowance"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"decreaseAllowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4593,28 +3052,15 @@ export function usePrepareGrumpyCatCoinBurn(
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function usePrepareGrumpyCatCoinDecreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, 'decreaseAllowance'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useSimulateGrumpyCatCoinDecreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'decreaseAllowance',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof grumpyCatCoinABI,
-    'decreaseAllowance'
-  >)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"increaseAllowance"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"increaseAllowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4622,28 +3068,15 @@ export function usePrepareGrumpyCatCoinDecreaseAllowance(
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function usePrepareGrumpyCatCoinIncreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, 'increaseAllowance'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useSimulateGrumpyCatCoinIncreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'increaseAllowance',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof grumpyCatCoinABI,
-    'increaseAllowance'
-  >)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4651,28 +3084,15 @@ export function usePrepareGrumpyCatCoinIncreaseAllowance(
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function usePrepareGrumpyCatCoinRenounceOwnership(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, 'renounceOwnership'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useSimulateGrumpyCatCoinRenounceOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof grumpyCatCoinABI,
-    'renounceOwnership'
-  >)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"transfer"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"transfer"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4680,25 +3100,15 @@ export function usePrepareGrumpyCatCoinRenounceOwnership(
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function usePrepareGrumpyCatCoinTransfer(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, 'transfer'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useSimulateGrumpyCatCoinTransfer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'transfer',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, 'transfer'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"transferFrom"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"transferFrom"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4706,25 +3116,15 @@ export function usePrepareGrumpyCatCoinTransfer(
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function usePrepareGrumpyCatCoinTransferFrom(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, 'transferFrom'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useSimulateGrumpyCatCoinTransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'transferFrom',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, 'transferFrom'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4732,28 +3132,15 @@ export function usePrepareGrumpyCatCoinTransferFrom(
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function usePrepareGrumpyCatCoinTransferOwnership(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof grumpyCatCoinABI, 'transferOwnership'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useSimulateGrumpyCatCoinTransferOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     functionName: 'transferOwnership',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof grumpyCatCoinABI,
-    'transferOwnership'
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link grumpyCatCoinABI}__.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link grumpyCatCoinAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4761,24 +3148,14 @@ export function usePrepareGrumpyCatCoinTransferOwnership(
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinEvent<TEventName extends string>(
-  config: Omit<
-    UseContractEventConfig<typeof grumpyCatCoinABI, TEventName>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
-    ...config,
-  } as UseContractEventConfig<typeof grumpyCatCoinABI, TEventName>)
-}
+export const useWatchGrumpyCatCoinEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `eventName` set to `"Airdropped"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `eventName` set to `"Airdropped"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4786,25 +3163,15 @@ export function useGrumpyCatCoinEvent<TEventName extends string>(
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinAirdroppedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof grumpyCatCoinABI, 'Airdropped'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useWatchGrumpyCatCoinAirdroppedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     eventName: 'Airdropped',
-    ...config,
-  } as UseContractEventConfig<typeof grumpyCatCoinABI, 'Airdropped'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `eventName` set to `"Approval"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `eventName` set to `"Approval"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4812,25 +3179,15 @@ export function useGrumpyCatCoinAirdroppedEvent(
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinApprovalEvent(
-  config: Omit<
-    UseContractEventConfig<typeof grumpyCatCoinABI, 'Approval'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useWatchGrumpyCatCoinApprovalEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     eventName: 'Approval',
-    ...config,
-  } as UseContractEventConfig<typeof grumpyCatCoinABI, 'Approval'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `eventName` set to `"OwnershipTransferred"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4838,25 +3195,15 @@ export function useGrumpyCatCoinApprovalEvent(
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinOwnershipTransferredEvent(
-  config: Omit<
-    UseContractEventConfig<typeof grumpyCatCoinABI, 'OwnershipTransferred'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useWatchGrumpyCatCoinOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     eventName: 'OwnershipTransferred',
-    ...config,
-  } as UseContractEventConfig<typeof grumpyCatCoinABI, 'OwnershipTransferred'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link grumpyCatCoinABI}__ and `eventName` set to `"Transfer"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `eventName` set to `"Transfer"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4864,378 +3211,144 @@ export function useGrumpyCatCoinOwnershipTransferredEvent(
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  */
-export function useGrumpyCatCoinTransferEvent(
-  config: Omit<
-    UseContractEventConfig<typeof grumpyCatCoinABI, 'Transfer'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof grumpyCatCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: grumpyCatCoinABI,
-    address: grumpyCatCoinAddress[chainId as keyof typeof grumpyCatCoinAddress],
+export const useWatchGrumpyCatCoinTransferEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: grumpyCatCoinAbi,
+    address: grumpyCatCoinAddress,
     eventName: 'Transfer',
-    ...config,
-  } as UseContractEventConfig<typeof grumpyCatCoinABI, 'Transfer'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatLockboxAdapterAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useGrumpyCatLockboxAdapterRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<
-    typeof grumpyCatLockboxAdapterABI,
-    TFunctionName
-  >,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof grumpyCatLockboxAdapterABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof grumpyCatLockboxAdapterAddress } = {} as any,
-) {
-  return useContractRead({
-    abi: grumpyCatLockboxAdapterABI,
-    address: grumpyCatLockboxAdapterAddress[1],
-    ...config,
-  } as UseContractReadConfig<
-    typeof grumpyCatLockboxAdapterABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+export const useReadGrumpyCatLockboxAdapter =
+  /*#__PURE__*/ createUseReadContract({
+    abi: grumpyCatLockboxAdapterAbi,
+    address: grumpyCatLockboxAdapterAddress,
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__ and `functionName` set to `"connext"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatLockboxAdapterAbi}__ and `functionName` set to `"connext"`
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useGrumpyCatLockboxAdapterConnext<
-  TFunctionName extends 'connext',
-  TSelectData = ReadContractResult<
-    typeof grumpyCatLockboxAdapterABI,
-    TFunctionName
-  >,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof grumpyCatLockboxAdapterABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatLockboxAdapterAddress } = {} as any,
-) {
-  return useContractRead({
-    abi: grumpyCatLockboxAdapterABI,
-    address: grumpyCatLockboxAdapterAddress[1],
+export const useReadGrumpyCatLockboxAdapterConnext =
+  /*#__PURE__*/ createUseReadContract({
+    abi: grumpyCatLockboxAdapterAbi,
+    address: grumpyCatLockboxAdapterAddress,
     functionName: 'connext',
-    ...config,
-  } as UseContractReadConfig<
-    typeof grumpyCatLockboxAdapterABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__ and `functionName` set to `"erc20"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatLockboxAdapterAbi}__ and `functionName` set to `"erc20"`
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useGrumpyCatLockboxAdapterErc20<
-  TFunctionName extends 'erc20',
-  TSelectData = ReadContractResult<
-    typeof grumpyCatLockboxAdapterABI,
-    TFunctionName
-  >,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof grumpyCatLockboxAdapterABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatLockboxAdapterAddress } = {} as any,
-) {
-  return useContractRead({
-    abi: grumpyCatLockboxAdapterABI,
-    address: grumpyCatLockboxAdapterAddress[1],
+export const useReadGrumpyCatLockboxAdapterErc20 =
+  /*#__PURE__*/ createUseReadContract({
+    abi: grumpyCatLockboxAdapterAbi,
+    address: grumpyCatLockboxAdapterAddress,
     functionName: 'erc20',
-    ...config,
-  } as UseContractReadConfig<
-    typeof grumpyCatLockboxAdapterABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__ and `functionName` set to `"lockbox"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatLockboxAdapterAbi}__ and `functionName` set to `"lockbox"`
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useGrumpyCatLockboxAdapterLockbox<
-  TFunctionName extends 'lockbox',
-  TSelectData = ReadContractResult<
-    typeof grumpyCatLockboxAdapterABI,
-    TFunctionName
-  >,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof grumpyCatLockboxAdapterABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatLockboxAdapterAddress } = {} as any,
-) {
-  return useContractRead({
-    abi: grumpyCatLockboxAdapterABI,
-    address: grumpyCatLockboxAdapterAddress[1],
+export const useReadGrumpyCatLockboxAdapterLockbox =
+  /*#__PURE__*/ createUseReadContract({
+    abi: grumpyCatLockboxAdapterAbi,
+    address: grumpyCatLockboxAdapterAddress,
     functionName: 'lockbox',
-    ...config,
-  } as UseContractReadConfig<
-    typeof grumpyCatLockboxAdapterABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__ and `functionName` set to `"xerc20"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatLockboxAdapterAbi}__ and `functionName` set to `"xerc20"`
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useGrumpyCatLockboxAdapterXerc20<
-  TFunctionName extends 'xerc20',
-  TSelectData = ReadContractResult<
-    typeof grumpyCatLockboxAdapterABI,
-    TFunctionName
-  >,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof grumpyCatLockboxAdapterABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatLockboxAdapterAddress } = {} as any,
-) {
-  return useContractRead({
-    abi: grumpyCatLockboxAdapterABI,
-    address: grumpyCatLockboxAdapterAddress[1],
+export const useReadGrumpyCatLockboxAdapterXerc20 =
+  /*#__PURE__*/ createUseReadContract({
+    abi: grumpyCatLockboxAdapterAbi,
+    address: grumpyCatLockboxAdapterAddress,
     functionName: 'xerc20',
-    ...config,
-  } as UseContractReadConfig<
-    typeof grumpyCatLockboxAdapterABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatLockboxAdapterAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useGrumpyCatLockboxAdapterWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof grumpyCatLockboxAdapterAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof grumpyCatLockboxAdapterABI,
-          string
-        >['request']['abi'],
-        TFunctionName,
-        TMode
-      > & { address?: Address; chainId?: TChainId }
-    : UseContractWriteConfig<
-        typeof grumpyCatLockboxAdapterABI,
-        TFunctionName,
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-      } = {} as any,
-) {
-  return useContractWrite<
-    typeof grumpyCatLockboxAdapterABI,
-    TFunctionName,
-    TMode
-  >({
-    abi: grumpyCatLockboxAdapterABI,
-    address: grumpyCatLockboxAdapterAddress[1],
-    ...config,
-  } as any)
-}
+export const useWriteGrumpyCatLockboxAdapter =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: grumpyCatLockboxAdapterAbi,
+    address: grumpyCatLockboxAdapterAddress,
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__ and `functionName` set to `"xReceive"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatLockboxAdapterAbi}__ and `functionName` set to `"xReceive"`
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useGrumpyCatLockboxAdapterXReceive<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof grumpyCatLockboxAdapterAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof grumpyCatLockboxAdapterABI,
-          'xReceive'
-        >['request']['abi'],
-        'xReceive',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'xReceive' }
-    : UseContractWriteConfig<
-        typeof grumpyCatLockboxAdapterABI,
-        'xReceive',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'xReceive'
-      } = {} as any,
-) {
-  return useContractWrite<typeof grumpyCatLockboxAdapterABI, 'xReceive', TMode>(
-    {
-      abi: grumpyCatLockboxAdapterABI,
-      address: grumpyCatLockboxAdapterAddress[1],
-      functionName: 'xReceive',
-      ...config,
-    } as any,
-  )
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__ and `functionName` set to `"xcall"`.
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
- */
-export function useGrumpyCatLockboxAdapterXcall<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof grumpyCatLockboxAdapterAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof grumpyCatLockboxAdapterABI,
-          'xcall'
-        >['request']['abi'],
-        'xcall',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'xcall' }
-    : UseContractWriteConfig<
-        typeof grumpyCatLockboxAdapterABI,
-        'xcall',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'xcall'
-      } = {} as any,
-) {
-  return useContractWrite<typeof grumpyCatLockboxAdapterABI, 'xcall', TMode>({
-    abi: grumpyCatLockboxAdapterABI,
-    address: grumpyCatLockboxAdapterAddress[1],
-    functionName: 'xcall',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__.
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
- */
-export function usePrepareGrumpyCatLockboxAdapterWrite<
-  TFunctionName extends string,
->(
-  config: Omit<
-    UsePrepareContractWriteConfig<
-      typeof grumpyCatLockboxAdapterABI,
-      TFunctionName
-    >,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof grumpyCatLockboxAdapterAddress } = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: grumpyCatLockboxAdapterABI,
-    address: grumpyCatLockboxAdapterAddress[1],
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof grumpyCatLockboxAdapterABI,
-    TFunctionName
-  >)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__ and `functionName` set to `"xReceive"`.
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
- */
-export function usePrepareGrumpyCatLockboxAdapterXReceive(
-  config: Omit<
-    UsePrepareContractWriteConfig<
-      typeof grumpyCatLockboxAdapterABI,
-      'xReceive'
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatLockboxAdapterAddress } = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: grumpyCatLockboxAdapterABI,
-    address: grumpyCatLockboxAdapterAddress[1],
+export const useWriteGrumpyCatLockboxAdapterXReceive =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: grumpyCatLockboxAdapterAbi,
+    address: grumpyCatLockboxAdapterAddress,
     functionName: 'xReceive',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof grumpyCatLockboxAdapterABI,
-    'xReceive'
-  >)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link grumpyCatLockboxAdapterABI}__ and `functionName` set to `"xcall"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatLockboxAdapterAbi}__ and `functionName` set to `"xcall"`
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function usePrepareGrumpyCatLockboxAdapterXcall(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof grumpyCatLockboxAdapterABI, 'xcall'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof grumpyCatLockboxAdapterAddress } = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: grumpyCatLockboxAdapterABI,
-    address: grumpyCatLockboxAdapterAddress[1],
+export const useWriteGrumpyCatLockboxAdapterXcall =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: grumpyCatLockboxAdapterAbi,
+    address: grumpyCatLockboxAdapterAddress,
     functionName: 'xcall',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof grumpyCatLockboxAdapterABI,
-    'xcall'
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatLockboxAdapterAbi}__
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export const useSimulateGrumpyCatLockboxAdapter =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: grumpyCatLockboxAdapterAbi,
+    address: grumpyCatLockboxAdapterAddress,
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatLockboxAdapterAbi}__ and `functionName` set to `"xReceive"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export const useSimulateGrumpyCatLockboxAdapterXReceive =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: grumpyCatLockboxAdapterAbi,
+    address: grumpyCatLockboxAdapterAddress,
+    functionName: 'xReceive',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatLockboxAdapterAbi}__ and `functionName` set to `"xcall"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
+ */
+export const useSimulateGrumpyCatLockboxAdapterXcall =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: grumpyCatLockboxAdapterAbi,
+    address: grumpyCatLockboxAdapterAddress,
+    functionName: 'xcall',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5244,27 +3357,13 @@ export function usePrepareGrumpyCatLockboxAdapterXcall(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+export const useReadZoomerCoin = /*#__PURE__*/ createUseReadContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"DOMAIN_SEPARATOR"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5273,28 +3372,15 @@ export function useZoomerCoinRead<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinDomainSeparator<
-  TFunctionName extends 'DOMAIN_SEPARATOR',
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useReadZoomerCoinDomainSeparator =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'DOMAIN_SEPARATOR',
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"FACTORY"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"FACTORY"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5303,28 +3389,14 @@ export function useZoomerCoinDomainSeparator<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinFactory<
-  TFunctionName extends 'FACTORY',
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    functionName: 'FACTORY',
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+export const useReadZoomerCoinFactory = /*#__PURE__*/ createUseReadContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+  functionName: 'FACTORY',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"allowance"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"allowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5333,28 +3405,14 @@ export function useZoomerCoinFactory<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinAllowance<
-  TFunctionName extends 'allowance',
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    functionName: 'allowance',
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+export const useReadZoomerCoinAllowance = /*#__PURE__*/ createUseReadContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+  functionName: 'allowance',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"balanceOf"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"balanceOf"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5363,28 +3421,14 @@ export function useZoomerCoinAllowance<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinBalanceOf<
-  TFunctionName extends 'balanceOf',
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    functionName: 'balanceOf',
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+export const useReadZoomerCoinBalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+  functionName: 'balanceOf',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"bridges"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"bridges"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5393,28 +3437,14 @@ export function useZoomerCoinBalanceOf<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinBridges<
-  TFunctionName extends 'bridges',
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    functionName: 'bridges',
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+export const useReadZoomerCoinBridges = /*#__PURE__*/ createUseReadContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+  functionName: 'bridges',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"burningCurrentLimitOf"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"burningCurrentLimitOf"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5423,28 +3453,15 @@ export function useZoomerCoinBridges<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinBurningCurrentLimitOf<
-  TFunctionName extends 'burningCurrentLimitOf',
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useReadZoomerCoinBurningCurrentLimitOf =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'burningCurrentLimitOf',
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"burningMaxLimitOf"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"burningMaxLimitOf"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5453,28 +3470,15 @@ export function useZoomerCoinBurningCurrentLimitOf<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinBurningMaxLimitOf<
-  TFunctionName extends 'burningMaxLimitOf',
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useReadZoomerCoinBurningMaxLimitOf =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'burningMaxLimitOf',
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"decimals"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"decimals"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5483,28 +3487,14 @@ export function useZoomerCoinBurningMaxLimitOf<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinDecimals<
-  TFunctionName extends 'decimals',
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    functionName: 'decimals',
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+export const useReadZoomerCoinDecimals = /*#__PURE__*/ createUseReadContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+  functionName: 'decimals',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"eip712Domain"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"eip712Domain"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5513,28 +3503,15 @@ export function useZoomerCoinDecimals<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinEip712Domain<
-  TFunctionName extends 'eip712Domain',
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useReadZoomerCoinEip712Domain =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'eip712Domain',
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"lockbox"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"lockbox"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5543,28 +3520,14 @@ export function useZoomerCoinEip712Domain<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinLockbox<
-  TFunctionName extends 'lockbox',
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    functionName: 'lockbox',
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+export const useReadZoomerCoinLockbox = /*#__PURE__*/ createUseReadContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+  functionName: 'lockbox',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"mintingCurrentLimitOf"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"mintingCurrentLimitOf"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5573,28 +3536,15 @@ export function useZoomerCoinLockbox<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinMintingCurrentLimitOf<
-  TFunctionName extends 'mintingCurrentLimitOf',
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useReadZoomerCoinMintingCurrentLimitOf =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'mintingCurrentLimitOf',
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"mintingMaxLimitOf"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"mintingMaxLimitOf"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5603,28 +3553,15 @@ export function useZoomerCoinMintingCurrentLimitOf<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinMintingMaxLimitOf<
-  TFunctionName extends 'mintingMaxLimitOf',
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useReadZoomerCoinMintingMaxLimitOf =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'mintingMaxLimitOf',
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"name"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"name"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5633,28 +3570,14 @@ export function useZoomerCoinMintingMaxLimitOf<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinName<
-  TFunctionName extends 'name',
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    functionName: 'name',
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+export const useReadZoomerCoinName = /*#__PURE__*/ createUseReadContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+  functionName: 'name',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"nonces"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"nonces"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5663,28 +3586,14 @@ export function useZoomerCoinName<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinNonces<
-  TFunctionName extends 'nonces',
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    functionName: 'nonces',
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+export const useReadZoomerCoinNonces = /*#__PURE__*/ createUseReadContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+  functionName: 'nonces',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"owner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"owner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5693,28 +3602,14 @@ export function useZoomerCoinNonces<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinOwner<
-  TFunctionName extends 'owner',
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    functionName: 'owner',
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+export const useReadZoomerCoinOwner = /*#__PURE__*/ createUseReadContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+  functionName: 'owner',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"symbol"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"symbol"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5723,28 +3618,14 @@ export function useZoomerCoinOwner<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinSymbol<
-  TFunctionName extends 'symbol',
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    functionName: 'symbol',
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+export const useReadZoomerCoinSymbol = /*#__PURE__*/ createUseReadContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+  functionName: 'symbol',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"totalSupply"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"totalSupply"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5753,28 +3634,16 @@ export function useZoomerCoinSymbol<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinTotalSupply<
-  TFunctionName extends 'totalSupply',
-  TSelectData = ReadContractResult<typeof zoomerCoinABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useReadZoomerCoinTotalSupply = /*#__PURE__*/ createUseReadContract(
+  {
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'totalSupply',
-    ...config,
-  } as UseContractReadConfig<typeof zoomerCoinABI, TFunctionName, TSelectData>)
-}
+  },
+)
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5783,38 +3652,13 @@ export function useZoomerCoinTotalSupply<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerCoinABI,
-          string
-        >['request']['abi'],
-        TFunctionName,
-        TMode
-      > & { address?: Address; chainId?: TChainId }
-    : UseContractWriteConfig<typeof zoomerCoinABI, TFunctionName, TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof zoomerCoinABI, TFunctionName, TMode>({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    ...config,
-  } as any)
-}
+export const useWriteZoomerCoin = /*#__PURE__*/ createUseWriteContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"approve"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"approve"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5823,39 +3667,14 @@ export function useZoomerCoinWrite<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinApprove<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerCoinABI,
-          'approve'
-        >['request']['abi'],
-        'approve',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'approve' }
-    : UseContractWriteConfig<typeof zoomerCoinABI, 'approve', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'approve'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof zoomerCoinABI, 'approve', TMode>({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    functionName: 'approve',
-    ...config,
-  } as any)
-}
+export const useWriteZoomerCoinApprove = /*#__PURE__*/ createUseWriteContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+  functionName: 'approve',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"burn"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"burn"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5864,39 +3683,14 @@ export function useZoomerCoinApprove<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinBurn<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerCoinABI,
-          'burn'
-        >['request']['abi'],
-        'burn',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'burn' }
-    : UseContractWriteConfig<typeof zoomerCoinABI, 'burn', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'burn'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof zoomerCoinABI, 'burn', TMode>({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    functionName: 'burn',
-    ...config,
-  } as any)
-}
+export const useWriteZoomerCoinBurn = /*#__PURE__*/ createUseWriteContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+  functionName: 'burn',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"decreaseAllowance"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"decreaseAllowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5905,47 +3699,15 @@ export function useZoomerCoinBurn<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinDecreaseAllowance<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerCoinABI,
-          'decreaseAllowance'
-        >['request']['abi'],
-        'decreaseAllowance',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'decreaseAllowance'
-      }
-    : UseContractWriteConfig<
-        typeof zoomerCoinABI,
-        'decreaseAllowance',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'decreaseAllowance'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof zoomerCoinABI, 'decreaseAllowance', TMode>({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useWriteZoomerCoinDecreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'decreaseAllowance',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"increaseAllowance"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"increaseAllowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -5954,47 +3716,15 @@ export function useZoomerCoinDecreaseAllowance<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinIncreaseAllowance<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerCoinABI,
-          'increaseAllowance'
-        >['request']['abi'],
-        'increaseAllowance',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'increaseAllowance'
-      }
-    : UseContractWriteConfig<
-        typeof zoomerCoinABI,
-        'increaseAllowance',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'increaseAllowance'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof zoomerCoinABI, 'increaseAllowance', TMode>({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useWriteZoomerCoinIncreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'increaseAllowance',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"initialize"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6003,39 +3733,15 @@ export function useZoomerCoinIncreaseAllowance<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinInitialize<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerCoinABI,
-          'initialize'
-        >['request']['abi'],
-        'initialize',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'initialize' }
-    : UseContractWriteConfig<typeof zoomerCoinABI, 'initialize', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'initialize'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof zoomerCoinABI, 'initialize', TMode>({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useWriteZoomerCoinInitialize =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'initialize',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"mint"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"mint"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6044,39 +3750,14 @@ export function useZoomerCoinInitialize<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinMint<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerCoinABI,
-          'mint'
-        >['request']['abi'],
-        'mint',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'mint' }
-    : UseContractWriteConfig<typeof zoomerCoinABI, 'mint', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'mint'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof zoomerCoinABI, 'mint', TMode>({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    functionName: 'mint',
-    ...config,
-  } as any)
-}
+export const useWriteZoomerCoinMint = /*#__PURE__*/ createUseWriteContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+  functionName: 'mint',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"permit"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"permit"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6085,39 +3766,14 @@ export function useZoomerCoinMint<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinPermit<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerCoinABI,
-          'permit'
-        >['request']['abi'],
-        'permit',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'permit' }
-    : UseContractWriteConfig<typeof zoomerCoinABI, 'permit', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'permit'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof zoomerCoinABI, 'permit', TMode>({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    functionName: 'permit',
-    ...config,
-  } as any)
-}
+export const useWriteZoomerCoinPermit = /*#__PURE__*/ createUseWriteContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+  functionName: 'permit',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6126,47 +3782,15 @@ export function useZoomerCoinPermit<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinRenounceOwnership<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerCoinABI,
-          'renounceOwnership'
-        >['request']['abi'],
-        'renounceOwnership',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'renounceOwnership'
-      }
-    : UseContractWriteConfig<
-        typeof zoomerCoinABI,
-        'renounceOwnership',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'renounceOwnership'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof zoomerCoinABI, 'renounceOwnership', TMode>({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useWriteZoomerCoinRenounceOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"setLimits"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"setLimits"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6175,39 +3799,12 @@ export function useZoomerCoinRenounceOwnership<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinSetLimits<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerCoinABI,
-          'setLimits'
-        >['request']['abi'],
-        'setLimits',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'setLimits' }
-    : UseContractWriteConfig<typeof zoomerCoinABI, 'setLimits', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'setLimits'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof zoomerCoinABI, 'setLimits', TMode>({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    functionName: 'setLimits',
-    ...config,
-  } as any)
-}
+export const useWriteZoomerCoinSetLimits = /*#__PURE__*/ createUseWriteContract(
+  { abi: zoomerCoinAbi, address: zoomerCoinAddress, functionName: 'setLimits' },
+)
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"setLockbox"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"setLockbox"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6216,39 +3813,15 @@ export function useZoomerCoinSetLimits<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinSetLockbox<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerCoinABI,
-          'setLockbox'
-        >['request']['abi'],
-        'setLockbox',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'setLockbox' }
-    : UseContractWriteConfig<typeof zoomerCoinABI, 'setLockbox', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'setLockbox'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof zoomerCoinABI, 'setLockbox', TMode>({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useWriteZoomerCoinSetLockbox =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'setLockbox',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"transfer"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"transfer"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6257,39 +3830,14 @@ export function useZoomerCoinSetLockbox<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinTransfer<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerCoinABI,
-          'transfer'
-        >['request']['abi'],
-        'transfer',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'transfer' }
-    : UseContractWriteConfig<typeof zoomerCoinABI, 'transfer', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'transfer'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof zoomerCoinABI, 'transfer', TMode>({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    functionName: 'transfer',
-    ...config,
-  } as any)
-}
+export const useWriteZoomerCoinTransfer = /*#__PURE__*/ createUseWriteContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+  functionName: 'transfer',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"transferFrom"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"transferFrom"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6298,43 +3846,15 @@ export function useZoomerCoinTransfer<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinTransferFrom<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerCoinABI,
-          'transferFrom'
-        >['request']['abi'],
-        'transferFrom',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'transferFrom'
-      }
-    : UseContractWriteConfig<typeof zoomerCoinABI, 'transferFrom', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'transferFrom'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof zoomerCoinABI, 'transferFrom', TMode>({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useWriteZoomerCoinTransferFrom =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'transferFrom',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6343,47 +3863,15 @@ export function useZoomerCoinTransferFrom<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinTransferOwnership<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerCoinAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerCoinABI,
-          'transferOwnership'
-        >['request']['abi'],
-        'transferOwnership',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'transferOwnership'
-      }
-    : UseContractWriteConfig<
-        typeof zoomerCoinABI,
-        'transferOwnership',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'transferOwnership'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof zoomerCoinABI, 'transferOwnership', TMode>({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useWriteZoomerCoinTransferOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'transferOwnership',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6392,24 +3880,13 @@ export function useZoomerCoinTransferOwnership<
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function usePrepareZoomerCoinWrite<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerCoinABI, TFunctionName>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerCoinABI, TFunctionName>)
-}
+export const useSimulateZoomerCoin = /*#__PURE__*/ createUseSimulateContract({
+  abi: zoomerCoinAbi,
+  address: zoomerCoinAddress,
+})
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"approve"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"approve"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6418,25 +3895,15 @@ export function usePrepareZoomerCoinWrite<TFunctionName extends string>(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function usePrepareZoomerCoinApprove(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'approve'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useSimulateZoomerCoinApprove =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'approve',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'approve'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"burn"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"burn"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6445,25 +3912,15 @@ export function usePrepareZoomerCoinApprove(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function usePrepareZoomerCoinBurn(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'burn'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useSimulateZoomerCoinBurn =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'burn',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'burn'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"decreaseAllowance"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"decreaseAllowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6472,25 +3929,15 @@ export function usePrepareZoomerCoinBurn(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function usePrepareZoomerCoinDecreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'decreaseAllowance'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useSimulateZoomerCoinDecreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'decreaseAllowance',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'decreaseAllowance'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"increaseAllowance"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"increaseAllowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6499,25 +3946,15 @@ export function usePrepareZoomerCoinDecreaseAllowance(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function usePrepareZoomerCoinIncreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'increaseAllowance'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useSimulateZoomerCoinIncreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'increaseAllowance',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'increaseAllowance'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"initialize"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6526,25 +3963,15 @@ export function usePrepareZoomerCoinIncreaseAllowance(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function usePrepareZoomerCoinInitialize(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'initialize'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useSimulateZoomerCoinInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'initialize',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'initialize'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"mint"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"mint"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6553,25 +3980,15 @@ export function usePrepareZoomerCoinInitialize(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function usePrepareZoomerCoinMint(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'mint'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useSimulateZoomerCoinMint =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'mint',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'mint'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"permit"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"permit"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6580,25 +3997,15 @@ export function usePrepareZoomerCoinMint(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function usePrepareZoomerCoinPermit(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'permit'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useSimulateZoomerCoinPermit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'permit',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'permit'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6607,25 +4014,15 @@ export function usePrepareZoomerCoinPermit(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function usePrepareZoomerCoinRenounceOwnership(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'renounceOwnership'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useSimulateZoomerCoinRenounceOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'renounceOwnership'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"setLimits"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"setLimits"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6634,25 +4031,15 @@ export function usePrepareZoomerCoinRenounceOwnership(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function usePrepareZoomerCoinSetLimits(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'setLimits'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useSimulateZoomerCoinSetLimits =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'setLimits',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'setLimits'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"setLockbox"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"setLockbox"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6661,25 +4048,15 @@ export function usePrepareZoomerCoinSetLimits(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function usePrepareZoomerCoinSetLockbox(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'setLockbox'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useSimulateZoomerCoinSetLockbox =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'setLockbox',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'setLockbox'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"transfer"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"transfer"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6688,25 +4065,15 @@ export function usePrepareZoomerCoinSetLockbox(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function usePrepareZoomerCoinTransfer(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'transfer'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useSimulateZoomerCoinTransfer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'transfer',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'transfer'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"transferFrom"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"transferFrom"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6715,25 +4082,15 @@ export function usePrepareZoomerCoinTransfer(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function usePrepareZoomerCoinTransferFrom(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'transferFrom'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useSimulateZoomerCoinTransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'transferFrom',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'transferFrom'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerCoinABI}__ and `functionName` set to `"transferOwnership"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6742,25 +4099,15 @@ export function usePrepareZoomerCoinTransferFrom(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function usePrepareZoomerCoinTransferOwnership(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'transferOwnership'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useSimulateZoomerCoinTransferOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     functionName: 'transferOwnership',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerCoinABI, 'transferOwnership'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerCoinABI}__.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerCoinAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6769,24 +4116,14 @@ export function usePrepareZoomerCoinTransferOwnership(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinEvent<TEventName extends string>(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerCoinABI, TEventName>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
-    ...config,
-  } as UseContractEventConfig<typeof zoomerCoinABI, TEventName>)
-}
+export const useWatchZoomerCoinEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerCoinABI}__ and `eventName` set to `"Approval"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerCoinAbi}__ and `eventName` set to `"Approval"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6795,25 +4132,15 @@ export function useZoomerCoinEvent<TEventName extends string>(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinApprovalEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerCoinABI, 'Approval'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useWatchZoomerCoinApprovalEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     eventName: 'Approval',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerCoinABI, 'Approval'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerCoinABI}__ and `eventName` set to `"BridgeLimitsSet"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerCoinAbi}__ and `eventName` set to `"BridgeLimitsSet"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6822,25 +4149,15 @@ export function useZoomerCoinApprovalEvent(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinBridgeLimitsSetEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerCoinABI, 'BridgeLimitsSet'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useWatchZoomerCoinBridgeLimitsSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     eventName: 'BridgeLimitsSet',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerCoinABI, 'BridgeLimitsSet'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerCoinABI}__ and `eventName` set to `"EIP712DomainChanged"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerCoinAbi}__ and `eventName` set to `"EIP712DomainChanged"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6849,25 +4166,15 @@ export function useZoomerCoinBridgeLimitsSetEvent(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinEip712DomainChangedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerCoinABI, 'EIP712DomainChanged'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useWatchZoomerCoinEip712DomainChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     eventName: 'EIP712DomainChanged',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerCoinABI, 'EIP712DomainChanged'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerCoinABI}__ and `eventName` set to `"Initialized"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerCoinAbi}__ and `eventName` set to `"Initialized"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6876,25 +4183,15 @@ export function useZoomerCoinEip712DomainChangedEvent(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinInitializedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerCoinABI, 'Initialized'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useWatchZoomerCoinInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     eventName: 'Initialized',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerCoinABI, 'Initialized'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerCoinABI}__ and `eventName` set to `"LockboxSet"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerCoinAbi}__ and `eventName` set to `"LockboxSet"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6903,25 +4200,15 @@ export function useZoomerCoinInitializedEvent(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinLockboxSetEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerCoinABI, 'LockboxSet'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useWatchZoomerCoinLockboxSetEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     eventName: 'LockboxSet',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerCoinABI, 'LockboxSet'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerCoinABI}__ and `eventName` set to `"OwnershipTransferred"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerCoinAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6930,25 +4217,15 @@ export function useZoomerCoinLockboxSetEvent(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinOwnershipTransferredEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerCoinABI, 'OwnershipTransferred'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useWatchZoomerCoinOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     eventName: 'OwnershipTransferred',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerCoinABI, 'OwnershipTransferred'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerCoinABI}__ and `eventName` set to `"Transfer"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerCoinAbi}__ and `eventName` set to `"Transfer"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
  * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
@@ -6957,3430 +4234,1547 @@ export function useZoomerCoinOwnershipTransferredEvent(
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  */
-export function useZoomerCoinTransferEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerCoinABI, 'Transfer'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof zoomerCoinAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: zoomerCoinABI,
-    address: zoomerCoinAddress[chainId as keyof typeof zoomerCoinAddress],
+export const useWatchZoomerCoinTransferEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerCoinAbi,
+    address: zoomerCoinAddress,
     eventName: 'Transfer',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerCoinABI, 'Transfer'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerMigratorABI}__.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerMigratorAbi}__
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useZoomerMigratorRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof zoomerMigratorABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerMigratorABI, TFunctionName, TSelectData>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerMigratorABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+export const useReadZoomerMigrator = /*#__PURE__*/ createUseReadContract({
+  abi: zoomerMigratorAbi,
+  address: zoomerMigratorAddress,
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"NEW_ZOOMER"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerMigratorAbi}__ and `functionName` set to `"NEW_ZOOMER"`
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useZoomerMigratorNewZoomer<
-  TFunctionName extends 'NEW_ZOOMER',
-  TSelectData = ReadContractResult<typeof zoomerMigratorABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerMigratorABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
+export const useReadZoomerMigratorNewZoomer =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerMigratorAbi,
+    address: zoomerMigratorAddress,
     functionName: 'NEW_ZOOMER',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerMigratorABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"OLD_ZOOMER"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerMigratorAbi}__ and `functionName` set to `"OLD_ZOOMER"`
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useZoomerMigratorOldZoomer<
-  TFunctionName extends 'OLD_ZOOMER',
-  TSelectData = ReadContractResult<typeof zoomerMigratorABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerMigratorABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
+export const useReadZoomerMigratorOldZoomer =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerMigratorAbi,
+    address: zoomerMigratorAddress,
     functionName: 'OLD_ZOOMER',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerMigratorABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"authority"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerMigratorAbi}__ and `functionName` set to `"authority"`
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useZoomerMigratorAuthority<
-  TFunctionName extends 'authority',
-  TSelectData = ReadContractResult<typeof zoomerMigratorABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerMigratorABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
+export const useReadZoomerMigratorAuthority =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerMigratorAbi,
+    address: zoomerMigratorAddress,
     functionName: 'authority',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerMigratorABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"owner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerMigratorAbi}__ and `functionName` set to `"owner"`
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useZoomerMigratorOwner<
-  TFunctionName extends 'owner',
-  TSelectData = ReadContractResult<typeof zoomerMigratorABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<typeof zoomerMigratorABI, TFunctionName, TSelectData>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
-    functionName: 'owner',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerMigratorABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+export const useReadZoomerMigratorOwner = /*#__PURE__*/ createUseReadContract({
+  abi: zoomerMigratorAbi,
+  address: zoomerMigratorAddress,
+  functionName: 'owner',
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerMigratorAbi}__
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useZoomerMigratorWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerMigratorAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerMigratorABI,
-          string
-        >['request']['abi'],
-        TFunctionName,
-        TMode
-      > & { address?: Address; chainId?: TChainId }
-    : UseContractWriteConfig<typeof zoomerMigratorABI, TFunctionName, TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerMigratorABI, TFunctionName, TMode>({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
-    ...config,
-  } as any)
-}
+export const useWriteZoomerMigrator = /*#__PURE__*/ createUseWriteContract({
+  abi: zoomerMigratorAbi,
+  address: zoomerMigratorAddress,
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"migrate"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerMigratorAbi}__ and `functionName` set to `"migrate"`
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useZoomerMigratorMigrate<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerMigratorAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerMigratorABI,
-          'migrate'
-        >['request']['abi'],
-        'migrate',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'migrate' }
-    : UseContractWriteConfig<typeof zoomerMigratorABI, 'migrate', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'migrate'
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerMigratorABI, 'migrate', TMode>({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
+export const useWriteZoomerMigratorMigrate =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerMigratorAbi,
+    address: zoomerMigratorAddress,
     functionName: 'migrate',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"rescue"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerMigratorAbi}__ and `functionName` set to `"rescue"`
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useZoomerMigratorRescue<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerMigratorAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerMigratorABI,
-          'rescue'
-        >['request']['abi'],
-        'rescue',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'rescue' }
-    : UseContractWriteConfig<typeof zoomerMigratorABI, 'rescue', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'rescue'
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerMigratorABI, 'rescue', TMode>({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
+export const useWriteZoomerMigratorRescue =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerMigratorAbi,
+    address: zoomerMigratorAddress,
     functionName: 'rescue',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"setAuthority"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerMigratorAbi}__ and `functionName` set to `"setAuthority"`
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useZoomerMigratorSetAuthority<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerMigratorAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerMigratorABI,
-          'setAuthority'
-        >['request']['abi'],
-        'setAuthority',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'setAuthority'
-      }
-    : UseContractWriteConfig<
-        typeof zoomerMigratorABI,
-        'setAuthority',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'setAuthority'
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerMigratorABI, 'setAuthority', TMode>({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
+export const useWriteZoomerMigratorSetAuthority =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerMigratorAbi,
+    address: zoomerMigratorAddress,
     functionName: 'setAuthority',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"setOwner"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerMigratorAbi}__ and `functionName` set to `"setOwner"`
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useZoomerMigratorSetOwner<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerMigratorAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerMigratorABI,
-          'setOwner'
-        >['request']['abi'],
-        'setOwner',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'setOwner' }
-    : UseContractWriteConfig<typeof zoomerMigratorABI, 'setOwner', TMode> & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'setOwner'
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerMigratorABI, 'setOwner', TMode>({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
+export const useWriteZoomerMigratorSetOwner =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerMigratorAbi,
+    address: zoomerMigratorAddress,
     functionName: 'setOwner',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerMigratorAbi}__
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function usePrepareZoomerMigratorWrite<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerMigratorABI, TFunctionName>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerMigratorABI, TFunctionName>)
-}
+export const useSimulateZoomerMigrator =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerMigratorAbi,
+    address: zoomerMigratorAddress,
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"migrate"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerMigratorAbi}__ and `functionName` set to `"migrate"`
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function usePrepareZoomerMigratorMigrate(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerMigratorABI, 'migrate'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
+export const useSimulateZoomerMigratorMigrate =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerMigratorAbi,
+    address: zoomerMigratorAddress,
     functionName: 'migrate',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerMigratorABI, 'migrate'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"rescue"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerMigratorAbi}__ and `functionName` set to `"rescue"`
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function usePrepareZoomerMigratorRescue(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerMigratorABI, 'rescue'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
+export const useSimulateZoomerMigratorRescue =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerMigratorAbi,
+    address: zoomerMigratorAddress,
     functionName: 'rescue',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerMigratorABI, 'rescue'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"setAuthority"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerMigratorAbi}__ and `functionName` set to `"setAuthority"`
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function usePrepareZoomerMigratorSetAuthority(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerMigratorABI, 'setAuthority'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
+export const useSimulateZoomerMigratorSetAuthority =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerMigratorAbi,
+    address: zoomerMigratorAddress,
     functionName: 'setAuthority',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerMigratorABI, 'setAuthority'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerMigratorABI}__ and `functionName` set to `"setOwner"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerMigratorAbi}__ and `functionName` set to `"setOwner"`
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function usePrepareZoomerMigratorSetOwner(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerMigratorABI, 'setOwner'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
+export const useSimulateZoomerMigratorSetOwner =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerMigratorAbi,
+    address: zoomerMigratorAddress,
     functionName: 'setOwner',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerMigratorABI, 'setOwner'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerMigratorABI}__.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerMigratorAbi}__
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useZoomerMigratorEvent<TEventName extends string>(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerMigratorABI, TEventName>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
-) {
-  return useContractEvent({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
-    ...config,
-  } as UseContractEventConfig<typeof zoomerMigratorABI, TEventName>)
-}
+export const useWatchZoomerMigratorEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerMigratorAbi,
+    address: zoomerMigratorAddress,
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerMigratorABI}__ and `eventName` set to `"AuthorityUpdated"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerMigratorAbi}__ and `eventName` set to `"AuthorityUpdated"`
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useZoomerMigratorAuthorityUpdatedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerMigratorABI, 'AuthorityUpdated'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
-) {
-  return useContractEvent({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
+export const useWatchZoomerMigratorAuthorityUpdatedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerMigratorAbi,
+    address: zoomerMigratorAddress,
     eventName: 'AuthorityUpdated',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerMigratorABI, 'AuthorityUpdated'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerMigratorABI}__ and `eventName` set to `"OwnerUpdated"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerMigratorAbi}__ and `eventName` set to `"OwnerUpdated"`
  *
  * [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3045597e25f8C57e32c08Fe5276c5Cf4AA4dD7f7)
  */
-export function useZoomerMigratorOwnerUpdatedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerMigratorABI, 'OwnerUpdated'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof zoomerMigratorAddress } = {} as any,
-) {
-  return useContractEvent({
-    abi: zoomerMigratorABI,
-    address: zoomerMigratorAddress[137],
+export const useWatchZoomerMigratorOwnerUpdatedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerMigratorAbi,
+    address: zoomerMigratorAddress,
     eventName: 'OwnerUpdated',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerMigratorABI, 'OwnerUpdated'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxAllRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<
-    typeof zoomerXerc20LockboxAllABI,
-    TFunctionName
-  >,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20LockboxAllABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxAllAddress } = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20LockboxAllABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+export const useReadZoomerXerc20LockboxAll =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__ and `functionName` set to `"ERC20"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__ and `functionName` set to `"ERC20"`
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxAllErc20<
-  TFunctionName extends 'ERC20',
-  TSelectData = ReadContractResult<
-    typeof zoomerXerc20LockboxAllABI,
-    TFunctionName
-  >,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20LockboxAllABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxAllAddress } = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
+export const useReadZoomerXerc20LockboxAllErc20 =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
     functionName: 'ERC20',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20LockboxAllABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__ and `functionName` set to `"IS_NATIVE"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__ and `functionName` set to `"IS_NATIVE"`
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxAllIsNative<
-  TFunctionName extends 'IS_NATIVE',
-  TSelectData = ReadContractResult<
-    typeof zoomerXerc20LockboxAllABI,
-    TFunctionName
-  >,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20LockboxAllABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxAllAddress } = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
+export const useReadZoomerXerc20LockboxAllIsNative =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
     functionName: 'IS_NATIVE',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20LockboxAllABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__ and `functionName` set to `"XERC20"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__ and `functionName` set to `"XERC20"`
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxAllXerc20<
-  TFunctionName extends 'XERC20',
-  TSelectData = ReadContractResult<
-    typeof zoomerXerc20LockboxAllABI,
-    TFunctionName
-  >,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20LockboxAllABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxAllAddress } = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
+export const useReadZoomerXerc20LockboxAllXerc20 =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
     functionName: 'XERC20',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20LockboxAllABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxAllWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerXerc20LockboxAllAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20LockboxAllABI,
-          string
-        >['request']['abi'],
-        TFunctionName,
-        TMode
-      > & { address?: Address; chainId?: TChainId }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20LockboxAllABI,
-        TFunctionName,
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-      } = {} as any,
-) {
-  return useContractWrite<
-    typeof zoomerXerc20LockboxAllABI,
-    TFunctionName,
-    TMode
-  >({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
-    ...config,
-  } as any)
-}
+export const useWriteZoomerXerc20LockboxAll =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__ and `functionName` set to `"deposit"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__ and `functionName` set to `"deposit"`
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxAllDeposit<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerXerc20LockboxAllAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20LockboxAllABI,
-          'deposit'
-        >['request']['abi'],
-        'deposit',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'deposit' }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20LockboxAllABI,
-        'deposit',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'deposit'
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerXerc20LockboxAllABI, 'deposit', TMode>({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
+export const useWriteZoomerXerc20LockboxAllDeposit =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
     functionName: 'deposit',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__ and `functionName` set to `"depositNative"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__ and `functionName` set to `"depositNative"`
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxAllDepositNative<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerXerc20LockboxAllAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20LockboxAllABI,
-          'depositNative'
-        >['request']['abi'],
-        'depositNative',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'depositNative'
-      }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20LockboxAllABI,
-        'depositNative',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'depositNative'
-      } = {} as any,
-) {
-  return useContractWrite<
-    typeof zoomerXerc20LockboxAllABI,
-    'depositNative',
-    TMode
-  >({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
+export const useWriteZoomerXerc20LockboxAllDepositNative =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
     functionName: 'depositNative',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__ and `functionName` set to `"depositNativeTo"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__ and `functionName` set to `"depositNativeTo"`
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxAllDepositNativeTo<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerXerc20LockboxAllAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20LockboxAllABI,
-          'depositNativeTo'
-        >['request']['abi'],
-        'depositNativeTo',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'depositNativeTo'
-      }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20LockboxAllABI,
-        'depositNativeTo',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'depositNativeTo'
-      } = {} as any,
-) {
-  return useContractWrite<
-    typeof zoomerXerc20LockboxAllABI,
-    'depositNativeTo',
-    TMode
-  >({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
+export const useWriteZoomerXerc20LockboxAllDepositNativeTo =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
     functionName: 'depositNativeTo',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__ and `functionName` set to `"depositTo"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__ and `functionName` set to `"depositTo"`
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxAllDepositTo<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerXerc20LockboxAllAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20LockboxAllABI,
-          'depositTo'
-        >['request']['abi'],
-        'depositTo',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'depositTo' }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20LockboxAllABI,
-        'depositTo',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'depositTo'
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerXerc20LockboxAllABI, 'depositTo', TMode>(
-    {
-      abi: zoomerXerc20LockboxAllABI,
-      address: zoomerXerc20LockboxAllAddress[1],
-      functionName: 'depositTo',
-      ...config,
-    } as any,
-  )
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__ and `functionName` set to `"withdraw"`.
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
- */
-export function useZoomerXerc20LockboxAllWithdraw<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerXerc20LockboxAllAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20LockboxAllABI,
-          'withdraw'
-        >['request']['abi'],
-        'withdraw',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'withdraw' }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20LockboxAllABI,
-        'withdraw',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'withdraw'
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerXerc20LockboxAllABI, 'withdraw', TMode>({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
-    functionName: 'withdraw',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__ and `functionName` set to `"withdrawTo"`.
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
- */
-export function useZoomerXerc20LockboxAllWithdrawTo<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerXerc20LockboxAllAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20LockboxAllABI,
-          'withdrawTo'
-        >['request']['abi'],
-        'withdrawTo',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'withdrawTo' }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20LockboxAllABI,
-        'withdrawTo',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'withdrawTo'
-      } = {} as any,
-) {
-  return useContractWrite<
-    typeof zoomerXerc20LockboxAllABI,
-    'withdrawTo',
-    TMode
-  >({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
-    functionName: 'withdrawTo',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__.
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
- */
-export function usePrepareZoomerXerc20LockboxAllWrite<
-  TFunctionName extends string,
->(
-  config: Omit<
-    UsePrepareContractWriteConfig<
-      typeof zoomerXerc20LockboxAllABI,
-      TFunctionName
-    >,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxAllAddress } = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20LockboxAllABI,
-    TFunctionName
-  >)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__ and `functionName` set to `"deposit"`.
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
- */
-export function usePrepareZoomerXerc20LockboxAllDeposit(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerXerc20LockboxAllABI, 'deposit'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxAllAddress } = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
-    functionName: 'deposit',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20LockboxAllABI,
-    'deposit'
-  >)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__ and `functionName` set to `"depositNative"`.
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
- */
-export function usePrepareZoomerXerc20LockboxAllDepositNative(
-  config: Omit<
-    UsePrepareContractWriteConfig<
-      typeof zoomerXerc20LockboxAllABI,
-      'depositNative'
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxAllAddress } = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
-    functionName: 'depositNative',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20LockboxAllABI,
-    'depositNative'
-  >)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__ and `functionName` set to `"depositNativeTo"`.
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
- */
-export function usePrepareZoomerXerc20LockboxAllDepositNativeTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<
-      typeof zoomerXerc20LockboxAllABI,
-      'depositNativeTo'
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxAllAddress } = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
-    functionName: 'depositNativeTo',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20LockboxAllABI,
-    'depositNativeTo'
-  >)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__ and `functionName` set to `"depositTo"`.
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
- */
-export function usePrepareZoomerXerc20LockboxAllDepositTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<
-      typeof zoomerXerc20LockboxAllABI,
-      'depositTo'
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxAllAddress } = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
+export const useWriteZoomerXerc20LockboxAllDepositTo =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
     functionName: 'depositTo',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20LockboxAllABI,
-    'depositTo'
-  >)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__ and `functionName` set to `"withdraw"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__ and `functionName` set to `"withdraw"`
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function usePrepareZoomerXerc20LockboxAllWithdraw(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerXerc20LockboxAllABI, 'withdraw'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxAllAddress } = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
+export const useWriteZoomerXerc20LockboxAllWithdraw =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
     functionName: 'withdraw',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20LockboxAllABI,
-    'withdraw'
-  >)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__ and `functionName` set to `"withdrawTo"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__ and `functionName` set to `"withdrawTo"`
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function usePrepareZoomerXerc20LockboxAllWithdrawTo(
-  config: Omit<
-    UsePrepareContractWriteConfig<
-      typeof zoomerXerc20LockboxAllABI,
-      'withdrawTo'
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxAllAddress } = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
+export const useWriteZoomerXerc20LockboxAllWithdrawTo =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
     functionName: 'withdrawTo',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20LockboxAllABI,
-    'withdrawTo'
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxAllEvent<TEventName extends string>(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerXerc20LockboxAllABI, TEventName>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxAllAddress } = {} as any,
-) {
-  return useContractEvent({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
-    ...config,
-  } as UseContractEventConfig<typeof zoomerXerc20LockboxAllABI, TEventName>)
-}
+export const useSimulateZoomerXerc20LockboxAll =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__ and `eventName` set to `"Deposit"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__ and `functionName` set to `"deposit"`
  *
  * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxAllDepositEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerXerc20LockboxAllABI, 'Deposit'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxAllAddress } = {} as any,
-) {
-  return useContractEvent({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
-    eventName: 'Deposit',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerXerc20LockboxAllABI, 'Deposit'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxAllABI}__ and `eventName` set to `"Withdraw"`.
- *
- * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
- */
-export function useZoomerXerc20LockboxAllWithdrawEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerXerc20LockboxAllABI, 'Withdraw'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxAllAddress } = {} as any,
-) {
-  return useContractEvent({
-    abi: zoomerXerc20LockboxAllABI,
-    address: zoomerXerc20LockboxAllAddress[1],
-    eventName: 'Withdraw',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerXerc20LockboxAllABI, 'Withdraw'>)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__.
- *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
- */
-export function useZoomerXerc20LockboxBaseRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<
-    typeof zoomerXerc20LockboxBaseABI,
-    TFunctionName
-  >,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20LockboxBaseABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxBaseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20LockboxBaseABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `functionName` set to `"ERC20"`.
- *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
- */
-export function useZoomerXerc20LockboxBaseErc20<
-  TFunctionName extends 'ERC20',
-  TSelectData = ReadContractResult<
-    typeof zoomerXerc20LockboxBaseABI,
-    TFunctionName
-  >,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20LockboxBaseABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxBaseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    functionName: 'ERC20',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20LockboxBaseABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `functionName` set to `"IS_NATIVE"`.
- *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
- */
-export function useZoomerXerc20LockboxBaseIsNative<
-  TFunctionName extends 'IS_NATIVE',
-  TSelectData = ReadContractResult<
-    typeof zoomerXerc20LockboxBaseABI,
-    TFunctionName
-  >,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20LockboxBaseABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxBaseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    functionName: 'IS_NATIVE',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20LockboxBaseABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `functionName` set to `"OWNER"`.
- *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
- */
-export function useZoomerXerc20LockboxBaseOwner<
-  TFunctionName extends 'OWNER',
-  TSelectData = ReadContractResult<
-    typeof zoomerXerc20LockboxBaseABI,
-    TFunctionName
-  >,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20LockboxBaseABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxBaseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    functionName: 'OWNER',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20LockboxBaseABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `functionName` set to `"OpL1XERC20BRIDGE"`.
- *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
- */
-export function useZoomerXerc20LockboxBaseOpL1Xerc20Bridge<
-  TFunctionName extends 'OpL1XERC20BRIDGE',
-  TSelectData = ReadContractResult<
-    typeof zoomerXerc20LockboxBaseABI,
-    TFunctionName
-  >,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20LockboxBaseABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxBaseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    functionName: 'OpL1XERC20BRIDGE',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20LockboxBaseABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
-
-/**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `functionName` set to `"XERC20"`.
- *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
- */
-export function useZoomerXerc20LockboxBaseXerc20<
-  TFunctionName extends 'XERC20',
-  TSelectData = ReadContractResult<
-    typeof zoomerXerc20LockboxBaseABI,
-    TFunctionName
-  >,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20LockboxBaseABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxBaseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractRead({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    functionName: 'XERC20',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20LockboxBaseABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__.
- *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
- */
-export function useZoomerXerc20LockboxBaseWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerXerc20LockboxBaseAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20LockboxBaseABI,
-          string
-        >['request']['abi'],
-        TFunctionName,
-        TMode
-      > & { address?: Address; chainId?: TChainId }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20LockboxBaseABI,
-        TFunctionName,
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<
-    typeof zoomerXerc20LockboxBaseABI,
-    TFunctionName,
-    TMode
-  >({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `functionName` set to `"deposit"`.
- *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
- */
-export function useZoomerXerc20LockboxBaseDeposit<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerXerc20LockboxBaseAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20LockboxBaseABI,
-          'deposit'
-        >['request']['abi'],
-        'deposit',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'deposit' }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20LockboxBaseABI,
-        'deposit',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'deposit'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof zoomerXerc20LockboxBaseABI, 'deposit', TMode>({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
+export const useSimulateZoomerXerc20LockboxAllDeposit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
     functionName: 'deposit',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `functionName` set to `"depositAndBridgeToL2"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__ and `functionName` set to `"depositNative"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxBaseDepositAndBridgeToL2<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerXerc20LockboxBaseAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20LockboxBaseABI,
-          'depositAndBridgeToL2'
-        >['request']['abi'],
-        'depositAndBridgeToL2',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'depositAndBridgeToL2'
-      }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20LockboxBaseABI,
-        'depositAndBridgeToL2',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'depositAndBridgeToL2'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<
-    typeof zoomerXerc20LockboxBaseABI,
-    'depositAndBridgeToL2',
-    TMode
-  >({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    functionName: 'depositAndBridgeToL2',
-    ...config,
-  } as any)
-}
+export const useSimulateZoomerXerc20LockboxAllDepositNative =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
+    functionName: 'depositNative',
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `functionName` set to `"initialize"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__ and `functionName` set to `"depositNativeTo"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxBaseInitialize<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerXerc20LockboxBaseAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20LockboxBaseABI,
-          'initialize'
-        >['request']['abi'],
-        'initialize',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'initialize' }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20LockboxBaseABI,
-        'initialize',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'initialize'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<
-    typeof zoomerXerc20LockboxBaseABI,
-    'initialize',
-    TMode
-  >({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    functionName: 'initialize',
-    ...config,
-  } as any)
-}
+export const useSimulateZoomerXerc20LockboxAllDepositNativeTo =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
+    functionName: 'depositNativeTo',
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `functionName` set to `"multicall"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__ and `functionName` set to `"depositTo"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxBaseMulticall<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerXerc20LockboxBaseAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20LockboxBaseABI,
-          'multicall'
-        >['request']['abi'],
-        'multicall',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'multicall' }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20LockboxBaseABI,
-        'multicall',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'multicall'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<
-    typeof zoomerXerc20LockboxBaseABI,
-    'multicall',
-    TMode
-  >({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    functionName: 'multicall',
-    ...config,
-  } as any)
-}
+export const useSimulateZoomerXerc20LockboxAllDepositTo =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
+    functionName: 'depositTo',
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `functionName` set to `"setOpL1XERC20Bridge"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__ and `functionName` set to `"withdraw"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxBaseSetOpL1Xerc20Bridge<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerXerc20LockboxBaseAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20LockboxBaseABI,
-          'setOpL1XERC20Bridge'
-        >['request']['abi'],
-        'setOpL1XERC20Bridge',
-        TMode
-      > & {
-        address?: Address
-        chainId?: TChainId
-        functionName?: 'setOpL1XERC20Bridge'
-      }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20LockboxBaseABI,
-        'setOpL1XERC20Bridge',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'setOpL1XERC20Bridge'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<
-    typeof zoomerXerc20LockboxBaseABI,
-    'setOpL1XERC20Bridge',
-    TMode
-  >({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    functionName: 'setOpL1XERC20Bridge',
-    ...config,
-  } as any)
-}
-
-/**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `functionName` set to `"withdraw"`.
- *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
- */
-export function useZoomerXerc20LockboxBaseWithdraw<
-  TMode extends WriteContractMode = undefined,
-  TChainId extends number = keyof typeof zoomerXerc20LockboxBaseAddress,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20LockboxBaseABI,
-          'withdraw'
-        >['request']['abi'],
-        'withdraw',
-        TMode
-      > & { address?: Address; chainId?: TChainId; functionName?: 'withdraw' }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20LockboxBaseABI,
-        'withdraw',
-        TMode
-      > & {
-        abi?: never
-        address?: never
-        chainId?: TChainId
-        functionName?: 'withdraw'
-      } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractWrite<typeof zoomerXerc20LockboxBaseABI, 'withdraw', TMode>(
-    {
-      abi: zoomerXerc20LockboxBaseABI,
-      address:
-        zoomerXerc20LockboxBaseAddress[
-          chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-        ],
-      functionName: 'withdraw',
-      ...config,
-    } as any,
-  )
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__.
- *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
- */
-export function usePrepareZoomerXerc20LockboxBaseWrite<
-  TFunctionName extends string,
->(
-  config: Omit<
-    UsePrepareContractWriteConfig<
-      typeof zoomerXerc20LockboxBaseABI,
-      TFunctionName
-    >,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxBaseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20LockboxBaseABI,
-    TFunctionName
-  >)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `functionName` set to `"deposit"`.
- *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
- */
-export function usePrepareZoomerXerc20LockboxBaseDeposit(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerXerc20LockboxBaseABI, 'deposit'>,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxBaseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    functionName: 'deposit',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20LockboxBaseABI,
-    'deposit'
-  >)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `functionName` set to `"depositAndBridgeToL2"`.
- *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
- */
-export function usePrepareZoomerXerc20LockboxBaseDepositAndBridgeToL2(
-  config: Omit<
-    UsePrepareContractWriteConfig<
-      typeof zoomerXerc20LockboxBaseABI,
-      'depositAndBridgeToL2'
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxBaseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    functionName: 'depositAndBridgeToL2',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20LockboxBaseABI,
-    'depositAndBridgeToL2'
-  >)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `functionName` set to `"initialize"`.
- *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
- */
-export function usePrepareZoomerXerc20LockboxBaseInitialize(
-  config: Omit<
-    UsePrepareContractWriteConfig<
-      typeof zoomerXerc20LockboxBaseABI,
-      'initialize'
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxBaseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    functionName: 'initialize',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20LockboxBaseABI,
-    'initialize'
-  >)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `functionName` set to `"multicall"`.
- *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
- */
-export function usePrepareZoomerXerc20LockboxBaseMulticall(
-  config: Omit<
-    UsePrepareContractWriteConfig<
-      typeof zoomerXerc20LockboxBaseABI,
-      'multicall'
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxBaseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    functionName: 'multicall',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20LockboxBaseABI,
-    'multicall'
-  >)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `functionName` set to `"setOpL1XERC20Bridge"`.
- *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
- */
-export function usePrepareZoomerXerc20LockboxBaseSetOpL1Xerc20Bridge(
-  config: Omit<
-    UsePrepareContractWriteConfig<
-      typeof zoomerXerc20LockboxBaseABI,
-      'setOpL1XERC20Bridge'
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxBaseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    functionName: 'setOpL1XERC20Bridge',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20LockboxBaseABI,
-    'setOpL1XERC20Bridge'
-  >)
-}
-
-/**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `functionName` set to `"withdraw"`.
- *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
- */
-export function usePrepareZoomerXerc20LockboxBaseWithdraw(
-  config: Omit<
-    UsePrepareContractWriteConfig<
-      typeof zoomerXerc20LockboxBaseABI,
-      'withdraw'
-    >,
-    'abi' | 'address' | 'functionName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxBaseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return usePrepareContractWrite({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
+export const useSimulateZoomerXerc20LockboxAllWithdraw =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
     functionName: 'withdraw',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20LockboxBaseABI,
-    'withdraw'
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__ and `functionName` set to `"withdrawTo"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxBaseEvent<TEventName extends string>(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerXerc20LockboxBaseABI, TEventName>,
-    'abi' | 'address'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxBaseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    ...config,
-  } as UseContractEventConfig<typeof zoomerXerc20LockboxBaseABI, TEventName>)
-}
+export const useSimulateZoomerXerc20LockboxAllWithdrawTo =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
+    functionName: 'withdrawTo',
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `eventName` set to `"Deposit"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxBaseDepositEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerXerc20LockboxBaseABI, 'Deposit'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxBaseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
+export const useWatchZoomerXerc20LockboxAllEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__ and `eventName` set to `"Deposit"`
+ *
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
+ */
+export const useWatchZoomerXerc20LockboxAllDepositEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
     eventName: 'Deposit',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerXerc20LockboxBaseABI, 'Deposit'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `eventName` set to `"Initialized"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxAllAbi}__ and `eventName` set to `"Withdraw"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ * [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xB3bC2AaabB4C27890dBB491550eac3843A946625)
  */
-export function useZoomerXerc20LockboxBaseInitializedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerXerc20LockboxBaseABI, 'Initialized'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxBaseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
-    eventName: 'Initialized',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerXerc20LockboxBaseABI, 'Initialized'>)
-}
-
-/**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxBaseABI}__ and `eventName` set to `"Withdraw"`.
- *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
- * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
- */
-export function useZoomerXerc20LockboxBaseWithdrawEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerXerc20LockboxBaseABI, 'Withdraw'>,
-    'abi' | 'address' | 'eventName'
-  > & { chainId?: keyof typeof zoomerXerc20LockboxBaseAddress } = {} as any,
-) {
-  const { chain } = useNetwork()
-  const defaultChainId = useChainId()
-  const chainId = config.chainId ?? chain?.id ?? defaultChainId
-  return useContractEvent({
-    abi: zoomerXerc20LockboxBaseABI,
-    address:
-      zoomerXerc20LockboxBaseAddress[
-        chainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ],
+export const useWatchZoomerXerc20LockboxAllWithdrawEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerXerc20LockboxAllAbi,
+    address: zoomerXerc20LockboxAllAddress,
     eventName: 'Withdraw',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerXerc20LockboxBaseABI, 'Withdraw'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
  */
-export function useZoomerXerc20OldRead<
-  TFunctionName extends string,
-  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20OldABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20OldABI,
-    address: zoomerXerc20OldAddress,
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20OldABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+export const useReadZoomerXerc20LockboxBase =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"DOMAIN_SEPARATOR"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"ERC20"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
  */
-export function useZoomerXerc20OldDomainSeparator<
-  TFunctionName extends 'DOMAIN_SEPARATOR',
-  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20OldABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20OldABI,
+export const useReadZoomerXerc20LockboxBaseErc20 =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    functionName: 'ERC20',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"IS_NATIVE"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useReadZoomerXerc20LockboxBaseIsNative =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    functionName: 'IS_NATIVE',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"OWNER"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useReadZoomerXerc20LockboxBaseOwner =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    functionName: 'OWNER',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"OpL1XERC20BRIDGE"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useReadZoomerXerc20LockboxBaseOpL1Xerc20Bridge =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    functionName: 'OpL1XERC20BRIDGE',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"XERC20"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useReadZoomerXerc20LockboxBaseXerc20 =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    functionName: 'XERC20',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useWriteZoomerXerc20LockboxBase =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"deposit"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useWriteZoomerXerc20LockboxBaseDeposit =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    functionName: 'deposit',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"depositAndBridgeToL2"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useWriteZoomerXerc20LockboxBaseDepositAndBridgeToL2 =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    functionName: 'depositAndBridgeToL2',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"initialize"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useWriteZoomerXerc20LockboxBaseInitialize =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"multicall"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useWriteZoomerXerc20LockboxBaseMulticall =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    functionName: 'multicall',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"setOpL1XERC20Bridge"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useWriteZoomerXerc20LockboxBaseSetOpL1Xerc20Bridge =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    functionName: 'setOpL1XERC20Bridge',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"withdraw"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useWriteZoomerXerc20LockboxBaseWithdraw =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    functionName: 'withdraw',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useSimulateZoomerXerc20LockboxBase =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"deposit"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useSimulateZoomerXerc20LockboxBaseDeposit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    functionName: 'deposit',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"depositAndBridgeToL2"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useSimulateZoomerXerc20LockboxBaseDepositAndBridgeToL2 =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    functionName: 'depositAndBridgeToL2',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"initialize"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useSimulateZoomerXerc20LockboxBaseInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    functionName: 'initialize',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"multicall"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useSimulateZoomerXerc20LockboxBaseMulticall =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    functionName: 'multicall',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"setOpL1XERC20Bridge"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useSimulateZoomerXerc20LockboxBaseSetOpL1Xerc20Bridge =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    functionName: 'setOpL1XERC20Bridge',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"withdraw"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useSimulateZoomerXerc20LockboxBaseWithdraw =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    functionName: 'withdraw',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useWatchZoomerXerc20LockboxBaseEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `eventName` set to `"Deposit"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useWatchZoomerXerc20LockboxBaseDepositEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    eventName: 'Deposit',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `eventName` set to `"Initialized"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useWatchZoomerXerc20LockboxBaseInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    eventName: 'Initialized',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `eventName` set to `"Withdraw"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0000000000000000000000000000000000000000)
+ */
+export const useWatchZoomerXerc20LockboxBaseWithdrawEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerXerc20LockboxBaseAbi,
+    address: zoomerXerc20LockboxBaseAddress,
+    eventName: 'Withdraw',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__
+ */
+export const useReadZoomerXerc20Old = /*#__PURE__*/ createUseReadContract({
+  abi: zoomerXerc20OldAbi,
+  address: zoomerXerc20OldAddress,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
+ */
+export const useReadZoomerXerc20OldDomainSeparator =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'DOMAIN_SEPARATOR',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20OldABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"allowance"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"allowance"`
  */
-export function useZoomerXerc20OldAllowance<
-  TFunctionName extends 'allowance',
-  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20OldABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20OldABI,
+export const useReadZoomerXerc20OldAllowance =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'allowance',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20OldABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"balanceOf"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"balanceOf"`
  */
-export function useZoomerXerc20OldBalanceOf<
-  TFunctionName extends 'balanceOf',
-  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20OldABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20OldABI,
+export const useReadZoomerXerc20OldBalanceOf =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'balanceOf',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20OldABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"decimals"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"decimals"`
  */
-export function useZoomerXerc20OldDecimals<
-  TFunctionName extends 'decimals',
-  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20OldABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20OldABI,
+export const useReadZoomerXerc20OldDecimals =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'decimals',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20OldABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"delay"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"delay"`
  */
-export function useZoomerXerc20OldDelay<
-  TFunctionName extends 'delay',
-  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20OldABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20OldABI,
-    address: zoomerXerc20OldAddress,
-    functionName: 'delay',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20OldABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+export const useReadZoomerXerc20OldDelay = /*#__PURE__*/ createUseReadContract({
+  abi: zoomerXerc20OldAbi,
+  address: zoomerXerc20OldAddress,
+  functionName: 'delay',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"eip712Domain"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"eip712Domain"`
  */
-export function useZoomerXerc20OldEip712Domain<
-  TFunctionName extends 'eip712Domain',
-  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20OldABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20OldABI,
+export const useReadZoomerXerc20OldEip712Domain =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'eip712Domain',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20OldABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"name"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"name"`
  */
-export function useZoomerXerc20OldName<
-  TFunctionName extends 'name',
-  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20OldABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20OldABI,
-    address: zoomerXerc20OldAddress,
-    functionName: 'name',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20OldABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+export const useReadZoomerXerc20OldName = /*#__PURE__*/ createUseReadContract({
+  abi: zoomerXerc20OldAbi,
+  address: zoomerXerc20OldAddress,
+  functionName: 'name',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"nonces"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"nonces"`
  */
-export function useZoomerXerc20OldNonces<
-  TFunctionName extends 'nonces',
-  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20OldABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20OldABI,
+export const useReadZoomerXerc20OldNonces = /*#__PURE__*/ createUseReadContract(
+  {
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'nonces',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20OldABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  },
+)
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"owner"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"owner"`
  */
-export function useZoomerXerc20OldOwner<
-  TFunctionName extends 'owner',
-  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20OldABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20OldABI,
-    address: zoomerXerc20OldAddress,
-    functionName: 'owner',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20OldABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+export const useReadZoomerXerc20OldOwner = /*#__PURE__*/ createUseReadContract({
+  abi: zoomerXerc20OldAbi,
+  address: zoomerXerc20OldAddress,
+  functionName: 'owner',
+})
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"proposed"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"proposed"`
  */
-export function useZoomerXerc20OldProposed<
-  TFunctionName extends 'proposed',
-  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20OldABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20OldABI,
+export const useReadZoomerXerc20OldProposed =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'proposed',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20OldABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"proposedTimestamp"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"proposedTimestamp"`
  */
-export function useZoomerXerc20OldProposedTimestamp<
-  TFunctionName extends 'proposedTimestamp',
-  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20OldABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20OldABI,
+export const useReadZoomerXerc20OldProposedTimestamp =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'proposedTimestamp',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20OldABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"renounced"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"renounced"`
  */
-export function useZoomerXerc20OldRenounced<
-  TFunctionName extends 'renounced',
-  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20OldABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20OldABI,
+export const useReadZoomerXerc20OldRenounced =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'renounced',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20OldABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"symbol"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"symbol"`
  */
-export function useZoomerXerc20OldSymbol<
-  TFunctionName extends 'symbol',
-  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20OldABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20OldABI,
+export const useReadZoomerXerc20OldSymbol = /*#__PURE__*/ createUseReadContract(
+  {
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'symbol',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20OldABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  },
+)
 
 /**
- * Wraps __{@link useContractRead}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"totalSupply"`.
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"totalSupply"`
  */
-export function useZoomerXerc20OldTotalSupply<
-  TFunctionName extends 'totalSupply',
-  TSelectData = ReadContractResult<typeof zoomerXerc20OldABI, TFunctionName>,
->(
-  config: Omit<
-    UseContractReadConfig<
-      typeof zoomerXerc20OldABI,
-      TFunctionName,
-      TSelectData
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return useContractRead({
-    abi: zoomerXerc20OldABI,
+export const useReadZoomerXerc20OldTotalSupply =
+  /*#__PURE__*/ createUseReadContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'totalSupply',
-    ...config,
-  } as UseContractReadConfig<
-    typeof zoomerXerc20OldABI,
-    TFunctionName,
-    TSelectData
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__
  */
-export function useZoomerXerc20OldWrite<
-  TFunctionName extends string,
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20OldABI,
-          string
-        >['request']['abi'],
-        TFunctionName,
-        TMode
-      >
-    : UseContractWriteConfig<
-        typeof zoomerXerc20OldABI,
-        TFunctionName,
-        TMode
-      > & {
-        abi?: never
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerXerc20OldABI, TFunctionName, TMode>({
-    abi: zoomerXerc20OldABI,
-    address: zoomerXerc20OldAddress,
-    ...config,
-  } as any)
-}
+export const useWriteZoomerXerc20Old = /*#__PURE__*/ createUseWriteContract({
+  abi: zoomerXerc20OldAbi,
+  address: zoomerXerc20OldAddress,
+})
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"acceptProposedOwner"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"acceptProposedOwner"`
  */
-export function useZoomerXerc20OldAcceptProposedOwner<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20OldABI,
-          'acceptProposedOwner'
-        >['request']['abi'],
-        'acceptProposedOwner',
-        TMode
-      > & { functionName?: 'acceptProposedOwner' }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20OldABI,
-        'acceptProposedOwner',
-        TMode
-      > & {
-        abi?: never
-        functionName?: 'acceptProposedOwner'
-      } = {} as any,
-) {
-  return useContractWrite<
-    typeof zoomerXerc20OldABI,
-    'acceptProposedOwner',
-    TMode
-  >({
-    abi: zoomerXerc20OldABI,
+export const useWriteZoomerXerc20OldAcceptProposedOwner =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'acceptProposedOwner',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"addBridge"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"addBridge"`
  */
-export function useZoomerXerc20OldAddBridge<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20OldABI,
-          'addBridge'
-        >['request']['abi'],
-        'addBridge',
-        TMode
-      > & { functionName?: 'addBridge' }
-    : UseContractWriteConfig<typeof zoomerXerc20OldABI, 'addBridge', TMode> & {
-        abi?: never
-        functionName?: 'addBridge'
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerXerc20OldABI, 'addBridge', TMode>({
-    abi: zoomerXerc20OldABI,
+export const useWriteZoomerXerc20OldAddBridge =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'addBridge',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"approve"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"approve"`
  */
-export function useZoomerXerc20OldApprove<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20OldABI,
-          'approve'
-        >['request']['abi'],
-        'approve',
-        TMode
-      > & { functionName?: 'approve' }
-    : UseContractWriteConfig<typeof zoomerXerc20OldABI, 'approve', TMode> & {
-        abi?: never
-        functionName?: 'approve'
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerXerc20OldABI, 'approve', TMode>({
-    abi: zoomerXerc20OldABI,
+export const useWriteZoomerXerc20OldApprove =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'approve',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"burn"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"burn"`
  */
-export function useZoomerXerc20OldBurn<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20OldABI,
-          'burn'
-        >['request']['abi'],
-        'burn',
-        TMode
-      > & { functionName?: 'burn' }
-    : UseContractWriteConfig<typeof zoomerXerc20OldABI, 'burn', TMode> & {
-        abi?: never
-        functionName?: 'burn'
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerXerc20OldABI, 'burn', TMode>({
-    abi: zoomerXerc20OldABI,
+export const useWriteZoomerXerc20OldBurn = /*#__PURE__*/ createUseWriteContract(
+  {
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'burn',
-    ...config,
-  } as any)
-}
+  },
+)
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"decreaseAllowance"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"decreaseAllowance"`
  */
-export function useZoomerXerc20OldDecreaseAllowance<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20OldABI,
-          'decreaseAllowance'
-        >['request']['abi'],
-        'decreaseAllowance',
-        TMode
-      > & { functionName?: 'decreaseAllowance' }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20OldABI,
-        'decreaseAllowance',
-        TMode
-      > & {
-        abi?: never
-        functionName?: 'decreaseAllowance'
-      } = {} as any,
-) {
-  return useContractWrite<
-    typeof zoomerXerc20OldABI,
-    'decreaseAllowance',
-    TMode
-  >({
-    abi: zoomerXerc20OldABI,
+export const useWriteZoomerXerc20OldDecreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'decreaseAllowance',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"increaseAllowance"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"increaseAllowance"`
  */
-export function useZoomerXerc20OldIncreaseAllowance<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20OldABI,
-          'increaseAllowance'
-        >['request']['abi'],
-        'increaseAllowance',
-        TMode
-      > & { functionName?: 'increaseAllowance' }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20OldABI,
-        'increaseAllowance',
-        TMode
-      > & {
-        abi?: never
-        functionName?: 'increaseAllowance'
-      } = {} as any,
-) {
-  return useContractWrite<
-    typeof zoomerXerc20OldABI,
-    'increaseAllowance',
-    TMode
-  >({
-    abi: zoomerXerc20OldABI,
+export const useWriteZoomerXerc20OldIncreaseAllowance =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'increaseAllowance',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"initialize"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"initialize"`
  */
-export function useZoomerXerc20OldInitialize<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20OldABI,
-          'initialize'
-        >['request']['abi'],
-        'initialize',
-        TMode
-      > & { functionName?: 'initialize' }
-    : UseContractWriteConfig<typeof zoomerXerc20OldABI, 'initialize', TMode> & {
-        abi?: never
-        functionName?: 'initialize'
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerXerc20OldABI, 'initialize', TMode>({
-    abi: zoomerXerc20OldABI,
+export const useWriteZoomerXerc20OldInitialize =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'initialize',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"mint"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"mint"`
  */
-export function useZoomerXerc20OldMint<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20OldABI,
-          'mint'
-        >['request']['abi'],
-        'mint',
-        TMode
-      > & { functionName?: 'mint' }
-    : UseContractWriteConfig<typeof zoomerXerc20OldABI, 'mint', TMode> & {
-        abi?: never
-        functionName?: 'mint'
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerXerc20OldABI, 'mint', TMode>({
-    abi: zoomerXerc20OldABI,
+export const useWriteZoomerXerc20OldMint = /*#__PURE__*/ createUseWriteContract(
+  {
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'mint',
-    ...config,
-  } as any)
-}
+  },
+)
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"permit"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"permit"`
  */
-export function useZoomerXerc20OldPermit<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20OldABI,
-          'permit'
-        >['request']['abi'],
-        'permit',
-        TMode
-      > & { functionName?: 'permit' }
-    : UseContractWriteConfig<typeof zoomerXerc20OldABI, 'permit', TMode> & {
-        abi?: never
-        functionName?: 'permit'
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerXerc20OldABI, 'permit', TMode>({
-    abi: zoomerXerc20OldABI,
+export const useWriteZoomerXerc20OldPermit =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'permit',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"proposeNewOwner"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"proposeNewOwner"`
  */
-export function useZoomerXerc20OldProposeNewOwner<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20OldABI,
-          'proposeNewOwner'
-        >['request']['abi'],
-        'proposeNewOwner',
-        TMode
-      > & { functionName?: 'proposeNewOwner' }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20OldABI,
-        'proposeNewOwner',
-        TMode
-      > & {
-        abi?: never
-        functionName?: 'proposeNewOwner'
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerXerc20OldABI, 'proposeNewOwner', TMode>({
-    abi: zoomerXerc20OldABI,
+export const useWriteZoomerXerc20OldProposeNewOwner =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'proposeNewOwner',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"removeBridge"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"removeBridge"`
  */
-export function useZoomerXerc20OldRemoveBridge<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20OldABI,
-          'removeBridge'
-        >['request']['abi'],
-        'removeBridge',
-        TMode
-      > & { functionName?: 'removeBridge' }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20OldABI,
-        'removeBridge',
-        TMode
-      > & {
-        abi?: never
-        functionName?: 'removeBridge'
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerXerc20OldABI, 'removeBridge', TMode>({
-    abi: zoomerXerc20OldABI,
+export const useWriteZoomerXerc20OldRemoveBridge =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'removeBridge',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"renounceOwnership"`
  */
-export function useZoomerXerc20OldRenounceOwnership<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20OldABI,
-          'renounceOwnership'
-        >['request']['abi'],
-        'renounceOwnership',
-        TMode
-      > & { functionName?: 'renounceOwnership' }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20OldABI,
-        'renounceOwnership',
-        TMode
-      > & {
-        abi?: never
-        functionName?: 'renounceOwnership'
-      } = {} as any,
-) {
-  return useContractWrite<
-    typeof zoomerXerc20OldABI,
-    'renounceOwnership',
-    TMode
-  >({
-    abi: zoomerXerc20OldABI,
+export const useWriteZoomerXerc20OldRenounceOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"transfer"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"transfer"`
  */
-export function useZoomerXerc20OldTransfer<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20OldABI,
-          'transfer'
-        >['request']['abi'],
-        'transfer',
-        TMode
-      > & { functionName?: 'transfer' }
-    : UseContractWriteConfig<typeof zoomerXerc20OldABI, 'transfer', TMode> & {
-        abi?: never
-        functionName?: 'transfer'
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerXerc20OldABI, 'transfer', TMode>({
-    abi: zoomerXerc20OldABI,
+export const useWriteZoomerXerc20OldTransfer =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'transfer',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link useContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"transferFrom"`.
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"transferFrom"`
  */
-export function useZoomerXerc20OldTransferFrom<
-  TMode extends WriteContractMode = undefined,
->(
-  config: TMode extends 'prepared'
-    ? UseContractWriteConfig<
-        PrepareWriteContractResult<
-          typeof zoomerXerc20OldABI,
-          'transferFrom'
-        >['request']['abi'],
-        'transferFrom',
-        TMode
-      > & { functionName?: 'transferFrom' }
-    : UseContractWriteConfig<
-        typeof zoomerXerc20OldABI,
-        'transferFrom',
-        TMode
-      > & {
-        abi?: never
-        functionName?: 'transferFrom'
-      } = {} as any,
-) {
-  return useContractWrite<typeof zoomerXerc20OldABI, 'transferFrom', TMode>({
-    abi: zoomerXerc20OldABI,
+export const useWriteZoomerXerc20OldTransferFrom =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'transferFrom',
-    ...config,
-  } as any)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__
  */
-export function usePrepareZoomerXerc20OldWrite<TFunctionName extends string>(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, TFunctionName>,
-    'abi' | 'address'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20OldABI,
+export const useSimulateZoomerXerc20Old =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, TFunctionName>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"acceptProposedOwner"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"acceptProposedOwner"`
  */
-export function usePrepareZoomerXerc20OldAcceptProposedOwner(
-  config: Omit<
-    UsePrepareContractWriteConfig<
-      typeof zoomerXerc20OldABI,
-      'acceptProposedOwner'
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20OldABI,
+export const useSimulateZoomerXerc20OldAcceptProposedOwner =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'acceptProposedOwner',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20OldABI,
-    'acceptProposedOwner'
-  >)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"addBridge"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"addBridge"`
  */
-export function usePrepareZoomerXerc20OldAddBridge(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'addBridge'>,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20OldABI,
+export const useSimulateZoomerXerc20OldAddBridge =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'addBridge',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'addBridge'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"approve"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"approve"`
  */
-export function usePrepareZoomerXerc20OldApprove(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'approve'>,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20OldABI,
+export const useSimulateZoomerXerc20OldApprove =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'approve',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'approve'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"burn"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"burn"`
  */
-export function usePrepareZoomerXerc20OldBurn(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'burn'>,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20OldABI,
+export const useSimulateZoomerXerc20OldBurn =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'burn',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'burn'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"decreaseAllowance"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"decreaseAllowance"`
  */
-export function usePrepareZoomerXerc20OldDecreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<
-      typeof zoomerXerc20OldABI,
-      'decreaseAllowance'
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20OldABI,
+export const useSimulateZoomerXerc20OldDecreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'decreaseAllowance',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20OldABI,
-    'decreaseAllowance'
-  >)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"increaseAllowance"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"increaseAllowance"`
  */
-export function usePrepareZoomerXerc20OldIncreaseAllowance(
-  config: Omit<
-    UsePrepareContractWriteConfig<
-      typeof zoomerXerc20OldABI,
-      'increaseAllowance'
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20OldABI,
+export const useSimulateZoomerXerc20OldIncreaseAllowance =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'increaseAllowance',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20OldABI,
-    'increaseAllowance'
-  >)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"initialize"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"initialize"`
  */
-export function usePrepareZoomerXerc20OldInitialize(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'initialize'>,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20OldABI,
+export const useSimulateZoomerXerc20OldInitialize =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'initialize',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'initialize'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"mint"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"mint"`
  */
-export function usePrepareZoomerXerc20OldMint(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'mint'>,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20OldABI,
+export const useSimulateZoomerXerc20OldMint =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'mint',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'mint'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"permit"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"permit"`
  */
-export function usePrepareZoomerXerc20OldPermit(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'permit'>,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20OldABI,
+export const useSimulateZoomerXerc20OldPermit =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'permit',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'permit'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"proposeNewOwner"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"proposeNewOwner"`
  */
-export function usePrepareZoomerXerc20OldProposeNewOwner(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'proposeNewOwner'>,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20OldABI,
+export const useSimulateZoomerXerc20OldProposeNewOwner =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'proposeNewOwner',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20OldABI,
-    'proposeNewOwner'
-  >)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"removeBridge"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"removeBridge"`
  */
-export function usePrepareZoomerXerc20OldRemoveBridge(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'removeBridge'>,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20OldABI,
+export const useSimulateZoomerXerc20OldRemoveBridge =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'removeBridge',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'removeBridge'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"renounceOwnership"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"renounceOwnership"`
  */
-export function usePrepareZoomerXerc20OldRenounceOwnership(
-  config: Omit<
-    UsePrepareContractWriteConfig<
-      typeof zoomerXerc20OldABI,
-      'renounceOwnership'
-    >,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20OldABI,
+export const useSimulateZoomerXerc20OldRenounceOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'renounceOwnership',
-    ...config,
-  } as UsePrepareContractWriteConfig<
-    typeof zoomerXerc20OldABI,
-    'renounceOwnership'
-  >)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"transfer"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"transfer"`
  */
-export function usePrepareZoomerXerc20OldTransfer(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'transfer'>,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20OldABI,
+export const useSimulateZoomerXerc20OldTransfer =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'transfer',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'transfer'>)
-}
+  })
 
 /**
- * Wraps __{@link usePrepareContractWrite}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `functionName` set to `"transferFrom"`.
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `functionName` set to `"transferFrom"`
  */
-export function usePrepareZoomerXerc20OldTransferFrom(
-  config: Omit<
-    UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'transferFrom'>,
-    'abi' | 'address' | 'functionName'
-  > = {} as any,
-) {
-  return usePrepareContractWrite({
-    abi: zoomerXerc20OldABI,
+export const useSimulateZoomerXerc20OldTransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     functionName: 'transferFrom',
-    ...config,
-  } as UsePrepareContractWriteConfig<typeof zoomerXerc20OldABI, 'transferFrom'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20OldAbi}__
  */
-export function useZoomerXerc20OldEvent<TEventName extends string>(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerXerc20OldABI, TEventName>,
-    'abi' | 'address'
-  > = {} as any,
-) {
-  return useContractEvent({
-    abi: zoomerXerc20OldABI,
+export const useWatchZoomerXerc20OldEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
-    ...config,
-  } as UseContractEventConfig<typeof zoomerXerc20OldABI, TEventName>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `eventName` set to `"Approval"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `eventName` set to `"Approval"`
  */
-export function useZoomerXerc20OldApprovalEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerXerc20OldABI, 'Approval'>,
-    'abi' | 'address' | 'eventName'
-  > = {} as any,
-) {
-  return useContractEvent({
-    abi: zoomerXerc20OldABI,
+export const useWatchZoomerXerc20OldApprovalEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     eventName: 'Approval',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerXerc20OldABI, 'Approval'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `eventName` set to `"BridgeAdded"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `eventName` set to `"BridgeAdded"`
  */
-export function useZoomerXerc20OldBridgeAddedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerXerc20OldABI, 'BridgeAdded'>,
-    'abi' | 'address' | 'eventName'
-  > = {} as any,
-) {
-  return useContractEvent({
-    abi: zoomerXerc20OldABI,
+export const useWatchZoomerXerc20OldBridgeAddedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     eventName: 'BridgeAdded',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerXerc20OldABI, 'BridgeAdded'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `eventName` set to `"BridgeRemoved"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `eventName` set to `"BridgeRemoved"`
  */
-export function useZoomerXerc20OldBridgeRemovedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerXerc20OldABI, 'BridgeRemoved'>,
-    'abi' | 'address' | 'eventName'
-  > = {} as any,
-) {
-  return useContractEvent({
-    abi: zoomerXerc20OldABI,
+export const useWatchZoomerXerc20OldBridgeRemovedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     eventName: 'BridgeRemoved',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerXerc20OldABI, 'BridgeRemoved'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `eventName` set to `"EIP712DomainChanged"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `eventName` set to `"EIP712DomainChanged"`
  */
-export function useZoomerXerc20OldEip712DomainChangedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerXerc20OldABI, 'EIP712DomainChanged'>,
-    'abi' | 'address' | 'eventName'
-  > = {} as any,
-) {
-  return useContractEvent({
-    abi: zoomerXerc20OldABI,
+export const useWatchZoomerXerc20OldEip712DomainChangedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     eventName: 'EIP712DomainChanged',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerXerc20OldABI, 'EIP712DomainChanged'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `eventName` set to `"Initialized"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `eventName` set to `"Initialized"`
  */
-export function useZoomerXerc20OldInitializedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerXerc20OldABI, 'Initialized'>,
-    'abi' | 'address' | 'eventName'
-  > = {} as any,
-) {
-  return useContractEvent({
-    abi: zoomerXerc20OldABI,
+export const useWatchZoomerXerc20OldInitializedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     eventName: 'Initialized',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerXerc20OldABI, 'Initialized'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `eventName` set to `"OwnershipProposed"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `eventName` set to `"OwnershipProposed"`
  */
-export function useZoomerXerc20OldOwnershipProposedEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerXerc20OldABI, 'OwnershipProposed'>,
-    'abi' | 'address' | 'eventName'
-  > = {} as any,
-) {
-  return useContractEvent({
-    abi: zoomerXerc20OldABI,
+export const useWatchZoomerXerc20OldOwnershipProposedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     eventName: 'OwnershipProposed',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerXerc20OldABI, 'OwnershipProposed'>)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `eventName` set to `"OwnershipTransferred"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `eventName` set to `"OwnershipTransferred"`
  */
-export function useZoomerXerc20OldOwnershipTransferredEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerXerc20OldABI, 'OwnershipTransferred'>,
-    'abi' | 'address' | 'eventName'
-  > = {} as any,
-) {
-  return useContractEvent({
-    abi: zoomerXerc20OldABI,
+export const useWatchZoomerXerc20OldOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     eventName: 'OwnershipTransferred',
-    ...config,
-  } as UseContractEventConfig<
-    typeof zoomerXerc20OldABI,
-    'OwnershipTransferred'
-  >)
-}
+  })
 
 /**
- * Wraps __{@link useContractEvent}__ with `abi` set to __{@link zoomerXerc20OldABI}__ and `eventName` set to `"Transfer"`.
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20OldAbi}__ and `eventName` set to `"Transfer"`
  */
-export function useZoomerXerc20OldTransferEvent(
-  config: Omit<
-    UseContractEventConfig<typeof zoomerXerc20OldABI, 'Transfer'>,
-    'abi' | 'address' | 'eventName'
-  > = {} as any,
-) {
-  return useContractEvent({
-    abi: zoomerXerc20OldABI,
+export const useWatchZoomerXerc20OldTransferEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: zoomerXerc20OldAbi,
     address: zoomerXerc20OldAddress,
     eventName: 'Transfer',
-    ...config,
-  } as UseContractEventConfig<typeof zoomerXerc20OldABI, 'Transfer'>)
-}
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link erc20Abi}__
+ */
+export const useReadErc20 = /*#__PURE__*/ createUseReadContract({
+  abi: erc20Abi,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"allowance"`
+ */
+export const useReadErc20Allowance = /*#__PURE__*/ createUseReadContract({
+  abi: erc20Abi,
+  functionName: 'allowance',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"balanceOf"`
+ */
+export const useReadErc20BalanceOf = /*#__PURE__*/ createUseReadContract({
+  abi: erc20Abi,
+  functionName: 'balanceOf',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"decimals"`
+ */
+export const useReadErc20Decimals = /*#__PURE__*/ createUseReadContract({
+  abi: erc20Abi,
+  functionName: 'decimals',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"name"`
+ */
+export const useReadErc20Name = /*#__PURE__*/ createUseReadContract({
+  abi: erc20Abi,
+  functionName: 'name',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"symbol"`
+ */
+export const useReadErc20Symbol = /*#__PURE__*/ createUseReadContract({
+  abi: erc20Abi,
+  functionName: 'symbol',
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"totalSupply"`
+ */
+export const useReadErc20TotalSupply = /*#__PURE__*/ createUseReadContract({
+  abi: erc20Abi,
+  functionName: 'totalSupply',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link erc20Abi}__
+ */
+export const useWriteErc20 = /*#__PURE__*/ createUseWriteContract({
+  abi: erc20Abi,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"approve"`
+ */
+export const useWriteErc20Approve = /*#__PURE__*/ createUseWriteContract({
+  abi: erc20Abi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"transfer"`
+ */
+export const useWriteErc20Transfer = /*#__PURE__*/ createUseWriteContract({
+  abi: erc20Abi,
+  functionName: 'transfer',
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useWriteErc20TransferFrom = /*#__PURE__*/ createUseWriteContract({
+  abi: erc20Abi,
+  functionName: 'transferFrom',
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link erc20Abi}__
+ */
+export const useSimulateErc20 = /*#__PURE__*/ createUseSimulateContract({
+  abi: erc20Abi,
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"approve"`
+ */
+export const useSimulateErc20Approve = /*#__PURE__*/ createUseSimulateContract({
+  abi: erc20Abi,
+  functionName: 'approve',
+})
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"transfer"`
+ */
+export const useSimulateErc20Transfer = /*#__PURE__*/ createUseSimulateContract(
+  { abi: erc20Abi, functionName: 'transfer' },
+)
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link erc20Abi}__ and `functionName` set to `"transferFrom"`
+ */
+export const useSimulateErc20TransferFrom =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: erc20Abi,
+    functionName: 'transferFrom',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link erc20Abi}__
+ */
+export const useWatchErc20Event = /*#__PURE__*/ createUseWatchContractEvent({
+  abi: erc20Abi,
+})
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link erc20Abi}__ and `eventName` set to `"Approval"`
+ */
+export const useWatchErc20ApprovalEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: erc20Abi,
+    eventName: 'Approval',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link erc20Abi}__ and `eventName` set to `"Transfer"`
+ */
+export const useWatchErc20TransferEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: erc20Abi,
+    eventName: 'Transfer',
+  })

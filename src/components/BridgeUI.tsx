@@ -29,6 +29,8 @@ import {
   Alert,
   AlertDescription,
   AlertIcon,
+  useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import {
@@ -39,39 +41,36 @@ import {
   useState,
 } from "react";
 import {
-  erc20ABI,
   useAccount,
-  useContractWrite,
-  usePrepareContractWrite,
+  useWriteContract,
   usePublicClient,
   useSendTransaction,
-  useWaitForTransaction,
+  useWaitForTransactionReceipt,
   useWalletClient,
 } from "wagmi";
-import { switchNetwork } from "@wagmi/core";
+import { switchChain } from "@wagmi/core";
 import { arbitrum, base, bsc, mainnet, optimism, polygon } from "wagmi/chains";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import {
   Address,
   Hash,
   Hex,
   encodeAbiParameters,
+  erc20Abi,
   formatEther,
   parseEther,
 } from "viem";
 import { SdkBase, SdkConfig, SdkUtils, create } from "@connext/sdk-core";
-import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import { chainIdToDomain } from "@connext/nxtp-utils";
 
 import { useDebounce } from "../hooks/useDebounce";
 import {
-  useBridgeSendThroughBridge,
-  useErc20Allowance,
-  useErc20BalanceOf,
-  useZoomerXerc20LockboxBaseDepositAndBridgeToL2,
-  useZoomerXerc20OldBalanceOf,
+  useReadErc20Allowance,
+  useReadErc20BalanceOf,
+  useReadZoomerXerc20OldBalanceOf,
+  useWriteBridgeSendThroughBridge,
+  useWriteZoomerXerc20LockboxBaseDepositAndBridgeToL2,
   zoomerCoinAddress,
 } from "../generated";
 import {
@@ -81,15 +80,13 @@ import {
   getApproveToByAsset,
   getCalldataByAsset,
   getRecipientByAsset,
+  solana,
 } from "../utils/asset";
+import { wagmiConfig } from "../wagmi";
 
 type BridgeUIProps = {
   asset: Asset;
   setAsset: Dispatch<SetStateAction<Asset>>;
-};
-
-const solana = {
-  id: 0,
 };
 
 const CONNEXT_LOCKBOX_ADAPTER_MAINNET =
@@ -103,12 +100,10 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
   const [relayerFee, setRelayerFee] = useState("0");
   const [relayerFeeLoading, setRelayerFeeLoading] = useState(false);
   const [approvalNeeded, setApprovalNeeded] = useState(true);
-  const [destinationChain, setDestinationChain] = useState<number | undefined>(
-    polygon.id
-  );
-  const [originChain, setOriginChain] = useState<number | undefined>(
-    walletClient?.chain.id ?? mainnet.id
-  );
+  const [destinationChain, setDestinationChain] = useState<
+    number | undefined
+  >();
+  const [originChain, setOriginChain] = useState<number | undefined>();
   const [connext, setConnext] = useState<
     { sdkBase: SdkBase; sdkUtils: SdkUtils } | undefined
   >();
@@ -118,13 +113,7 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
     isSuccess: allowanceIsSuccess,
     isError: allowanceIsError,
     error,
-  } = useErc20Allowance({
-    enabled:
-      !!walletClient?.chain?.id &&
-      !!walletClient?.account?.address &&
-      !!destinationChain &&
-      ((asset === "zoomer" && destinationChain === base.id) ||
-        asset === "grumpycat"),
+  } = useReadErc20Allowance({
     address: walletClient?.chain.id
       ? getAddressByAsset(asset, walletClient!.chain.id)
       : "0x0000000000000000000000000000000000000000",
@@ -219,6 +208,13 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
       };
       const { sdkBase, sdkUtils } = await create(sdkConfig);
       setConnext({ sdkBase, sdkUtils });
+      setOriginChain(walletClient?.chain.id);
+      setDestinationChain(
+        configByAsset[asset].chains.filter(
+          (chain) =>
+            chain.id !== walletClient?.chain.id && chain.id !== solana.id
+        )[Math.floor(Math.random() * configByAsset[asset].chains.length)].id
+      );
     };
     run();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -304,9 +300,7 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
             !walletClient?.chain?.id ? (
               <Flex>
                 <Spacer />
-                <Box>
-                  <ConnectButton label="/CONNECT_WALLET" />
-                </Box>
+                <Box>{/* <ConnectButton label="/CONNECT_WALLET" /> */}</Box>
                 <Spacer />
               </Flex>
             ) : (
@@ -556,10 +550,9 @@ const AmountDisplay = ({
   setAmountIn,
   asset,
 }: AmountDisplayProps) => {
-  const { data: balance, isSuccess: isSuccessBalance } = useErc20BalanceOf({
+  const { data: balance, isSuccess: isSuccessBalance } = useReadErc20BalanceOf({
     address: getAddressByAsset(asset, walletChain),
     args: [walletAddress],
-    watch: true,
   });
   return (
     <Flex direction="column">
@@ -603,7 +596,7 @@ const SelectOriginChain = ({
   ) => {
     setOriginChain(+event.target.value);
     if (+event.target.value !== solana.id) {
-      await switchNetwork({
+      await switchChain(wagmiConfig, {
         chainId: +event.target.value,
       });
     }
@@ -623,23 +616,13 @@ const SelectOriginChain = ({
         value={originChain}
         onChange={handleSwitchOriginChain}
       >
-        {configByAsset[asset].chains
-          .map((chain) => {
-            return (
-              <option key={chain.id} value={chain.id}>
-                {chain.name}
-              </option>
-            );
-          })
-          .concat(
-            asset === "zoomer"
-              ? [
-                  <option key={0} value={0}>
-                    Solana
-                  </option>,
-                ]
-              : []
-          )}
+        {configByAsset[asset].chains.map((chain) => {
+          return (
+            <option key={chain.id} value={chain.id}>
+              {chain.name}
+            </option>
+          );
+        })}
       </Select>
     </VStack>
   );
@@ -709,16 +692,7 @@ const SelectDestinationChain = ({
                 {chain.name}
               </option>
             );
-          })
-          .concat(
-            asset === "zoomer" && walletChain !== base.id
-              ? [
-                  <option key={0} value={0}>
-                    Solana
-                  </option>,
-                ]
-              : []
-          )}
+          })}
       </Select>
     </VStack>
   );
@@ -818,29 +792,12 @@ const ApproveButton = ({
   asset,
 }: ApproveButtonProps) => {
   const [approvalLoading, setApprovalLoading] = useState(false);
-  const [infinite, setInfinite] = useState(false);
   const { sendTransactionAsync } = useSendTransaction();
-  const addRecentTransaction = useAddRecentTransaction();
   const { waitForTransactionReceipt } = usePublicClient();
   const { colorMode } = useColorMode();
+  const toast = useToast();
 
-  const { config } = usePrepareContractWrite({
-    enabled: !!getApproveToByAsset(asset, walletChain, destinationChain),
-    chainId: walletChain,
-    abi: erc20ABI,
-    address: getAddressByAsset(asset, walletChain),
-    functionName: "approve",
-    args: [
-      getApproveToByAsset(asset, walletChain, destinationChain) ??
-        "0x0000000000000000000000000000000000000000",
-      infinite
-        ? BigInt(
-            "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-          )
-        : parseEther(amountIn),
-    ],
-  });
-  const { writeAsync: approveWrite } = useContractWrite(config);
+  const { writeContractAsync: approveWrite } = useWriteContract();
 
   const handleApprove = async (infinite: boolean) => {
     setApprovalLoading(true);
@@ -851,8 +808,21 @@ const ApproveButton = ({
           if (!approveWrite) {
             throw new Error("approveWrite is undefined");
           }
-          const data = await approveWrite();
-          tx = data.hash;
+          const data = await approveWrite({
+            chainId: walletChain,
+            abi: erc20Abi,
+            address: getAddressByAsset(asset, walletChain),
+            functionName: "approve",
+            args: [
+              getApproveToByAsset(asset, walletChain, destinationChain)!,
+              infinite
+                ? BigInt(
+                    "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+                  )
+                : parseEther(amountIn),
+            ],
+          });
+          tx = data;
         } else {
           console.log(
             "approveIfNeeded: ",
@@ -878,26 +848,42 @@ const ApproveButton = ({
             value: BigInt(0),
             data: res.data! as Hex,
           });
-          tx = data.hash;
+          tx = data;
         }
       } else if (asset === "grumpycat") {
-        console.log("config: ", config);
         if (!approveWrite) {
           throw new Error("approveWrite is undefined");
         }
-        const data = await approveWrite();
-        tx = data.hash;
+        const data = await approveWrite({
+          chainId: walletChain,
+          abi: erc20Abi,
+          address: getAddressByAsset(asset, walletChain),
+          functionName: "approve",
+          args: [
+            getApproveToByAsset(asset, walletChain, destinationChain)!,
+            infinite
+              ? BigInt(
+                  "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+                )
+              : parseEther(amountIn),
+          ],
+        });
+        tx = data;
       } else {
         throw new Error("invalid asset");
       }
       setApprovalLoading(true);
-      addRecentTransaction({ hash: tx, description: "Approval" });
       const receipt = await waitForTransactionReceipt({ hash: tx });
       console.log("receipt: ", receipt);
       setApprovalLoading(false);
       setApprovalNeeded(false);
     } catch (e) {
       setApprovalLoading(false);
+      toast({
+        title: "Approval Error",
+        description: (e as Error).message,
+        status: "error",
+      });
       console.log("error: ", e);
     }
   };
@@ -946,38 +932,22 @@ const BridgeButton = ({
   const { colorMode } = useColorMode();
   const [xcallLoading, setXCallLoading] = useState(false);
   const [xcallTxHash, setXCallTxHash] = useState<Hash | undefined>();
-  const addRecentTransaction = useAddRecentTransaction();
   const { sendTransactionAsync } = useSendTransaction();
-  const { isLoading } = useWaitForTransaction({
+  const { isLoading } = useWaitForTransactionReceipt({
     hash: xcallTxHash,
   });
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
-  const { writeAsync: depositWriteZoomerLockbox } =
-    useZoomerXerc20LockboxBaseDepositAndBridgeToL2({
-      args: [parseEther(amountIn)],
-      chainId: walletChain,
-    });
+  const { writeContractAsync: depositWriteZoomerLockbox } =
+    useWriteZoomerXerc20LockboxBaseDepositAndBridgeToL2();
 
   console.log(
     "getCalldataByAsset(asset, destinationChain, walletAddress): ",
     getCalldataByAsset(asset, destinationChain, walletAddress)
   );
-  const { writeAsync: sendThroughBridgeWrite } = useBridgeSendThroughBridge({
-    args: [
-      getAddressByAsset(asset, walletChain),
-      getRecipientByAsset(asset, destinationChain, walletAddress),
-      destinationChain,
-      parseEther(amountIn),
-      getCalldataByAsset(asset, destinationChain, walletAddress),
-      0,
-      encodeAbiParameters(
-        [{ type: "address" }, { type: "uint256" }],
-        [walletAddress, BigInt(10)]
-      ),
-    ],
-    value: BigInt(relayerFee),
-  });
+  const { writeContractAsync: sendThroughBridgeWrite } =
+    useWriteBridgeSendThroughBridge();
 
   const handleXCall = async () => {
     console.log(`amountIn: ${parseEther(amountIn)}`);
@@ -991,8 +961,10 @@ const BridgeButton = ({
           if (!depositWriteZoomerLockbox) {
             throw new Error("depositWriteZoomerLockbox is undefined");
           }
-          const data = await depositWriteZoomerLockbox();
-          tx = data.hash;
+          const data = await depositWriteZoomerLockbox({
+            args: [parseEther(amountIn)],
+          });
+          tx = data;
         } else {
           if (relayerFee === "0") {
             _relayerFee = await getRelayerFee(destinationChain.toString());
@@ -1028,24 +1000,42 @@ const BridgeButton = ({
             value: BigInt(_relayerFee),
             data: res.data! as Hex,
           });
-          tx = data.hash;
+          tx = data;
         }
       } else if (asset === "grumpycat") {
         if (!sendThroughBridgeWrite) {
           throw new Error("sendThroughBridgeWrite is undefined");
         }
-        const data = await sendThroughBridgeWrite();
-        tx = data.hash;
+        const data = await sendThroughBridgeWrite({
+          args: [
+            getAddressByAsset(asset, walletChain),
+            getRecipientByAsset(asset, destinationChain, walletAddress),
+            destinationChain,
+            parseEther(amountIn),
+            getCalldataByAsset(asset, destinationChain, walletAddress),
+            0,
+            encodeAbiParameters(
+              [{ type: "address" }, { type: "uint256" }],
+              [walletAddress, BigInt(10)]
+            ),
+          ],
+          value: BigInt(relayerFee),
+        });
+        tx = data;
       } else {
         throw new Error("invalid asset");
       }
-      addRecentTransaction({ hash: tx, description: "XCall" });
       console.log("tx: ", tx);
       setXCallLoading(false);
       setXCallTxHash(tx);
       onOpen();
     } catch (e) {
-      console.log("error: ", e);
+      console.log("bridging error: ", e);
+      toast({
+        title: "Bridging Error",
+        description: (e as Error).message,
+        status: "error",
+      });
       setXCallLoading(false);
     }
   };
@@ -1097,6 +1087,7 @@ const BridgedModal = ({
   asset,
   destinationChain,
 }: BridgedModalProps) => {
+  const linkColor = useColorModeValue("blueAlpha.400", "whiteAlpha.900");
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay
@@ -1116,7 +1107,7 @@ const BridgedModal = ({
             <Link
               href={`https://connextscan.io/tx/${txHash}`}
               isExternal
-              color="whiteAlpha.900"
+              color={linkColor}
             >
               Check Tx
             </Link>
@@ -1243,7 +1234,10 @@ type CheckOldZoomerProps = {
 };
 const CheckOldZoomer = ({ address }: CheckOldZoomerProps) => {
   const { data: balance, isSuccess: isSuccessBalance } =
-    useZoomerXerc20OldBalanceOf({ args: [address], watch: true, chainId: 137 });
+    useReadZoomerXerc20OldBalanceOf({
+      args: [address],
+      chainId: 137,
+    });
 
   return isSuccessBalance && balance! > BigInt(0) ? (
     <Alert status="error">

@@ -1,11 +1,12 @@
 "use client";
 
-import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
 import * as React from "react";
-import { WagmiConfig } from "wagmi";
+import { WagmiProvider } from "wagmi";
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { wagmiConfig } from "../wagmi";
 
-import { chains, config } from "../wagmi";
+const queryClient = new QueryClient();
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [mounted, setMounted] = React.useState(false);
@@ -28,22 +29,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
         },
       })}
     >
-      <WagmiConfig config={config}>
-        <RainbowKitProvider
-          chains={chains}
-          coolMode
-          showRecentTransactions={true}
-          theme={darkTheme({
-            accentColor: "#FEFC52",
-            accentColorForeground: "black",
-            borderRadius: "small",
-            fontStack: "system",
-            overlayBlur: "small",
-          })}
-        >
+      <WagmiProvider config={wagmiConfig}>
+        <QueryClientProvider client={queryClient}>
           {mounted && children}
-        </RainbowKitProvider>
-      </WagmiConfig>
+        </QueryClientProvider>
+      </WagmiProvider>
     </ChakraProvider>
   );
 }

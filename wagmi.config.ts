@@ -1,5 +1,6 @@
 import { defineConfig, loadEnv } from "@wagmi/cli";
-import { erc, etherscan, react } from "@wagmi/cli/plugins";
+import { etherscan, react } from "@wagmi/cli/plugins";
+import { erc20Abi } from "viem";
 import { arbitrum, base, bsc, mainnet, optimism, polygon } from "wagmi/chains";
 
 export default defineConfig(() => {
@@ -10,6 +11,10 @@ export default defineConfig(() => {
   return {
     out: "src/generated.ts",
     contracts: [
+      {
+        name: "erc20",
+        abi: erc20Abi,
+      },
       {
         name: "ZoomerCoin",
         address: {
@@ -1786,7 +1791,6 @@ export default defineConfig(() => {
       },
     ],
     plugins: [
-      erc({ "20": true, "721": false }),
       etherscan({
         apiKey: env.ETHERSCAN_API_KEY!,
         chainId: mainnet.id,

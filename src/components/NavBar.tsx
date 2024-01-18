@@ -6,12 +6,25 @@ import {
   IconButton,
   Spacer,
   useColorMode,
+  useColorModeValue,
 } from "@chakra-ui/react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
-import Link from "next/link";
+import { createWeb3Modal, useWeb3Modal } from "@web3modal/wagmi/react";
+import { wagmiConfig, projectId, chains } from "../wagmi";
+import { ZOOMER_YELLOW } from "../utils/colors";
+
+createWeb3Modal({
+  wagmiConfig,
+  projectId,
+  chains,
+  themeMode: "light",
+  themeVariables: {
+    // "--w3m-accent": ZOOMER_YELLOW,
+  },
+});
 
 export const NavBar = () => {
   const { toggleColorMode, colorMode } = useColorMode();
+  const { open } = useWeb3Modal();
   return (
     <Box h="40px">
       <Flex>
@@ -23,17 +36,20 @@ export const NavBar = () => {
         <Spacer />
         <Flex direction={"row"}>
           <IconButton
-            colorScheme={colorMode === "light" ? "blackAlpha" : "yellow"}
+            colorScheme={useColorModeValue("blackAlpha", "yellow")}
             mr={5}
             onClick={toggleColorMode}
             // variant={"ghost"}
             aria-label="Toggle color mode"
             // icon={<SearchIcon />}
-            icon={colorMode === "dark" ? <SunIcon /> : <MoonIcon />}
+            icon={useColorModeValue(<MoonIcon />, <SunIcon />)}
           />
-          <Box>
-            <ConnectButton />
-          </Box>
+          {/* <Button onClick={() => open()}>Open Connect Modal</Button>
+          <Button onClick={() => open({ view: "Networks" })}>
+            Open Network Modal
+          </Button> */}
+          <w3m-button />
+          <Box></Box>
         </Flex>
       </Flex>
     </Box>

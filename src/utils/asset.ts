@@ -17,10 +17,21 @@ export type AssetConfig = {
   buyLink: string;
 };
 
+export const solana: Chain = {
+  id: 0,
+  name: "Solana",
+  nativeCurrency: { name: "SOL", symbol: "SOL", decimals: 8 },
+  rpcUrls: {
+    default: {
+      http: ["https://api.mainnet-beta.solana.com"],
+    },
+  },
+};
+
 export const configByAsset: Record<Asset, AssetConfig> = {
   zoomer: {
     color: ZOOMER_YELLOW,
-    chains: [mainnet, base, polygon, bsc, arbitrum, optimism],
+    chains: [mainnet, base, polygon, bsc, arbitrum, optimism, solana],
     buyLink: BUY_ZOOMER_LINK,
   },
   grumpycat: {
