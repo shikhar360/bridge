@@ -20,21 +20,18 @@ import {
   AccordionPanel,
   Text,
 } from "@chakra-ui/react";
-import { ConnectButton, useAddRecentTransaction } from "@rainbow-me/rainbowkit";
-import { Address, useAccount, usePublicClient, useWalletClient } from "wagmi";
+import { useAccount, usePublicClient, useWalletClient } from "wagmi";
 import { polygon } from "viem/chains";
 import NextLink from "next/link";
-import { formatEther } from "viem";
+import { Address, formatEther } from "viem";
 import { Dispatch, SetStateAction, useState } from "react";
 
 import { configByAsset } from "../../utils/asset";
 import {
-  usePrepareZoomerMigratorMigrate,
-  usePrepareZoomerXerc20OldApprove,
-  useZoomerMigratorMigrate,
-  useZoomerXerc20OldAllowance,
-  useZoomerXerc20OldApprove,
-  useZoomerXerc20OldBalanceOf,
+  useReadZoomerXerc20OldAllowance,
+  useReadZoomerXerc20OldBalanceOf,
+  useWriteZoomerMigratorMigrate,
+  useWriteZoomerXerc20OldApprove,
   zoomerMigratorAddress,
 } from "../../generated";
 
@@ -73,7 +70,7 @@ export const Migrate = () => {
               <Flex>
                 <Spacer />
                 <Box>
-                  <ConnectButton label="/CONNECT_WALLET" />
+                  <w3m-button />
                 </Box>
                 <Spacer />
               </Flex>
@@ -114,13 +111,13 @@ type OldZoomerDisplayProps = {
   setAmount: Dispatch<SetStateAction<bigint>>;
 };
 const OldZoomerDisplay = ({ address, setAmount }: OldZoomerDisplayProps) => {
-  const { data, isSuccess } = useZoomerXerc20OldBalanceOf({
+  const { data, isSuccess } = useReadZoomerXerc20OldBalanceOf({
     args: [address],
-    onSuccess(data) {
-      console.log("data: ", data);
-      setAmount(data!);
-    },
   });
+  if (isSuccess) {
+    console.log("data: ", data);
+    setAmount(data!);
+  }
   return (
     <Stat>
       <StatLabel>Available to Migrate</StatLabel>
@@ -135,9 +132,8 @@ type ActionButtonProps = {
   amount: bigint;
 };
 const ActionButton = ({ amount, address }: ActionButtonProps) => {
-  const { data, isSuccess } = useZoomerXerc20OldAllowance({
+  const { data, isSuccess } = useReadZoomerXerc20OldAllowance({
     args: [address, zoomerMigratorAddress[137]],
-    watch: true,
   });
 
   if (!isSuccess) {
@@ -156,22 +152,16 @@ type ApproveButtonProps = {
 const ApproveButton = ({ amount }: ApproveButtonProps) => {
   const { colorMode } = useColorMode();
   const [approvalLoading, setApprovalLoading] = useState(false);
-  const { config } = usePrepareZoomerXerc20OldApprove({
-    args: [zoomerMigratorAddress[137], amount],
-  });
-  const { writeAsync } = useZoomerXerc20OldApprove(config);
-  const addRecentTransaction = useAddRecentTransaction();
+  const { writeContractAsync } = useWriteZoomerXerc20OldApprove();
   const { waitForTransactionReceipt } = usePublicClient();
 
   const handleApprove = async () => {
     setApprovalLoading(true);
     try {
-      if (!writeAsync) {
-        throw new Error("writeAsync is undefined");
-      }
-      const tx = await writeAsync();
-      addRecentTransaction({ hash: tx.hash, description: "Approval" });
-      await waitForTransactionReceipt({ hash: tx.hash });
+      const tx = await writeContractAsync({
+        args: [zoomerMigratorAddress[137], amount],
+      });
+      await waitForTransactionReceipt({ hash: tx });
     } finally {
       setApprovalLoading(false);
     }
@@ -203,22 +193,14 @@ type MigrateButtonProps = {
 const MigrateButton = ({ amount }: MigrateButtonProps) => {
   const { colorMode } = useColorMode();
   const [migrateLoading, setMigrateLoading] = useState(false);
-  const { config } = usePrepareZoomerMigratorMigrate({
-    args: [amount],
-  });
-  const { writeAsync } = useZoomerMigratorMigrate(config);
-  const addRecentTransaction = useAddRecentTransaction();
+  const { writeContractAsync } = useWriteZoomerMigratorMigrate();
   const { waitForTransactionReceipt } = usePublicClient();
 
   const handleMigrate = async () => {
     setMigrateLoading(true);
     try {
-      if (!writeAsync) {
-        throw new Error("writeAsync is undefined");
-      }
-      const tx = await writeAsync();
-      addRecentTransaction({ hash: tx.hash, description: "Approval" });
-      await waitForTransactionReceipt({ hash: tx.hash });
+      const tx = await writeContractAsync({ args: [amount] });
+      await waitForTransactionReceipt({ hash: tx });
     } finally {
       setMigrateLoading(false);
     }
