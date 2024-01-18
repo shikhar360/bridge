@@ -82,7 +82,6 @@ import {
   getCalldataByAsset,
   getRecipientByAsset,
 } from "../utils/asset";
-import { configuredChains } from "../wagmi";
 
 type BridgeUIProps = {
   asset: Asset;
@@ -92,6 +91,9 @@ type BridgeUIProps = {
 const solana = {
   id: 0,
 };
+
+const CONNEXT_LOCKBOX_ADAPTER_MAINNET =
+  "0x45BF3c737e57B059a5855280CA1ADb8e9606AC68";
 
 export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
   const { data: walletClient } = useWalletClient();
@@ -1001,12 +1003,21 @@ const BridgeButton = ({
           const sdkParams = {
             origin: chainIdToDomain(walletChain).toString(),
             destination: chainIdToDomain(destinationChain!).toString(),
-            to: walletAddress,
+            to:
+              destinationChain === mainnet.id
+                ? CONNEXT_LOCKBOX_ADAPTER_MAINNET
+                : walletAddress,
             asset: getAddressByAsset(asset, walletChain),
             delegate: walletAddress,
             amount: parseEther(amountIn).toString(),
             slippage: "300",
-            callData: "0x",
+            callData:
+              destinationChain === mainnet.id
+                ? encodeAbiParameters(
+                    [{ name: "receipient", type: "address" }],
+                    [walletAddress]
+                  )
+                : "0x",
             relayerFee: _relayerFee,
           };
           console.log("sdkParams: ", sdkParams);
