@@ -38,8 +38,4 @@ export const wagmiConfig = defaultWagmiConfig({
   enableInjected: true, // Optional - true by default
   enableEIP6963: true, // Optional - true by default
   enableCoinbase: true, // Optional - true by default
-  storage: createStorage({
-    storage: cookieStorage,
-  }),
-  ssr: true,
 });
