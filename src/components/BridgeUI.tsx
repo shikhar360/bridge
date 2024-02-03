@@ -800,7 +800,9 @@ const ApproveButton = ({
   const { isLoading } = useWaitForTransactionReceipt({ hash: txHash });
   const { colorMode } = useColorMode();
   const toast = useToast();
-  setApprovalLoading(isLoading);
+  if (isLoading !== approvalLoading) {
+    setApprovalLoading(isLoading);
+  }
 
   const { writeContractAsync: approveWrite } = useWriteContract();
 

@@ -8,6 +8,7 @@ import {
   polygon,
 } from "wagmi/chains";
 import { defaultWagmiConfig } from "@web3modal/wagmi";
+import { cookieStorage, createStorage } from "wagmi";
 
 export const projectId = "296a55745d9880bb16e1386b1b0eb360";
 
@@ -37,4 +38,8 @@ export const wagmiConfig = defaultWagmiConfig({
   enableInjected: true, // Optional - true by default
   enableEIP6963: true, // Optional - true by default
   enableCoinbase: true, // Optional - true by default
+  storage: createStorage({
+    storage: cookieStorage,
+  }),
+  ssr: true,
 });
