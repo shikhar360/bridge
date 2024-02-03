@@ -86,6 +86,7 @@ import {
   solana,
 } from "../utils/asset";
 import { wagmiConfig } from "../wagmi";
+import { set } from "lodash";
 
 type BridgeUIProps = {
   asset: Asset;
@@ -795,9 +796,11 @@ const ApproveButton = ({
 }: ApproveButtonProps) => {
   const [approvalLoading, setApprovalLoading] = useState(false);
   const { sendTransactionAsync } = useSendTransaction();
-  const { waitForTransactionReceipt } = usePublicClient();
+  const [txHash, setTxHash] = useState<Hash | undefined>();
+  const { isLoading } = useWaitForTransactionReceipt({ hash: txHash });
   const { colorMode } = useColorMode();
   const toast = useToast();
+  setApprovalLoading(isLoading);
 
   const { writeContractAsync: approveWrite } = useWriteContract();
 
@@ -875,8 +878,7 @@ const ApproveButton = ({
         throw new Error("invalid asset");
       }
       setApprovalLoading(true);
-      const receipt = await waitForTransactionReceipt({ hash: tx });
-      console.log("receipt: ", receipt);
+      setTxHash(tx);
       setApprovalLoading(false);
       setApprovalNeeded(false);
     } catch (e) {

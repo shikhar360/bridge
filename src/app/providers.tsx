@@ -29,7 +29,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         },
       })}
     >
-      <WagmiProvider config={wagmiConfig}>
+      <WagmiProvider config={wagmiConfig as any}>
         <QueryClientProvider client={queryClient}>
           {mounted && children}
         </QueryClientProvider>

@@ -153,15 +153,13 @@ const ApproveButton = ({ amount }: ApproveButtonProps) => {
   const { colorMode } = useColorMode();
   const [approvalLoading, setApprovalLoading] = useState(false);
   const { writeContractAsync } = useWriteZoomerXerc20OldApprove();
-  const { waitForTransactionReceipt } = usePublicClient();
 
   const handleApprove = async () => {
     setApprovalLoading(true);
     try {
-      const tx = await writeContractAsync({
+      await writeContractAsync({
         args: [zoomerMigratorAddress[137], amount],
       });
-      await waitForTransactionReceipt({ hash: tx });
     } finally {
       setApprovalLoading(false);
     }
@@ -194,13 +192,11 @@ const MigrateButton = ({ amount }: MigrateButtonProps) => {
   const { colorMode } = useColorMode();
   const [migrateLoading, setMigrateLoading] = useState(false);
   const { writeContractAsync } = useWriteZoomerMigratorMigrate();
-  const { waitForTransactionReceipt } = usePublicClient();
 
   const handleMigrate = async () => {
     setMigrateLoading(true);
     try {
-      const tx = await writeContractAsync({ args: [amount] });
-      await waitForTransactionReceipt({ hash: tx });
+      await writeContractAsync({ args: [amount] });
     } finally {
       setMigrateLoading(false);
     }
