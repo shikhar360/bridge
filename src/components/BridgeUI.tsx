@@ -55,6 +55,7 @@ import {
   Hash,
   Hex,
   encodeAbiParameters,
+  encodeFunctionData,
   erc20Abi,
   formatEther,
   parseEther,
@@ -72,6 +73,8 @@ import {
   useWriteBridgeSendThroughBridge,
   useWriteZoomerXerc20LockboxBaseDepositAndBridgeToL2,
   zoomerCoinAddress,
+  zoomerXerc20LockboxBaseAbi,
+  zoomerXerc20LockboxBaseAddress,
 } from "../generated";
 import {
   Asset,
@@ -467,7 +470,6 @@ const SelectAsset = ({ asset, setAsset }: SelectAssetProps) => {
       }
     >
       <option value="zoomer">ZOOMER</option>
-      <option value="grumpycat">GRUMPY CAT</option>
     </Select>
   );
 };
@@ -958,13 +960,19 @@ const BridgeButton = ({
       let tx: Hash;
       if (asset === "zoomer") {
         if (destinationChain === base.id) {
-          if (!depositWriteZoomerLockbox) {
-            throw new Error("depositWriteZoomerLockbox is undefined");
-          }
-          const data = await depositWriteZoomerLockbox({
+          console.log(
+            "zoomerXerc20LockboxBaseAddress[mainnet.id]: ",
+            zoomerXerc20LockboxBaseAddress[mainnet.id]
+          );
+          const data = encodeFunctionData({
+            abi: zoomerXerc20LockboxBaseAbi,
+            functionName: "depositAndBridgeToL2",
             args: [parseEther(amountIn)],
           });
-          tx = data;
+          tx = await sendTransactionAsync({
+            to: zoomerXerc20LockboxBaseAddress[mainnet.id] as Address,
+            data,
+          });
         } else {
           if (relayerFee === "0") {
             _relayerFee = await getRelayerFee(destinationChain.toString());
