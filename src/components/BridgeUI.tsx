@@ -531,8 +531,10 @@ const SelectBridge = ({
           })
       : [];
 
-  console.log("bridges: ", bridges);
-  setBridge(bridges[0]?.bridge as Bridge);
+  useEffect(() => {
+    setBridge(bridges[0]?.bridge as Bridge);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <FormControl>
