@@ -293,6 +293,399 @@ export const bridgeAddress = {
 export const bridgeConfig = { address: bridgeAddress, abi: bridgeAbi } as const
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// CCIPxERC20Bridge
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const cciPxErc20BridgeAbi = [
+  {
+    stateMutability: 'nonpayable',
+    type: 'constructor',
+    inputs: [
+      { name: '_router', internalType: 'address', type: 'address' },
+      { name: '_link', internalType: 'address', type: 'address' },
+      { name: '_xerc20', internalType: 'address', type: 'address' },
+      { name: '_feeBps', internalType: 'uint256', type: 'uint256' },
+    ],
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'owner', internalType: 'address', type: 'address' },
+      { name: 'target', internalType: 'address', type: 'address' },
+      { name: 'value', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'FailedToWithdrawEth',
+  },
+  {
+    type: 'error',
+    inputs: [{ name: 'router', internalType: 'address', type: 'address' }],
+    name: 'InvalidRouter',
+  },
+  {
+    type: 'error',
+    inputs: [
+      {
+        name: 'destinationChainSelector',
+        internalType: 'uint64',
+        type: 'uint64',
+      },
+    ],
+    name: 'NoReceiverForDestinationChain',
+  },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'currentBalance', internalType: 'uint256', type: 'uint256' },
+      { name: 'calculatedFees', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'NotEnoughBalance',
+  },
+  { type: 'error', inputs: [], name: 'NothingToWithdraw' },
+  {
+    type: 'error',
+    inputs: [
+      { name: 'sourceChainSelector', internalType: 'uint64', type: 'uint64' },
+      { name: 'sender', internalType: 'address', type: 'address' },
+    ],
+    name: 'SenderNotAllowlistedBySourceChain',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'messageId',
+        internalType: 'bytes32',
+        type: 'bytes32',
+        indexed: true,
+      },
+      {
+        name: 'sourceChainSelector',
+        internalType: 'uint64',
+        type: 'uint64',
+        indexed: true,
+      },
+      {
+        name: 'sender',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'recipient',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+    ],
+    name: 'MessageReceived',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      {
+        name: 'messageId',
+        internalType: 'bytes32',
+        type: 'bytes32',
+        indexed: true,
+      },
+      {
+        name: 'destinationChainSelector',
+        internalType: 'uint64',
+        type: 'uint64',
+        indexed: true,
+      },
+      {
+        name: 'receiver',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'recipient',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'amount',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+      {
+        name: 'feeToken',
+        internalType: 'address',
+        type: 'address',
+        indexed: false,
+      },
+      {
+        name: 'fees',
+        internalType: 'uint256',
+        type: 'uint256',
+        indexed: false,
+      },
+    ],
+    name: 'MessageSent',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+    ],
+    name: 'OwnershipTransferRequested',
+  },
+  {
+    type: 'event',
+    anonymous: false,
+    inputs: [
+      { name: 'from', internalType: 'address', type: 'address', indexed: true },
+      { name: 'to', internalType: 'address', type: 'address', indexed: true },
+    ],
+    name: 'OwnershipTransferred',
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [],
+    name: 'acceptOwnership',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_chainSelector', internalType: 'uint64', type: 'uint64' },
+      { name: '_bridge', internalType: 'address', type: 'address' },
+    ],
+    name: 'addBridgeForChain',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_chainId', internalType: 'uint32', type: 'uint32' },
+      { name: '_chainSelector', internalType: 'uint64', type: 'uint64' },
+    ],
+    name: 'addChainIdToChainSelector',
+    outputs: [],
+  },
+  {
+    stateMutability: 'payable',
+    type: 'function',
+    inputs: [
+      { name: '_destinationChainId', internalType: 'uint32', type: 'uint32' },
+      { name: '_receipient', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'bridgeTokens',
+    outputs: [{ name: 'messageId', internalType: 'bytes32', type: 'bytes32' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_destinationChainId', internalType: 'uint32', type: 'uint32' },
+      { name: '_receipient', internalType: 'address', type: 'address' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' },
+    ],
+    name: 'bridgeTokensWithLINK',
+    outputs: [{ name: 'messageId', internalType: 'bytes32', type: 'bytes32' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '', internalType: 'uint64', type: 'uint64' }],
+    name: 'bridgesByChain',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      {
+        name: 'message',
+        internalType: 'struct Client.Any2EVMMessage',
+        type: 'tuple',
+        components: [
+          { name: 'messageId', internalType: 'bytes32', type: 'bytes32' },
+          {
+            name: 'sourceChainSelector',
+            internalType: 'uint64',
+            type: 'uint64',
+          },
+          { name: 'sender', internalType: 'bytes', type: 'bytes' },
+          { name: 'data', internalType: 'bytes', type: 'bytes' },
+          {
+            name: 'destTokenAmounts',
+            internalType: 'struct Client.EVMTokenAmount[]',
+            type: 'tuple[]',
+            components: [
+              { name: 'token', internalType: 'address', type: 'address' },
+              { name: 'amount', internalType: 'uint256', type: 'uint256' },
+            ],
+          },
+        ],
+      },
+    ],
+    name: 'ccipReceive',
+    outputs: [],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [{ name: '', internalType: 'uint32', type: 'uint32' }],
+    name: 'chainIdToChainSelector',
+    outputs: [{ name: '', internalType: 'uint64', type: 'uint64' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'feeBps',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [
+      { name: '_destinationChainId', internalType: 'uint32', type: 'uint32' },
+      { name: '_amount', internalType: 'uint256', type: 'uint256' },
+      { name: '_feeInLINK', internalType: 'bool', type: 'bool' },
+    ],
+    name: 'getFee',
+    outputs: [{ name: '', internalType: 'uint256', type: 'uint256' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'getLastReceivedMessageDetails',
+    outputs: [
+      { name: 'messageId', internalType: 'bytes32', type: 'bytes32' },
+      { name: 'text', internalType: 'string', type: 'string' },
+    ],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'getRouter',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'linkToken',
+    outputs: [{ name: '', internalType: 'contract IERC20', type: 'address' }],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'owner',
+    outputs: [{ name: '', internalType: 'address', type: 'address' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: '_feeBps', internalType: 'uint256', type: 'uint256' }],
+    name: 'setFeeBps',
+    outputs: [],
+  },
+  {
+    stateMutability: 'pure',
+    type: 'function',
+    inputs: [{ name: 'interfaceId', internalType: 'bytes4', type: 'bytes4' }],
+    name: 'supportsInterface',
+    outputs: [{ name: '', internalType: 'bool', type: 'bool' }],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [{ name: 'to', internalType: 'address', type: 'address' }],
+    name: 'transferOwnership',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_beneficiary', internalType: 'address', type: 'address' },
+    ],
+    name: 'withdraw',
+    outputs: [],
+  },
+  {
+    stateMutability: 'nonpayable',
+    type: 'function',
+    inputs: [
+      { name: '_beneficiary', internalType: 'address', type: 'address' },
+      { name: '_token', internalType: 'address', type: 'address' },
+    ],
+    name: 'withdrawToken',
+    outputs: [],
+  },
+  {
+    stateMutability: 'view',
+    type: 'function',
+    inputs: [],
+    name: 'xerc20',
+    outputs: [{ name: '', internalType: 'contract IXERC20', type: 'address' }],
+  },
+  { stateMutability: 'payable', type: 'receive' },
+] as const
+
+/**
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const cciPxErc20BridgeAddress = {
+  1: '0x14588B66685326280396e0799fA292127B9d1465',
+  10: '0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a',
+  56: '0x840854c007c1E5F64074350beECa088F8a8e48BF',
+  137: '0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51',
+  8453: '0x083178fBB5d6dd6521fe778BcfC32BF898678fAe',
+  42161: '0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a',
+} as const
+
+/**
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const cciPxErc20BridgeConfig = {
+  address: cciPxErc20BridgeAddress,
+  abi: cciPxErc20BridgeAbi,
+} as const
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // GrumpyCatCoin
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -2603,6 +2996,647 @@ export const useWatchBridgeUnpausedEvent =
     abi: bridgeAbi,
     address: bridgeAddress,
     eventName: 'Unpaused',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useReadCciPxErc20Bridge = /*#__PURE__*/ createUseReadContract({
+  abi: cciPxErc20BridgeAbi,
+  address: cciPxErc20BridgeAddress,
+})
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"bridgesByChain"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useReadCciPxErc20BridgeBridgesByChain =
+  /*#__PURE__*/ createUseReadContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'bridgesByChain',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"chainIdToChainSelector"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useReadCciPxErc20BridgeChainIdToChainSelector =
+  /*#__PURE__*/ createUseReadContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'chainIdToChainSelector',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"feeBps"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useReadCciPxErc20BridgeFeeBps =
+  /*#__PURE__*/ createUseReadContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'feeBps',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"getFee"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useReadCciPxErc20BridgeGetFee =
+  /*#__PURE__*/ createUseReadContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'getFee',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"getLastReceivedMessageDetails"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useReadCciPxErc20BridgeGetLastReceivedMessageDetails =
+  /*#__PURE__*/ createUseReadContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'getLastReceivedMessageDetails',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"getRouter"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useReadCciPxErc20BridgeGetRouter =
+  /*#__PURE__*/ createUseReadContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'getRouter',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"linkToken"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useReadCciPxErc20BridgeLinkToken =
+  /*#__PURE__*/ createUseReadContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'linkToken',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"owner"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useReadCciPxErc20BridgeOwner = /*#__PURE__*/ createUseReadContract(
+  {
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'owner',
+  },
+)
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"supportsInterface"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useReadCciPxErc20BridgeSupportsInterface =
+  /*#__PURE__*/ createUseReadContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'supportsInterface',
+  })
+
+/**
+ * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"xerc20"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useReadCciPxErc20BridgeXerc20 =
+  /*#__PURE__*/ createUseReadContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'xerc20',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useWriteCciPxErc20Bridge = /*#__PURE__*/ createUseWriteContract({
+  abi: cciPxErc20BridgeAbi,
+  address: cciPxErc20BridgeAddress,
+})
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"acceptOwnership"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useWriteCciPxErc20BridgeAcceptOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'acceptOwnership',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"addBridgeForChain"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useWriteCciPxErc20BridgeAddBridgeForChain =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'addBridgeForChain',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"addChainIdToChainSelector"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useWriteCciPxErc20BridgeAddChainIdToChainSelector =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'addChainIdToChainSelector',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"bridgeTokens"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useWriteCciPxErc20BridgeBridgeTokens =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'bridgeTokens',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"bridgeTokensWithLINK"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useWriteCciPxErc20BridgeBridgeTokensWithLink =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'bridgeTokensWithLINK',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"ccipReceive"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useWriteCciPxErc20BridgeCcipReceive =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'ccipReceive',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"setFeeBps"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useWriteCciPxErc20BridgeSetFeeBps =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'setFeeBps',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"transferOwnership"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useWriteCciPxErc20BridgeTransferOwnership =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"withdraw"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useWriteCciPxErc20BridgeWithdraw =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'withdraw',
+  })
+
+/**
+ * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"withdrawToken"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useWriteCciPxErc20BridgeWithdrawToken =
+  /*#__PURE__*/ createUseWriteContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'withdrawToken',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useSimulateCciPxErc20Bridge =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"acceptOwnership"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useSimulateCciPxErc20BridgeAcceptOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'acceptOwnership',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"addBridgeForChain"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useSimulateCciPxErc20BridgeAddBridgeForChain =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'addBridgeForChain',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"addChainIdToChainSelector"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useSimulateCciPxErc20BridgeAddChainIdToChainSelector =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'addChainIdToChainSelector',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"bridgeTokens"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useSimulateCciPxErc20BridgeBridgeTokens =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'bridgeTokens',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"bridgeTokensWithLINK"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useSimulateCciPxErc20BridgeBridgeTokensWithLink =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'bridgeTokensWithLINK',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"ccipReceive"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useSimulateCciPxErc20BridgeCcipReceive =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'ccipReceive',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"setFeeBps"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useSimulateCciPxErc20BridgeSetFeeBps =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'setFeeBps',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"transferOwnership"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useSimulateCciPxErc20BridgeTransferOwnership =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'transferOwnership',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"withdraw"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useSimulateCciPxErc20BridgeWithdraw =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'withdraw',
+  })
+
+/**
+ * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"withdrawToken"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useSimulateCciPxErc20BridgeWithdrawToken =
+  /*#__PURE__*/ createUseSimulateContract({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    functionName: 'withdrawToken',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useWatchCciPxErc20BridgeEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `eventName` set to `"MessageReceived"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useWatchCciPxErc20BridgeMessageReceivedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    eventName: 'MessageReceived',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `eventName` set to `"MessageSent"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useWatchCciPxErc20BridgeMessageSentEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    eventName: 'MessageSent',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `eventName` set to `"OwnershipTransferRequested"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useWatchCciPxErc20BridgeOwnershipTransferRequestedEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    eventName: 'OwnershipTransferRequested',
+  })
+
+/**
+ * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `eventName` set to `"OwnershipTransferred"`
+ *
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
+ * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
+ * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
+ * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ */
+export const useWatchCciPxErc20BridgeOwnershipTransferredEvent =
+  /*#__PURE__*/ createUseWatchContractEvent({
+    abi: cciPxErc20BridgeAbi,
+    address: cciPxErc20BridgeAddress,
+    eventName: 'OwnershipTransferred',
   })
 
 /**

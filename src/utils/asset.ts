@@ -3,6 +3,7 @@ import { arbitrum, base, bsc, mainnet, optimism, polygon } from "wagmi/chains";
 import { GRUMPY_BLUE, ZOOMER_YELLOW } from "./colors";
 import {
   bridgeAddress,
+  cciPxErc20BridgeAddress,
   grumpyCatCoinAddress,
   grumpyCatLockboxAdapterAddress,
   zoomerCoinAddress,
@@ -10,6 +11,7 @@ import {
 } from "../generated";
 import { Address, Hex, encodeAbiParameters } from "viem";
 import { BUY_GRUMPYCAT_LINK, BUY_ZOOMER_LINK } from "./constants";
+import { Bridge } from "./bridge";
 
 export type AssetConfig = {
   chains: Chain[];
@@ -56,23 +58,6 @@ export const getAddressByAsset = (
     ];
   }
   throw new Error(`Unknown asset: ${asset}`);
-};
-
-export const getApproveToByAsset = (
-  asset: Asset,
-  originChainId: number,
-  destinationChainId: number
-): Address | undefined => {
-  if (asset === "zoomer") {
-    if (destinationChainId === base.id) {
-      return zoomerXerc20LockboxBaseAddress[
-        originChainId as keyof typeof zoomerXerc20LockboxBaseAddress
-      ];
-    }
-  }
-  if (asset === "grumpycat") {
-    return bridgeAddress[originChainId as keyof typeof bridgeAddress];
-  }
 };
 
 export const getCalldataByAsset = (
