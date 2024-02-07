@@ -9,12 +9,11 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { createWeb3Modal } from "@web3modal/wagmi/react";
-import { wagmiConfig, projectId, chains } from "../wagmi";
+import { wagmiConfig, projectId } from "../wagmi";
 
 createWeb3Modal({
-  wagmiConfig,
+  wagmiConfig: wagmiConfig as any,
   projectId,
-  chains,
 });
 
 export const NavBar = () => {
