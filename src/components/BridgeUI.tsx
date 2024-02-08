@@ -40,6 +40,7 @@ import {
   Dispatch,
   SetStateAction,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import {
@@ -72,7 +73,6 @@ import { useDebounce } from "../hooks/useDebounce";
 import {
   cciPxErc20BridgeAbi,
   cciPxErc20BridgeAddress,
-  useReadCciPxErc20BridgeGetFee,
   useReadErc20BalanceOf,
   useReadZoomerXerc20OldBalanceOf,
   zoomerCoinAddress,
@@ -150,14 +150,14 @@ const getRelayerFee = async (
   connext: { sdkBase: SdkBase; sdkUtils: SdkUtils }
 ): Promise<string> => {
   let fee: string;
-  console.log("bridge: ", bridge);
+  console.log("******* getRelayerFee *******    ", amount.toString());
   if (bridge === "connext") {
     console.log("getting relayer fee: ", destinationChain);
     const _fee = await connext.sdkBase.estimateRelayerFee({
       originDomain: chainIdToDomain(walletChain).toString(),
       destinationDomain: chainIdToDomain(destinationChain).toString(),
     });
-    fee = (_fee ?? "0").toString();
+    fee = (_fee ?? "N/A").toString();
   } else if (bridge === "ccip") {
     let _fee = await pubClient?.readContract({
       abi: cciPxErc20BridgeAbi,
@@ -168,7 +168,7 @@ const getRelayerFee = async (
       functionName: "getFee",
       args: [+destinationChain, BigInt(amount), false],
     });
-    fee = (_fee ?? "0").toString();
+    fee = (_fee ?? "N/A").toString();
   } else {
     fee = "0";
   }
@@ -273,6 +273,17 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
         !bridge ||
         !destinationChain
       ) {
+        console.log(
+          "walletClient?.account?.address: ",
+          walletClient?.account?.address
+        );
+        console.log("amountIn: ", amountIn);
+        console.log("walletClient?.chain.id: ", walletClient?.chain.id);
+        console.log("pubClient: ", !!pubClient);
+        console.log("connext: ", !!connext);
+        console.log("bridge: ", bridge);
+        console.log("destinationChain: ", destinationChain);
+        console.log("MISSING STUFF");
         return;
       }
       await Promise.all([
@@ -293,7 +304,7 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
             bridge,
             walletClient.chain.id,
             destinationChain,
-            BigInt(amountIn),
+            parseEther(amountIn),
             pubClient,
             connext
           );
@@ -517,24 +528,26 @@ const SelectBridge = ({
     setBridge(event.target.value as Bridge);
   };
 
-  const bridges =
-    originChain && destinationChain
-      ? Object.entries(bridgeConfig)
-          .filter(([_, bridgeConfig]) => {
-            return (
-              bridgeConfig.origin.includes(originChain) &&
-              bridgeConfig.destination.includes(destinationChain)
-            );
-          })
-          .map(([bridge, bridgeConfig]) => {
-            return { bridgeConfig, bridge };
-          })
-      : [];
+  const bridges = useMemo(
+    () =>
+      originChain && destinationChain
+        ? Object.entries(bridgeConfig)
+            .filter(([_, bridgeConfig]) => {
+              return (
+                bridgeConfig.origin.includes(originChain) &&
+                bridgeConfig.destination.includes(destinationChain)
+              );
+            })
+            .map(([bridge, bridgeConfig]) => {
+              return { bridgeConfig, bridge };
+            })
+        : [],
+    [destinationChain, originChain]
+  );
 
   useEffect(() => {
     setBridge(bridges[0]?.bridge as Bridge);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [bridges, setBridge]);
 
   return (
     <FormControl>
