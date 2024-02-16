@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 
-import { NavBar } from "../components/NavBar";
+// import { NavBar } from "../components/NavBar";
 import { BridgeUI } from "../components/BridgeUI";
 import { Asset, configByAsset } from "../utils/asset";
 
@@ -30,7 +30,7 @@ const Page = () => {
       }
       textColor={colorMode === "light" ? "black" : configByAsset[asset].color}
     >
-      <NavBar />
+      {/* <NavBar /> */}
       <Flex>
         <Spacer />
         <Box width={{ base: "100%", md: "640px" }}>
