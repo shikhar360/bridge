@@ -51,6 +51,7 @@ import {
   useWaitForTransactionReceipt,
   useWalletClient,
 } from "wagmi";
+//@ts-ignore
 import { switchChain } from "@wagmi/core";
 import { arbitrum, base, bsc, mainnet, optimism, polygon } from "wagmi/chains";
 import {

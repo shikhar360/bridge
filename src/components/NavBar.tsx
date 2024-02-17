@@ -25,7 +25,7 @@ export const NavBar = () => {
   const router = useRouter()
   // console.log(pathname)
   return (
-   <div className={`flex items-center justify-between px-20`}>
+   <div className={`flex items-center justify-between px-20 py-4`}>
     <img onClick={()=>router.back()} className={`${pathname === '/' ? "hidden" : "block"}`} src="https://img.icons8.com/ios/50/left-squared--v1.png" alt="left-squared--v1"/>
     <div className={`w-12 rounded-full bg-yellow-300 overflow-hidden`}>
       <img src="/v2/zoom.png" alt="" className={`w-10`} />

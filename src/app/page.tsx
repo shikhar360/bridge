@@ -35,7 +35,19 @@ const Page = () => {
         <Spacer />
         <Box width={{ base: "100%", md: "640px" }}>
           <BridgeUI asset={asset} setAsset={setAsset} />
-          <LinkBox>
+         
+        </Box>
+        <Spacer />
+      </Flex>
+     
+    </VStack>
+  );
+};
+
+export default Page;
+
+/*
+ <LinkBox>
             <Button
               width="100%"
               backgroundColor={
@@ -64,14 +76,8 @@ const Page = () => {
               />
             </Flex>
           </LinkBox>
-        </Box>
-        <Spacer />
-      </Flex>
-      <Flex>
-        <Spacer />
-      </Flex>
-    </VStack>
-  );
-};
 
-export default Page;
+           <Flex>
+        <Spacer />
+      </Flex>
+*/
