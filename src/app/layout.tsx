@@ -13,8 +13,11 @@ export default function RootLayout({
     <html lang="en">
       <link rel="icon" href="/favicon.ico" sizes="any" />
       <body>
+        <Providers>
       <NavBar />
-        <Providers>{children}</Providers>
+          
+          {children}
+          </Providers>
       </body>
     </html>
   );

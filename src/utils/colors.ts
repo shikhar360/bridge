@@ -35,6 +35,6 @@ export const chainsTheme = [
 ]
 
 export function getThemeColor(chain : string){
- const { theme} = chainsTheme.filter(col => col.chain === chain)
- return theme
+ const val = chainsTheme.filter(col => col.chain == chain)
+ return val[0]
 }
