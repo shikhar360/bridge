@@ -22,7 +22,7 @@ const Selector = ({ options, setOriginChain }: ISelector) => {
     const textcolor = theme.slice(4,-3)
     return { theme , textcolor}
   }
-
+//  walletClient?.chain?.id
   return (
     <div className="w-full capitalize  relative">
       <div

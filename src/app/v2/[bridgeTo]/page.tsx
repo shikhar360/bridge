@@ -3,7 +3,8 @@
 //-------------------------IMPORTS------------------
 import { getThemeColor } from "@/utils/colors";
 import { getChainName } from "@/utils/chaintoname";
-import ConnectButton from "@/components/ConnectButton"
+import ConnectButton from "@/components/ConnectButton";
+import SolanaDescription from "@/components/v2/SolanaDescription"
 import {
   ChangeEvent,
   Dispatch,
@@ -49,17 +50,12 @@ import {
   zoomerXerc20LockboxBaseAbi,
   zoomerXerc20LockboxBaseAddress,
 } from "@/generated";
-import {
-  Asset,
-  configByAsset,
-  getAddressByAsset,
-  solana,
-} from "@/utils/asset";
+import { Asset, configByAsset, getAddressByAsset, solana } from "@/utils/asset";
 import { wagmiConfig } from "@/wagmi";
 import { ZOOMER_YELLOW } from "@/utils/colors";
 import { Bridge, bridgeConfig, getApproveToByBridge } from "@/utils/bridge";
 import Link from "next/link";
-import Selector from "@/components/v2/Selector"
+import Selector from "@/components/v2/Selector";
 
 //-------------------------INTERFACES------------------
 interface Iprops {
@@ -70,24 +66,24 @@ interface Iprops {
 const CONNEXT_LOCKBOX_ADAPTER_MAINNET =
   "0x45BF3c737e57B059a5855280CA1ADb8e9606AC68";
 
-
 export default function Page({ params }: Iprops) {
   const { theme } = getThemeColor(+params?.bridgeTo);
 
-  const textcolor = theme.slice(4,-3)
-  const { address,  chain } = useAccount();
-  
+  const textcolor = theme.slice(4, -3);
+  const { address, chain } = useAccount();
+
   const [asset, setAsset] = useState<Asset>("zoomer");
   const { data: walletClient } = useWalletClient();
   // const { colorMode } = useColorMode();
-  const [_amountIn, setAmountIn] = useState("");
+  const [_amountIn, setAmountIn] = useState<string>('');
   const amountIn = useDebounce(_amountIn, 500);
   const [relayerFee, setRelayerFee] = useState("0");
   const [relayerFeeLoading, setRelayerFeeLoading] = useState(false);
   const [approvalNeeded, setApprovalNeeded] = useState(true);
+  const [modal, setModal] = useState<boolean>(false);
   const [destinationChain, setDestinationChain] = useState<
     number | undefined
-  >();  // this we can get from the useaccount hoook of wagmi
+  >(); // this we can get from the useaccount hoook of wagmi
   const [originChain, setOriginChain] = useState<number | undefined>();
   const [bridge, setBridge] = useState<Bridge>();
   const [connext, setConnext] = useState<
@@ -95,13 +91,13 @@ export default function Page({ params }: Iprops) {
   >();
   const { isConnected } = useAccount();
   const pubClient = usePublicClient();
-// this can be change
+  // this can be change
   const urlParams = useSearchParams();
-  const currentChain = getChainName(+params?.bridgeTo)
+  const currentChain = getChainName(+params?.bridgeTo);
   //NO need cause we are already briding to zoomer
   // const _asset = urlParams.get("asset");
   // if (_asset) {
-  //    setAsset(_asset as Asset); 
+  //    setAsset(_asset as Asset);
   // }
 
   useEffect(() => {
@@ -222,8 +218,42 @@ export default function Page({ params }: Iprops) {
     connext,
   ]);
 
-  const chainsArr = configByAsset[asset].chains.map((chain) => chain.id)
+  // giving options of chain
+  const chainsArr = configByAsset[asset].chains.map((chain) => chain.id);
 
+
+  //getting amount to display 
+  const { data: balance, isSuccess: isSuccessBalance } = useReadErc20BalanceOf({
+    //@ts-ignore
+    address: getAddressByAsset(asset, walletClient?.chain?.id ),
+    //@ts-ignore
+    args: [walletClient?.account?.address],
+  });
+
+  // const bridges = useMemo(
+  //   () =>
+  //     originChain && destinationChain
+  //       ? Object.entries(bridgeConfig)
+  //           .filter(([_, bridgeConfig]) => {
+  //             return (
+  //               bridgeConfig.origin.includes(originChain) &&
+  //               bridgeConfig.destination.includes(destinationChain)
+  //             );
+  //           })
+  //           .map(([bridge, bridgeConfig]) => {
+  //             return { bridgeConfig, bridge };
+  //           })
+  //       : [],
+  //   [destinationChain, originChain]
+  // );
+  // useEffect(() => {
+  //   setBridge(bridges[0]?.bridge as Bridge);
+  // }, [bridge ]);
+
+  // const handleChangeBridge = (event: ChangeEvent<HTMLSelectElement>) => {
+  //   console.log("event.target.value: ", event.target.value);
+  //   setBridge(event.target.value as Bridge);
+  // };
 
   return (
     <div
@@ -233,45 +263,204 @@ export default function Page({ params }: Iprops) {
         <div
           className={`w-full p-[1rem] bg-white h-full min-h-[60vh] rounded-2xl `}
         >
-           <CheckOldZoomer address={walletClient?.account?.address} />
-           <p className={`capitalize font-semibold my-4`}>Bridge to {currentChain && currentChain?.toLowerCase()}</p>
-           <div  className={`flex w-full justify-between items-center gap-x-3`} >
-           <div  className={` w-full`}>
+          <CheckOldZoomer address={walletClient?.account?.address} />
+          <p className={`capitalize font-semibold my-4`}>
+            Bridge to {currentChain && currentChain?.toLowerCase()}
+          </p>
+          <div className={`flex w-full justify-between items-center gap-x-3`}>
+            <div className={` w-full`}>
               <p className={`text-sm`}>From</p>
               {/* <SelectOriginChain asset={asset}
                     originChain={originChain}
                     setOriginChain={setOriginChain}
                     walletChain={walletClient?.chain?.id}/> */}
-                    <Selector options={chainsArr} setOriginChain={setOriginChain} />
-
+              <Selector options={chainsArr} setOriginChain={setOriginChain} />
             </div>
-            <img className={`w-4 h-4`} src="https://img.icons8.com/fluency-systems-regular/48/right--v1.png" alt="right--v1"/>
-        <div  className={`w-full`}>
-        <p className={`text-sm`}>To</p>
-        <div className={`  text-sm flex w-max   rounded-xl  ${theme} `}>
-          <div style={{color : textcolor}} className={`w-full font-bold bg-white/90 flex items-center px-3 py-1.5 gap-2 justify-start capitalize `}>
-
-        <img
-                  src={`/v2/logo/${+params?.bridgeTo}.png`}
-                  alt="logo"
-                  className={`w-4`}
+            <img
+              className={`w-4 h-4`}
+              src="https://img.icons8.com/fluency-systems-regular/48/right--v1.png"
+              alt="right--v1"
+            />
+            <div className={`w-full`}>
+              <p className={`text-sm`}>To</p>
+              <div className={`  text-sm flex w-max   rounded-xl  ${theme} `}>
+                <div
+                  style={{ color: textcolor }}
+                  className={`w-full font-bold bg-white/90 flex items-center px-3 py-1.5 gap-2 justify-start capitalize `}
+                >
+                  <img
+                    src={`/v2/logo/${+params?.bridgeTo}.png`}
+                    alt="logo"
+                    className={`w-4`}
                   />
-                { currentChain?.toLowerCase()}
-                  </div>
-        </div>
-        </div>
-        </div>
-           {!isConnected ||
-            !walletClient?.account?.address ||
-            !walletClient?.chain?.id ? <ConnectButton colorTheme={theme} /> : 
+                  {currentChain?.toLowerCase()}
+                </div>
+              </div>
+            </div>
+
+          </div>
+          {originChain === solana.id || destinationChain === solana.id ? (
+                  <SolanaDescription />
+                ) : (
+                  <>
+
+                    <div  className={`w-full  flex  flex-col items-center  gap-2 justify-center mt-3`}>
+                    <div className={`flex w-full `}>
+
+                       <p className={`text-sm`}>Amount</p>
+
+                       <p className={`text-sm  ml-auto  text-black/40`}>Balance: {isSuccessBalance ? formatEther(balance!) : "..."}{" "}
+                       {asset.toUpperCase()}
+                    </p>
+                   </div> 
+                  
+                    <div className={` w-full flex items-center justify-start rounded-2xl border border-black/20 p-3`}>
+                    <div  className={` flex w-max items-center justify-start gap-2 `}>
+                    <div className={`w-10 p-2 rounded-full bg-yellow-300 overflow-hidden`}>
+                      <img src="/v2/zoom.png" alt="" className={`w-8 `} />
+                    </div>
+                    <span className="capitalize ">{asset.toLowerCase()}</span>
+                    <button  onClick={() => {
+                        setAmountIn(formatEther(balance!));
+                      }} className={`bg-yellow-100 text-yellow-900/40 py-1 px-2 rounded-xl `}> Max</button>
+                      </div>
+                      <div  className={` ml-auto  flex flex-col items-end justify-end`}>
+                      <input type='number' placeholder="0" value={_amountIn} onChange={(e)=>setAmountIn(e?.target?.value)}className={`text-sm active:ring-0 focus:outline-none placeholder:text-end text-end`}/>
+                      <p className={`text-xs text-black/40`}>$0.00</p> 
+                      </div>
+                    </div>
+
+
+                    {/* second box datas based on coingecho api */}
+                      <div onClick={setModal(prev => !prev)} className={` w-full flex  items-center justify-start rounded-t-2xl border border-black/20 p-3 cursor-pointer`}>
+                          <div  className={` flex w-max items-center justify-start gap-x-2 `}>
+                          <span className="capitalize font-bold">You Receive</span>
+                          {/* <button className={`bg-yellow-100 text-yellow-900/40 py-1 px-2 rounded-xl `}> Max</button> */}
+                            </div>
+                            <div  className={` ml-auto  flex flex-col items-end justify-end`}>
+                            <div  className={` flex items-center justify-center gap-1`}> 
+                          <div className={`w-4  rounded-full bg-yellow-400 flex overflow-hidden`}>
+                            <img src="/v2/zoom.png" alt="" className={`w-full `} />
+                          </div>
+                            <span className={`text-sm`}>{0}</span>
+                            </div> 
+                            <p className={`text-xs text-black/40`}>$0.00</p>
+                            </div>
+                      </div>
+                            <div className={`w-full -translate-y-2 rounded-b-2xl mt-0 bg-blue-500`}>
+                                jlkjslsdkfj
+                            </div>
+
+                    </div>
+                
+                    
+                        {/* <div  className={``}>
+                              Dashboard
+                            </div> */}
+
+
+
+                    <div>
+                      {/* <SelectBridge
+                        bridge={bridge}
+                        setBridge={setBridge}
+                        originChain={originChain}
+                        destinationChain={destinationChain}
+                      /> */}
+                    </div>
+                    <div>
+                      {/* <AmountInInput
+                        amountIn={_amountIn}
+                        setAmountIn={setAmountIn}
+                        asset={asset}
+                        destinationChain={destinationChain}
+                      /> */}
+                    </div>
+                    <div>
+                      {/* <RelayerFee
+                        asset={asset}
+                        relayerFee={relayerFee}
+                        relayerFeeLoading={relayerFeeLoading}
+                        walletChain={walletClient.chain.id}
+                      /> */}
+                    </div>
+                    </>)}
+          {!isConnected ||
+          !walletClient?.account?.address ||
+          !walletClient?.chain?.id ? (
+            <ConnectButton colorTheme={theme} />
+          ) : (
             "ActionButtons"
-            
-            }
+          )}
         </div>
+      </div>
+      <div className={` absolute top-0 left-0 w-full min-h-screen bg-black/20 ${modal ? "block" : "hidden"}`}  >
+        dhfk
       </div>
     </div>
   );
 }
+
+
+// type SelectBridgeProps = {
+//   originChain?: number;
+//   destinationChain?: number;
+//   bridge: Bridge | undefined;
+//   setBridge: Dispatch<SetStateAction<Bridge | undefined>>;
+// };
+// const SelectBridge = ({
+//   bridge,
+//   setBridge,
+//   originChain,
+//   destinationChain,
+// }: SelectBridgeProps) => {
+//   // const { colorMode } = useColorMode();
+//   const handleChangeBridge = (event: ChangeEvent<HTMLSelectElement>) => {
+//     console.log("event.target.value: ", event.target.value);
+//     setBridge(event.target.value as Bridge);
+//   };
+
+//   const bridges = useMemo(
+//     () =>
+//       originChain && destinationChain
+//         ? Object.entries(bridgeConfig)
+//             .filter(([_, bridgeConfig]) => {
+//               return (
+//                 bridgeConfig.origin.includes(originChain) &&
+//                 bridgeConfig.destination.includes(destinationChain)
+//               );
+//             })
+//             .map(([bridge, bridgeConfig]) => {
+//               return { bridgeConfig, bridge };
+//             })
+//         : [],
+//     [destinationChain, originChain]
+//   );
+
+//   useEffect(() => {
+//     setBridge(bridges[0]?.bridge as Bridge);
+//   }, [bridges, setBridge]);
+
+//   return (
+//     <form>
+//       {/* <FormLabel>Bridge Type</FormLabel> */}
+//       <select
+//         // size="lg"
+//         onChange={handleChangeBridge}
+//         value={bridge}
+//         // borderColor={colorMode === "light" ? "blackAlpha.400" : ZOOMER_YELLOW}
+//       >
+//         {bridges.map((bridge, index) => {
+//           return (
+//             <option value={bridge.bridge} key={index}>
+//               {bridge.bridgeConfig.displayName}
+//             </option>
+//           );
+//         })}
+//       </select>
+//     </form>
+//   );
+// };
 
 const updateApprovals = async (
   bridge: Bridge,
@@ -502,12 +691,10 @@ const ApproveButton = ({
 
   return (
     <button
-      
       disabled={!approvalNeeded || !amountIn}
       onClick={() => handleApprove(false)}
       // isLoading={approvalLoading}
       // loadingText="/CHECK_WALLET"
-     
     >
       {approvalLoading ? "Check wallet later" : "/APPROVE"}
     </button>
@@ -630,7 +817,6 @@ const BridgeButton = ({
   return (
     <>
       <button
-       
         disabled={
           (bridge !== "connext" &&
             bridge !== "ccip" &&
@@ -640,7 +826,6 @@ const BridgeButton = ({
         // isLoading={xcallLoading || isLoading}
         // onClick={handleXCall}
         // loadingText="/CHECK_WALLET"
-    
       >
         {"/BRIDGE"}
       </button>
@@ -666,12 +851,14 @@ const CheckOldZoomer = ({ address }: CheckOldZoomerProps) => {
     });
 
   return isSuccessBalance && balance! > BigInt(0) ? (
-    <div className={` w-full bg-yellow-100 text-yellow-800 py-3 px-6 rounded-xl flex items-center justify-center text-center my-3 `} >
+    <div
+      className={` w-full bg-yellow-100 text-yellow-800 py-3 px-6 rounded-xl flex items-center justify-center text-center my-3 `}
+    >
       {/* <AlertIcon /> */}
-      
+
       <span>
         You have the old Zoomer on Polygon! Please visit the{" "}
-        <Link  href="/migrate" className={`font-semibold underline`}>
+        <Link href="/migrate" className={`font-semibold underline`}>
           MIGRATION UI
         </Link>
         to migrate!
@@ -682,9 +869,7 @@ const CheckOldZoomer = ({ address }: CheckOldZoomerProps) => {
   );
 };
 
-
 //we dont want to use this now
-
 
 // type BridgedModalProps = {
 //   isOpen: boolean;
@@ -734,7 +919,7 @@ const CheckOldZoomer = ({ address }: CheckOldZoomerProps) => {
 //         </ModalFooter>
 //       </ModalContent>
 //     </Modal>
-  // );
+// );
 // };
 
 /*
