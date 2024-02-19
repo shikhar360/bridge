@@ -13,9 +13,9 @@ export default function ConnectButton({ colorTheme = "bg-white/30" }: IProp) {
   const { address,  chain } = useAccount();
 
 
-  const fallback = chainsTheme.some(
-    (val) => val.chain == chain?.name.toUpperCase()
-  );
+  // const fallback = chainsTheme.some(
+  //   (val) => val.chain == chain?.name.toUpperCase()
+  // );
 
   return (
     <div
@@ -25,14 +25,14 @@ export default function ConnectButton({ colorTheme = "bg-white/30" }: IProp) {
       {address ? (
         <div className="flex items-center justify-center gap-2">
           <img
-            src={`${!fallback ? "/v2/zoom.png" : `/v2/logo/${chain?.name?.toUpperCase()}.png`}`}
+            src={`/v2/logo/${chain?.id}.png`}
             alt="logo"
             className={`w-4`}
           />
           {formatAddress(address)}
         </div>
       ) : (
-        <button onClick={() => open()}>Connect Button</button>
+        <button onClick={() => open()}>Connect Wallet</button>
       )}
     </div>
   );

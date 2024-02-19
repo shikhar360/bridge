@@ -1,5 +1,6 @@
 "use client";
 import { chainsTheme } from "@/utils/colors";
+import { getChainName } from "@/utils/chaintoname";
 import Link from "next/link";
 
 export default function Page() {
@@ -28,7 +29,7 @@ export default function Page() {
               className={`w-full mix-blend-luminosity mt-4 `}
             />
             <p className={` text-2xl mt-4 text-center font-semibold `}>
-              {chain.chain}
+              {getChainName(chain.chain)}
             </p>
           </Link>
         ))}

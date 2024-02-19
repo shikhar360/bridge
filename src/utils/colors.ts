@@ -4,37 +4,37 @@ export const GRUMPY_BLUE = "#47777C";
 
 export const chainsTheme = [
   {
-    chain : "BASE",
+    chain : 8453,
     theme : 'bg-[#0051ffff]',
   },
   {
-    chain : "OPTIMISM",
+    chain : 10,
     theme : 'bg-[#ff0000ff]',
   },
   {
-    chain : "POLYGON",
+    chain : 137,
     theme : 'bg-[#9d2adbff]',
   },
   {
-    chain : "BINANCE",
+    chain : 56,
     theme : 'bg-[#fab700ff]',
   },
   {
-    chain : "ETHEREUM",
+    chain : 1,
     theme : 'bg-[#5a80f2ff]',
   },
   {
-    chain : "SOLANA",
+    chain : 0,
     theme : 'bg-gradient-to-r from-[#13d6b6] via-[#617fe8] to-[#9a4bfa]',
   },
   {
-    chain : "ARBITRUM",
+    chain : 42161,
     theme : 'bg-[#1c324aff]',
   },
 
 ]
 
-export function getThemeColor(chain : string){
+export function getThemeColor(chain : number){
  const val = chainsTheme.filter(col => col.chain == chain)
  return val[0]
 }

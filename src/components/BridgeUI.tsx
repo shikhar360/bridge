@@ -463,7 +463,8 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
                 )}
               </Flex>
             )}
-            <Flex>
+
+            {/* <Flex>
               <Spacer />
               <Image
                 src={
@@ -476,7 +477,7 @@ export const BridgeUI = ({ asset, setAsset }: BridgeUIProps) => {
                 width={156}
               />
               <Spacer />
-            </Flex>
+            </Flex> */}
           </VStack>
         </CardBody>
       </Card>
