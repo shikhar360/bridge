@@ -73,6 +73,7 @@ const CONNEXT_LOCKBOX_ADAPTER_MAINNET =
 
 export default function Page({ params }: Iprops) {
   const { theme } = getThemeColor(+params?.bridgeTo);
+
   const textcolor = theme.slice(4,-3)
   const { address,  chain } = useAccount();
   
@@ -152,13 +153,8 @@ export default function Page({ params }: Iprops) {
       };
       const { sdkBase, sdkUtils } = await create(sdkConfig);
       setConnext({ sdkBase, sdkUtils });
-      setOriginChain(walletClient?.chain.id);
-      // setDestinationChain(    // will be uncommented
-      //   configByAsset[asset].chains.filter(
-      //     (chain) =>
-      //       chain.id !== walletClient?.chain.id && chain.id !== solana.id
-      //   )[Math.floor(Math.random() * configByAsset[asset].chains.length)].id
-      // );
+      // setOriginChain(walletClient?.chain.id);
+      setDestinationChain(+params?.bridgeTo);
     };
     run();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -251,7 +247,18 @@ export default function Page({ params }: Iprops) {
             </div>
             <img className={`w-4 h-4`} src="https://img.icons8.com/fluency-systems-regular/48/right--v1.png" alt="right--v1"/>
         <div  className={`w-full`}>
-        <p>To</p>
+        <p className={`text-sm`}>To</p>
+        <div className={`  text-sm flex w-max   rounded-xl  ${theme} `}>
+          <div style={{color : textcolor}} className={`w-full font-bold bg-white/90 flex items-center px-3 py-1.5 gap-2 justify-start capitalize `}>
+
+        <img
+                  src={`/v2/logo/${+params?.bridgeTo}.png`}
+                  alt="logo"
+                  className={`w-4`}
+                  />
+                { currentChain?.toLowerCase()}
+                  </div>
+        </div>
         </div>
         </div>
            {!isConnected ||
