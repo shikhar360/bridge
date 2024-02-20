@@ -209,13 +209,13 @@ export default function Page({ params }: Iprops) {
     };
     run();
   }, [
-    destinationChain,
-    amountIn,
-    bridge,
-    pubClient,
-    walletClient?.account?.address,
-    walletClient?.chain.id,
-    connext,
+    // destinationChain,
+    // amountIn,
+    // bridge,
+    // pubClient,
+    // walletClient?.account?.address,
+    // walletClient?.chain.id,
+    // connext,
   ]);
 
   // giving options of chain
@@ -230,30 +230,32 @@ export default function Page({ params }: Iprops) {
     args: [walletClient?.account?.address],
   });
 
-  // const bridges = useMemo(
-  //   () =>
-  //     originChain && destinationChain
-  //       ? Object.entries(bridgeConfig)
-  //           .filter(([_, bridgeConfig]) => {
-  //             return (
-  //               bridgeConfig.origin.includes(originChain) &&
-  //               bridgeConfig.destination.includes(destinationChain)
-  //             );
-  //           })
-  //           .map(([bridge, bridgeConfig]) => {
-  //             return { bridgeConfig, bridge };
-  //           })
-  //       : [],
-  //   [destinationChain, originChain]
-  // );
-  // useEffect(() => {
-  //   setBridge(bridges[0]?.bridge as Bridge);
-  // }, [bridge ]);
+  const bridges = useMemo(
+    () =>
+      originChain && destinationChain
+        ? Object.entries(bridgeConfig)
+            .filter(([_, bridgeConfig]) => {
+              return (
+                bridgeConfig.origin.includes(originChain) &&
+                bridgeConfig.destination.includes(destinationChain)
+              );
+            })
+            .map(([bridge, bridgeConfig]) => {
+              return { bridgeConfig, bridge };
+            })
+        : [],
+    [destinationChain, originChain]
+  );
+  useEffect(() => {
+    
+    console.log(bridges)
+    setBridge(bridges[0]?.bridge as Bridge);
+  }, [bridges ]);
 
-  // const handleChangeBridge = (event: ChangeEvent<HTMLSelectElement>) => {
-  //   console.log("event.target.value: ", event.target.value);
-  //   setBridge(event.target.value as Bridge);
-  // };
+  const handleChangeBridge = (event: ChangeEvent<HTMLSelectElement>) => {
+    console.log("event.target.value: ", event.target.value);
+    setBridge(event.target.value as Bridge);
+  };
 
   return (
     <div
@@ -324,15 +326,15 @@ export default function Page({ params }: Iprops) {
                         setAmountIn(formatEther(balance!));
                       }} className={`bg-yellow-100 text-yellow-900/40 py-1 px-2 rounded-xl `}> Max</button>
                       </div>
-                      <div  className={` ml-auto  flex flex-col items-end justify-end`}>
-                      <input type='number' placeholder="0" value={_amountIn} onChange={(e)=>setAmountIn(e?.target?.value)}className={`text-sm active:ring-0 focus:outline-none placeholder:text-end text-end`}/>
+                      <div  className={` ml-auto  w-max flex flex-col items-end justify-end`}>
+                      <input type='number' placeholder="0" value={_amountIn} onChange={(e)=>setAmountIn(e?.target?.value)}className={`text-sm active:ring-0 focus:outline-none placeholder:text-end text-end w-full`}/>
                       <p className={`text-xs text-black/40`}>$0.00</p> 
                       </div>
                     </div>
 
 
                     {/* second box datas based on coingecho api */}
-                      <div onClick={setModal(prev => !prev)} className={` w-full flex  items-center justify-start rounded-t-2xl border border-black/20 p-3 cursor-pointer`}>
+                      <div onClick={()=>setModal(true)} className={` w-full flex  items-center justify-start rounded-t-2xl border border-black/20 p-3 cursor-pointer`}>
                           <div  className={` flex w-max items-center justify-start gap-x-2 `}>
                           <span className="capitalize font-bold">You Receive</span>
                           {/* <button className={`bg-yellow-100 text-yellow-900/40 py-1 px-2 rounded-xl `}> Max</button> */}
@@ -347,43 +349,28 @@ export default function Page({ params }: Iprops) {
                             <p className={`text-xs text-black/40`}>$0.00</p>
                             </div>
                       </div>
-                            <div className={`w-full -translate-y-2 rounded-b-2xl mt-0 bg-blue-500`}>
-                                jlkjslsdkfj
+                            <div className={`w-full -translate-y-2 px-4  flex items-center justify-start rounded-b-2xl gap-2 mt-0 bg-blue-100 text-blue-900`}>
+                            <div  className={` flex `}>
+                            {relayerFeeLoading ? "..." : formatEther(BigInt(relayerFee))}{" "}
+                            {walletClient?.chain?.id
+                              ? configByAsset[asset].chains.find((chain) => chain?.id === walletClient?.chain?.id)
+                                  ?.nativeCurrency?.symbol
+                              : "???"}
+                              </div> 
+                             <span className={` uppercase `}> {bridge}</span>
+                            <div  className={` flex  w-max`}>
+                            <img className={` w-4 py-1 `} src="https://img.icons8.com/windows/32/044F9F/clock--v1.png" alt="clock--v1"/>
+                            <span className={`  `}> ~ 5 mins</span>
+                            </div>
                             </div>
 
-                    </div>
+                        </div>
                 
                     
                         {/* <div  className={``}>
                               Dashboard
                             </div> */}
 
-
-
-                    <div>
-                      {/* <SelectBridge
-                        bridge={bridge}
-                        setBridge={setBridge}
-                        originChain={originChain}
-                        destinationChain={destinationChain}
-                      /> */}
-                    </div>
-                    <div>
-                      {/* <AmountInInput
-                        amountIn={_amountIn}
-                        setAmountIn={setAmountIn}
-                        asset={asset}
-                        destinationChain={destinationChain}
-                      /> */}
-                    </div>
-                    <div>
-                      {/* <RelayerFee
-                        asset={asset}
-                        relayerFee={relayerFee}
-                        relayerFeeLoading={relayerFeeLoading}
-                        walletChain={walletClient.chain.id}
-                      /> */}
-                    </div>
                     </>)}
           {!isConnected ||
           !walletClient?.account?.address ||
@@ -394,8 +381,44 @@ export default function Page({ params }: Iprops) {
           )}
         </div>
       </div>
-      <div className={` absolute top-0 left-0 w-full min-h-screen bg-black/20 ${modal ? "block" : "hidden"}`}  >
-        dhfk
+      <div className={` absolute top-0 left-0 w-full min-h-screen bg-black/20 flex items-center justify-center ${modal ? "block" : "hidden"}`}  >
+      <div
+          className={`p-[1rem] bg-white  min-h-[60vh] rounded-2xl w-[30%] py-12 relative `}
+        >
+         <img className={`w-6 cursor-pointer absolute right-4 top-4 `} onClick={()=>setModal(false)} src="https://img.icons8.com/fluency-systems-regular/48/delete-sign--v1.png" alt="delete-sign--v1"/>
+         {bridges.map((bridge, index) => {
+            return (
+              <div onClick={()=>{
+                setBridge(bridge.bridge)
+                setModal(false)
+                }} key={index}>
+                <div  className={` w-full flex mt-2 items-center justify-start rounded-t-2xl border border-black/20 p-3 cursor-pointer`}>
+                          <div  className={` flex w-max items-center justify-start gap-x-2 `}>
+                          <span className="capitalize font-bold">You Receive</span>
+                          {/* <button className={`bg-yellow-100 text-yellow-900/40 py-1 px-2 rounded-xl `}> Max</button> */}
+                            </div>
+                            <div  className={` ml-auto  flex flex-col items-end justify-end`}>
+                            <div  className={` flex items-center justify-center gap-1`}> 
+                          <div className={`w-4  rounded-full bg-yellow-400 flex overflow-hidden`}>
+                            <img src="/v2/zoom.png" alt="" className={`w-full `} />
+                          </div>
+                            <span className={`text-sm`}>{0}</span>
+                            </div> 
+                            <p className={`text-xs text-black/40`}>$0.00</p>
+                            </div>
+                      </div>
+                            <div className={`w-full -translate-y-2 px-4  flex items-center justify-start rounded-b-2xl gap-2 mt-0 bg-blue-100 text-blue-900`}>
+          
+                             <span className={` uppercase `}>  {bridge.bridgeConfig.displayName}</span>
+                            <div  className={` flex  w-max`}>
+                            <img className={` w-4 py-1 `} src="https://img.icons8.com/windows/32/044F9F/clock--v1.png" alt="clock--v1"/>
+                            <span className={`  `}> ~ 5 mins</span>
+                            </div>
+                            </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

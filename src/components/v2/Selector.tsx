@@ -8,6 +8,10 @@ import { solana } from "@/utils/asset";
 import { wagmiConfig } from "@/wagmi";
 import { getChainName } from "@/utils/chaintoname";
 import { getThemeColor } from "@/utils/colors";
+import {
+  useWalletClient,
+  useAccount
+} from "wagmi";
 interface ISelector {
   options: number[];
   setOriginChain: Dispatch<SetStateAction<number | undefined>>;
@@ -16,13 +20,27 @@ interface ISelector {
 const Selector = ({ options, setOriginChain }: ISelector) => {
   const [selected, setSelected] = useState<number>();
   const [open, setOpen] = useState<boolean>(false);
-  
+  const { data: walletClient } = useWalletClient();
+  const { isConnected } = useAccount();
+
+
+
   function getColor (chain : number){
     const { theme } = getThemeColor(chain);
     const textcolor = theme.slice(4,-3)
     return { theme , textcolor}
   }
-//  walletClient?.chain?.id
+
+
+
+useEffect(()=>{
+  function setSelectedChain (){
+    if(isConnected){
+
+      setSelected(walletClient?.chain?.id )}
+    }
+  setSelectedChain()
+},[isConnected])
   return (
     <div className="w-full capitalize  relative">
       <div
@@ -30,7 +48,7 @@ const Selector = ({ options, setOriginChain }: ISelector) => {
         className={` cursor-pointer p-2 text-black w-full  flex  truncate items-center justify-start gap-2 rounded `}
       >
         {selected ? (
-          < div style={{color : getColor(+selected).textcolor ,  backgroundColor : getColor(+selected).theme+"47" ,  }} className={`w-max font-bold bg-white/90 flex items-center px-3 py-1.5 gap-2 justify-start capitalize `}>
+          < div style={{color : getColor(+selected).textcolor ,  background : getColor(+selected).theme ,  }} className={`w-max font-bold  flex items-center px-3 py-1.5 gap-2 justify-start capitalize `}>
             {" "}
             <img
               src={`/v2/logo/${selected}.png`}
@@ -46,7 +64,7 @@ const Selector = ({ options, setOriginChain }: ISelector) => {
         <ul
           className={`bg-red  left-0 overflow-y-scroll w-[150%] ${
             open ? "block" : "hidden"
-          } absolute top-full origin-top shadow-xl shadow-black/10 bg-white rounded-xl px-4 py-2`}
+          } absolute top-full origin-top z-40 shadow-xl shadow-black/10 bg-white rounded-xl px-4 py-2`}
         >
           {options &&
             options.map((chainId: number, idx: number) => (
