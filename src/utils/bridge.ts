@@ -27,16 +27,9 @@ export const bridgeConfig: Record<Bridge, BridgeConfig> = {
     displayName: "base rollup",
   },
   ccip: {
-    origin: [
-      // mainnet.id,
-      arbitrum.id,
-      optimism.id,
-      polygon.id,
-      bsc.id,
-      base.id,
-    ],
+    origin: [mainnet.id, arbitrum.id, optimism.id, polygon.id, bsc.id, base.id],
     destination: [
-      // mainnet.id,
+      mainnet.id,
       arbitrum.id,
       optimism.id,
       polygon.id,

@@ -1792,7 +1792,7 @@ export default defineConfig(() => {
       {
         name: "CCIPxERC20Bridge",
         address: {
-          [mainnet.id]: "0x14588B66685326280396e0799fA292127B9d1465",
+          [mainnet.id]: "0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308",
           [base.id]: "0x083178fBB5d6dd6521fe778BcfC32BF898678fAe",
           [arbitrum.id]: "0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a",
           [optimism.id]: "0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a",
