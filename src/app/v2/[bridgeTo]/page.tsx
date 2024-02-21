@@ -263,7 +263,7 @@ export default function Page({ params }: Iprops) {
     >
       <div className={` w-[30%] bg-white/50 rounded-3xl p-4    `}>
         <div
-          className={`w-full p-[1rem] bg-white h-full min-h-[60vh] rounded-2xl `}
+          className={`w-full p-[1rem] bg-white h-full min-h-max rounded-2xl `}
         >
           <CheckOldZoomer address={walletClient?.account?.address} />
           <p className={`capitalize font-semibold my-4`}>
@@ -344,7 +344,7 @@ export default function Page({ params }: Iprops) {
                           <div className={`w-4  rounded-full bg-yellow-400 flex overflow-hidden`}>
                             <img src="/v2/zoom.png" alt="" className={`w-full `} />
                           </div>
-                            <span className={`text-sm`}>{0}</span>
+                            <span className={`text-sm`}>{amountIn ? (Number(amountIn) * 0.09995).toFixed(5) : "0"}</span>
                             </div> 
                             <p className={`text-xs text-black/40`}>$0.00</p>
                             </div>
@@ -377,7 +377,18 @@ export default function Page({ params }: Iprops) {
           !walletClient?.chain?.id ? (
             <ConnectButton colorTheme={theme} />
           ) : (
-            "ActionButtons"
+            <ActionButtons
+            amountIn={amountIn}
+            connext={connext as  { sdkBase: SdkBase; sdkUtils: SdkUtils;}}
+            destinationChain={destinationChain as number}
+            relayerFee={relayerFee}
+            walletAddress={walletClient.account.address}
+            walletChain={walletClient.chain.id}
+            approvalNeeded={approvalNeeded}
+            setApprovalNeeded={setApprovalNeeded}
+            asset={asset}
+            bridge={bridge}
+            />
           )}
         </div>
       </div>
@@ -389,7 +400,7 @@ export default function Page({ params }: Iprops) {
          {bridges.map((bridge, index) => {
             return (
               <div onClick={()=>{
-                setBridge(bridge.bridge)
+                setBridge(bridge.bridge as Bridge)
                 setModal(false)
                 }} key={index}>
                 <div  className={` w-full flex mt-2 items-center justify-start rounded-t-2xl border border-black/20 p-3 cursor-pointer`}>
@@ -402,7 +413,7 @@ export default function Page({ params }: Iprops) {
                           <div className={`w-4  rounded-full bg-yellow-400 flex overflow-hidden`}>
                             <img src="/v2/zoom.png" alt="" className={`w-full `} />
                           </div>
-                            <span className={`text-sm`}>{0}</span>
+                            <span className={`text-sm`}>{amountIn ? (Number(amountIn) * 0.09995).toFixed(5) : "0"}</span>
                             </div> 
                             <p className={`text-xs text-black/40`}>$0.00</p>
                             </div>
@@ -425,65 +436,6 @@ export default function Page({ params }: Iprops) {
 }
 
 
-// type SelectBridgeProps = {
-//   originChain?: number;
-//   destinationChain?: number;
-//   bridge: Bridge | undefined;
-//   setBridge: Dispatch<SetStateAction<Bridge | undefined>>;
-// };
-// const SelectBridge = ({
-//   bridge,
-//   setBridge,
-//   originChain,
-//   destinationChain,
-// }: SelectBridgeProps) => {
-//   // const { colorMode } = useColorMode();
-//   const handleChangeBridge = (event: ChangeEvent<HTMLSelectElement>) => {
-//     console.log("event.target.value: ", event.target.value);
-//     setBridge(event.target.value as Bridge);
-//   };
-
-//   const bridges = useMemo(
-//     () =>
-//       originChain && destinationChain
-//         ? Object.entries(bridgeConfig)
-//             .filter(([_, bridgeConfig]) => {
-//               return (
-//                 bridgeConfig.origin.includes(originChain) &&
-//                 bridgeConfig.destination.includes(destinationChain)
-//               );
-//             })
-//             .map(([bridge, bridgeConfig]) => {
-//               return { bridgeConfig, bridge };
-//             })
-//         : [],
-//     [destinationChain, originChain]
-//   );
-
-//   useEffect(() => {
-//     setBridge(bridges[0]?.bridge as Bridge);
-//   }, [bridges, setBridge]);
-
-//   return (
-//     <form>
-//       {/* <FormLabel>Bridge Type</FormLabel> */}
-//       <select
-//         // size="lg"
-//         onChange={handleChangeBridge}
-//         value={bridge}
-//         // borderColor={colorMode === "light" ? "blackAlpha.400" : ZOOMER_YELLOW}
-//       >
-//         {bridges.map((bridge, index) => {
-//           return (
-//             <option value={bridge.bridge} key={index}>
-//               {bridge.bridgeConfig.displayName}
-//             </option>
-//           );
-//         })}
-//       </select>
-//     </form>
-//   );
-// };
 
 const updateApprovals = async (
   bridge: Bridge,
@@ -639,7 +591,7 @@ const ApproveButton = ({
   const { sendTransactionAsync } = useSendTransaction();
   const [txHash, setTxHash] = useState<Hash | undefined>();
   const { isLoading } = useWaitForTransactionReceipt({ hash: txHash });
-
+  // const { theme } = getThemeColor();
   // const toast = useToast();
   if (isLoading !== approvalLoading) {
     setApprovalLoading(isLoading);
@@ -718,8 +670,9 @@ const ApproveButton = ({
       onClick={() => handleApprove(false)}
       // isLoading={approvalLoading}
       // loadingText="/CHECK_WALLET"
+      className={`w-full rounded-xl py-2 px-4 text-center bg-blue-600 text-white font-semibold cursor-pointer my-2 ${!approvalNeeded || !amountIn ? 'opacity-70': null} `}
     >
-      {approvalLoading ? "Check wallet later" : "/APPROVE"}
+      {approvalLoading ? "Check wallet later" : "APPROVE"}
     </button>
   );
 };
@@ -847,8 +800,9 @@ const BridgeButton = ({
           !amountIn
         }
         // isLoading={xcallLoading || isLoading}
-        // onClick={handleXCall}
+         onClick={handleXCall}
         // loadingText="/CHECK_WALLET"
+        className={`w-full rounded-xl py-2 px-4 text-center bg-blue-600 text-white font-semibold cursor-pointer my-2 ${ (bridge !== "connext" && bridge !== "ccip" && BigInt(relayerFee) === BigInt(0)) || !amountIn ? 'opacity-70': null}`}
       >
         {"/BRIDGE"}
       </button>
@@ -892,7 +846,7 @@ const CheckOldZoomer = ({ address }: CheckOldZoomerProps) => {
   );
 };
 
-//we dont want to use this now
+
 
 // type BridgedModalProps = {
 //   isOpen: boolean;
