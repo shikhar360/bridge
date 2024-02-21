@@ -7,11 +7,11 @@ export default function Page() {
 
   return (
     <div
-      className={` flex flex-col w-full min-h-screen items-start justify-start px-[15%] py-24 bg-white`}
+      className={` flex flex-col w-full min-h-screen items-start justify-start lg:px-[15%] px-[5%] md:px-[10%] py-24 bg-white`}
     >
       <p className={` text-3xl font-semibold`}>Brigde 🌉</p>
       <p>Select the destination chain you want to bridge your ZOOMER to.</p>
-      <div className={`mt-8 w-full grid grid-cols-4 gap-4`}>
+      <div className={`mt-8 w-full grid lg:grid-cols-4 grid-cols-2 md:grid-cols-3 gap-4`}>
         {chainsTheme.map((chain: any, idx: number) => (
           <Link
             key={idx}

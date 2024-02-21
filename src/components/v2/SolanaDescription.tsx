@@ -2,7 +2,8 @@ import Link from "next/link";
 
 const SolanaDescription = () => {
   return (
-    <div>
+
+    <div className={``}>
       Bridging to and from Solana requires using Wormhole Portal Bridge (for
       now).
       <br />

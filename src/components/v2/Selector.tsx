@@ -12,18 +12,18 @@ import {
   useWalletClient,
   useAccount
 } from "wagmi";
+
 interface ISelector {
   options: number[];
   setOriginChain: Dispatch<SetStateAction<number | undefined>>;
+
 }
 
-const Selector = ({ options, setOriginChain }: ISelector) => {
+const Selector = ({ options, setOriginChain  }: ISelector) => {
   const [selected, setSelected] = useState<number>();
   const [open, setOpen] = useState<boolean>(false);
   const { data: walletClient } = useWalletClient();
   const { isConnected } = useAccount();
-
-
 
   function getColor (chain : number){
     const { theme } = getThemeColor(chain);
@@ -31,21 +31,17 @@ const Selector = ({ options, setOriginChain }: ISelector) => {
     return { theme , textcolor}
   }
 
+  useEffect(()=>{
+      if(isConnected || walletClient?.chain){
+        setSelected(walletClient?.chain?.id )
+      }
+  },[isConnected , walletClient?.chain])
 
-
-useEffect(()=>{
-  function setSelectedChain (){
-    if(isConnected){
-
-      setSelected(walletClient?.chain?.id )}
-    }
-  setSelectedChain()
-},[isConnected])
   return (
     <div className="w-full capitalize  relative">
       <div
         onClick={() => setOpen(!open)}
-        className={` cursor-pointer p-2 text-black w-full  flex  truncate items-center justify-start gap-2 rounded `}
+        className={` cursor-pointer py-2 text-black w-full  flex  items-center justify-start gap-2 rounded `}
       >
         {selected ? (
           < div style={{color : getColor(+selected).textcolor ,  background : getColor(+selected).theme ,  }} className={`w-max font-bold  flex items-center px-3 py-1.5 gap-2 justify-start capitalize `}>
