@@ -33,7 +33,7 @@ const Selector = ({ options, setOriginChain  }: ISelector) => {
 
   useEffect(()=>{
       if(isConnected || walletClient?.chain){
-        setSelected(walletClient?.chain?.id )
+        setSelected(walletClient?.chain?.id as string)
       }
   },[isConnected , walletClient?.chain])
 
