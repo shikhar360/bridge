@@ -20,7 +20,7 @@ interface ISelector {
 }
 
 const Selector = ({ options, setOriginChain  }: ISelector) => {
-  const [selected, setSelected] = useState<number>();
+  const [selected, setSelected] = useState<string>();
   const [open, setOpen] = useState<boolean>(false);
   const { data: walletClient } = useWalletClient();
   const { isConnected } = useAccount();
@@ -51,7 +51,7 @@ const Selector = ({ options, setOriginChain  }: ISelector) => {
               alt="logo"
               className={`w-4`}
             />{" "}
-            {getChainName(+selected).toLowerCase()}
+            {selected === "0" ? "Solana" : getChainName(+selected).toLowerCase()}
           </div>
         ) : (
           "Select Chain"
@@ -68,9 +68,9 @@ const Selector = ({ options, setOriginChain  }: ISelector) => {
                 value={chainId}
                 key={idx}
                 className={`  text-sm flex w-max  mt-2 rounded-xl 
-          ${+chainId === selected && "bg-stone-200"} ${getColor(+chainId).theme} `}
+          ${+chainId === +selected && "bg-stone-200"} ${getColor(+chainId).theme} `}
                 onClick={async () => {
-                  if (+chainId !== selected) {
+                  if (+chainId !== +selected) {
                     setSelected(+chainId);
                     setOriginChain(+chainId);
                     setOpen(false);
@@ -91,7 +91,7 @@ const Selector = ({ options, setOriginChain  }: ISelector) => {
                   alt="logo"
                   className={`w-4`}
                   />
-                {chainId && getChainName(+chainId).toLowerCase()}
+                {chainId && chainId === 0 ? "Solana" : getChainName(+chainId).toLowerCase()}
                   </div>
               </li>
             ))}
