@@ -15,18 +15,18 @@ export default function Page() {
         {chainsTheme.map((chain: any, idx: number) => (
           <Link
             key={idx}
-            className={` w-full ${chain.theme} px-4 py-2 text-white rounded-2xl relative cursor-pointer`}
+            className={` w-[248px] h-[300px] ${chain.theme} px-4 py-2 text-white rounded-[32px] relative cursor-pointer items-center justify-center flex flex-col`}
             href={`/v2/${chain.chain}`}
           >
             <img
               src={`/v2/logo/${chain.chain}.png`}
               alt=""
-              className={`w-6 absolute  top-2 right-2`}
+              className={`w-[24px] absolute  top-3 right-3`}
             />
             <img
-              src="/v2/zoom.png"
-              alt=""
-              className={`w-full mix-blend-luminosity mt-4 `}
+              src={`/v2/zoomers/${chain.chain}.png`}
+              alt="zoomers"
+              className={`w-[152px] h-[152px] mx-auto translate-x-2 mix-blend-luminosity mt-4 `}
             />
             <p className={` text-2xl mt-4 text-center font-semibold `}>
               {getChainName(chain.chain)}

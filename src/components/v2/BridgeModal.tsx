@@ -8,9 +8,12 @@ interface IBridgeModal {
  amountIn : number ;
  setModal : Dispatch<SetStateAction<boolean>>;
  setBridge : Dispatch<SetStateAction<Bridge | undefined>>;
+ textcolor : string;
+ destinationChain : number;
+ currentbridge: Bridge
 }
 
-const BridgeModal = ({bridges , amountIn , setModal , setBridge} : IBridgeModal ) => {
+const BridgeModal = ({bridges , amountIn , setModal , setBridge , textcolor , destinationChain , currentbridge} : IBridgeModal ) => {
   return (
     <div
           className={`p-[1rem] bg-white   min-h-max rounded-2xl lg:w-[30%] w-[80%] sm:w-[50%] md:w-[40%] pb-10 pt-2 relative `}
@@ -32,7 +35,8 @@ const BridgeModal = ({bridges , amountIn , setModal , setBridge} : IBridgeModal 
                 key={index}
               >
                 <div
-                  className={` w-full flex mt-2 items-center justify-start rounded-t-2xl border border-black/20 p-3 cursor-pointer`}
+                style={{borderColor : (bridge.bridge == currentbridge ? textcolor : null) }}
+                  className={` w-full flex mt-2 items-center justify-start rounded-t-2xl border  p-3 cursor-pointer `}
                 >
                   <div
                     className={` flex w-max items-center justify-start gap-x-2 `}
@@ -43,14 +47,22 @@ const BridgeModal = ({bridges , amountIn , setModal , setBridge} : IBridgeModal 
                     className={` ml-auto  flex flex-col items-end justify-end`}
                   >
                     <div className={` flex items-center justify-center gap-1`}>
-                      <div
-                        className={`w-4  rounded-full bg-yellow-400 flex overflow-hidden`}
-                      >
+                    <div
+                      className={`w-[24px]  relative   `}
+                    >
+                      <div className={`w-full rounded-full bg-yellow-300 overflow-hidden`} >
                         <img src="/v2/zoom.png" alt="" className={`w-full `} />
+                        <img
+                        src={`/v2/logo/${destinationChain && destinationChain}.png`}
+                        alt="logo"
+                        className={`w-2 absolute bottom-0 right-0 ${destinationChain ? "block" : "hidden"}`}
+                         />
                       </div>
+                      </div>
+
                       <span className={`text-sm`}>
                         {amountIn
-                          ? (Number(amountIn) * 0.09995).toFixed(5)
+                          ? (Number(amountIn) * 0.9995).toFixed(5)
                           : "0"}
                       </span>
                     </div>
@@ -58,7 +70,8 @@ const BridgeModal = ({bridges , amountIn , setModal , setBridge} : IBridgeModal 
                   </div>
                 </div>
                 <div
-                  className={`w-full -translate-y-2 px-4  flex items-center justify-start rounded-b-2xl gap-2 mt-0 bg-blue-100 text-blue-900 text-sm`}
+                 style={{color: textcolor , backgroundColor : textcolor+"1a"}}
+                  className={`w-full -translate-y- px-4  flex items-center justify-start rounded-b-2xl gap-2 mt-0  text-sm`}
                 >
                   <span className={` uppercase `}>
                     {" "}
@@ -67,7 +80,7 @@ const BridgeModal = ({bridges , amountIn , setModal , setBridge} : IBridgeModal 
                   <div className={` flex  items-center justify-center w-max`}>
                     <img
                       className={` w-4 py-1 `}
-                      src="https://img.icons8.com/windows/32/044F9F/clock--v1.png"
+                      src={`https://img.icons8.com/windows/32/${textcolor.slice(1)}/clock--v1.png`}
                       alt="clock--v1"
                     />
                     <span className={`  `}> ~ 5 mins</span>

@@ -13,6 +13,7 @@ import {
   useEffect,
   useMemo,
   useState,
+  useRef
 } from "react";
 import {
   useAccount,
@@ -84,10 +85,12 @@ export default function Page({ params }: Iprops) {
   const [relayerFeeLoading, setRelayerFeeLoading] = useState(false);
   const [approvalNeeded, setApprovalNeeded] = useState(true);
   const [modal, setModal] = useState<boolean>(false);
-  const [txModal, setTxModal] = useState<boolean>(true);
+  const [txModal, setTxModal] = useState<boolean>(false);
   const [destinationChain, setDestinationChain] = useState<number | undefined>();
   const [originChain, setOriginChain] = useState<number | undefined>();
   const [bridge, setBridge] = useState<Bridge>();
+  // const [selectorOpen, setSelectorOpen] = useState<boolean>(false)
+  const [open , setOpen] = useState<boolean>(false);
   const [connext, setConnext] = useState<{ sdkBase: SdkBase; sdkUtils: SdkUtils } | undefined>();
   const pubClient = usePublicClient();
   
@@ -247,189 +250,284 @@ export default function Page({ params }: Iprops) {
       setBridge(bridges[0]?.bridge as Bridge);
     }, [bridges]);
 
+    const newRef = useRef(null!);
+   
+    
+  useEffect(() => {
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  },[]);
+
+  const handleOutsideClick = (e : any) => {
+ //@ts-ignore
+    if (newRef.current && !newRef.current?.contains(e?.target)) {
+      setOpen(false)
+    }
+  };
 
   return (
+  
     <div
-      className={`${theme} w-full min-h-screen flex flex-col items-center justify-center text-black`}
+      className={` ${theme} w-full min-h-screen flex flex-col py-20 items-center justify-center text-black`}
     >
-      <div className={` lg:w-[30%] w-[80%] sm:w-[50%] md:w-[40%] bg-white/50 rounded-3xl p-4 overflow-hidden    `}>
+
+<div className={` lg:w-[30%] w-[80%] sm:w-[50%] md:w-[40%] bg-white/50 rounded-3xl p-3 overflow-hidden  `}>
+
         <div
-          className={`w-full p-[1rem] bg-white h-full min-h-max rounded-2xl `}
-        >
-          <CheckOldZoomer address={walletClient?.account?.address} />
-          <p className={`capitalize font-semibold my-4`}>
+          className={`w-full px-[24px] pb-[20px] bg-white h-full min-h-max rounded-2xl `}
+        > 
+      
+      {/* Main Box starts */}
+
+        {/* -------------- */}
+        <CheckOldZoomer address={walletClient?.account?.address} />
+        {/* -------------- */}
+
+
+        {/* -------------- */}
+        <p className={`capitalize font-semibold py-[22px]`}>
             Bridge to {currentChain && currentChain?.toLowerCase()}
           </p>
+        {/* -------------- */}
+        
+        
+        {/* -------------- */}
           <div className={`flex w-full justify-between items-center lg:gap-x-3 gap-x-2 `}>
             <div className={` lg:w-full w-[46%]`}>
               <p className={`text-sm`}>From</p>
-              <Selector options={chainsArr} setOriginChain={setOriginChain}  />
+              <Selector options={chainsArr} setOriginChain={setOriginChain} newRef={newRef} open={open} setOpen={setOpen} destinationChain={destinationChain as number} />
             </div>
             <img
               className={`w-4 h-4`}
               src="https://img.icons8.com/fluency-systems-regular/48/right--v1.png"
               alt="right--v1"
-            />
+              />
             <div className={` lg:w-full w-[46%] `}>
               <p className={`text-sm `}>To</p>
               <div className={`  text-sm flex w-max  m-2  truncate rounded-xl  ${theme} `}>
                 <div
                   style={{ color: textcolor }}
-                  className={`w-full font-bold bg-white/90 flex items-center px-3  py-1.5 gap-2 justify-start capitalize  `}
-                >
+                  className={`w-full font-semibold bg-white/90 flex items-center px-3  py-1.5 gap-2 justify-start capitalize  `}
+                  >
                   <img
                     src={`/v2/logo/${+params?.bridgeTo}.png`}
                     alt="logo"
                     className={`w-4`}
-                  />
+                    />
                   {currentChain?.toLowerCase()}
                 </div>
               </div>
             </div>
           </div>
-          {originChain === solana.id || destinationChain === solana.id ? (
-            <SolanaDescription />
-          ) : (
-            <>
-              <div
-                className={`w-full  flex  flex-col items-center  gap-2 justify-center mt-3`}
-              >
-                <div className={`flex w-full `}>
-                  <p className={`text-sm`}>Amount</p>
-                  <p className={`text-sm  ml-auto  text-black/40`}>
-                    Balance: {isSuccessBalance ? formatEther(balance!) : "..."}{" "}
-                    {asset.toUpperCase()}
-                  </p>
-                </div>
+          {/* -------------- */}
 
+
+
+
+
+          {/* -------------- */}
+          <div
+                className={`w-full  flex  flex-col items-center  gap-2 justify-center mt-3`}
+                >
+              
+              {isConnected && <div className={`flex w-full truncate   gap-x-1  `}>
+                  <p className={`text-sm`}>Amount</p>
+                  <div className={`text-sm  ml-auto flex gap-x-2 text-black/40`}>
+                  <span>Balance: {isSuccessBalance ? (Number(formatEther(balance!)))?.toFixed(2) : "..."}{" "}</span>
+                    <span>{asset.toUpperCase()}</span>
+                  </div>
+                </div>}
+                
+
+                 {/* first box starts here */}
                 <div
                   className={` w-full flex items-center justify-start rounded-2xl border border-black/20 p-3`}
-                >
+                  >
                   <div
                     className={` flex w-max items-center justify-start gap-2 `}
-                  >
-                    <div
-                      className={`w-10 p-2 rounded-full bg-yellow-300 overflow-hidden`}
                     >
-                      <img src="/v2/zoom.png" alt="" className={`w-8 `} />
+                    <div
+                      className={`w-[24px]  relative   `}
+                      >
+                      <div className={`w-full rounded-full bg-yellow-300 overflow-hidden`} >
+
+                      <img src="/v2/zoom.png" alt="" className={`w-9 `} />
+                      <img
+                    src={`/v2/logo/${originChain && originChain}.png`}
+                    alt="logo"
+                    className={`w-2 absolute bottom-0 right-0 ${originChain ? "block" : "hidden"}`}
+                    />
+                    </div>
                     </div>
                     <span className="capitalize ">{asset.toLowerCase()}</span>
                     <button
                       onClick={() => {
                         setAmountIn(formatEther(balance!));
                       }}
-                      className={`bg-yellow-100 text-yellow-900/40 py-1 px-2 rounded-xl `}
-                    >
+                      className={`bg-[#FED95233] text-[#795F00] py-[4px] px-[6px] rounded-[8px] text-[14px] `}
+                      >
                       {" "}
                       Max
                     </button>
                   </div>
                   <div
                     className={` ml-auto  w-max flex flex-col items-end justify-end`}
-                  >
+                    >
                     <input
                       type="number"
                       placeholder="0"
                       value={_amountIn}
                       onChange={(e) => setAmountIn(e?.target?.value)}
-                      className={`text-sm active:ring-0 focus:outline-none placeholder:text-end text-end w-full`}
-                    />
-                    {/* need to change based on market rate */}
+                      className={`text-sm focus:ring-1  placeholder:text-end text-end w-full`}
+                      />
+
                     <p className={`text-xs text-black/40`}>$0.00</p> 
                   </div>
                 </div>
+              {/* first box ends here */}
 
 
-                <div
-                  onClick={() => setModal(true)}
-                  className={` w-full flex  items-center justify-start rounded-t-2xl border border-black/20 p-3 cursor-pointer`}
-                >
+              {/* second box starts here */}
+
+              <div
+                  onClick={() => amountIn && isConnected ? setModal(true) : null}
+                  className={` w-full flex  items-center justify-start ${isConnected ? "rounded-t-2xl" : "rounded-2xl"} border border-black/20 p-3 cursor-pointer`}
+                  >
                   <div
                     className={` flex w-max items-center justify-start gap-x-2 `}
-                  >
+                    >
                     <span className="capitalize font-bold">You Receive</span>
                   </div>
                   <div
                     className={` ml-auto  flex flex-col items-end justify-end`}
-                  >
+                    >
                     <div className={` flex items-center justify-center gap-1`}>
-                      <div
-                        className={`w-4  rounded-full bg-yellow-400 flex overflow-hidden`}
+                    <div
+                      className={`w-[24px]  relative   `}
                       >
+                      <div className={`w-full rounded-full bg-yellow-300 overflow-hidden`} >
                         <img src="/v2/zoom.png" alt="" className={`w-full `} />
+                        <img
+                    src={`/v2/logo/${destinationChain && destinationChain}.png`}
+                    alt="logo"
+                    className={`w-2 absolute bottom-0 right-0 ${destinationChain ? "block" : "hidden"}`}
+                    />
+                    </div>
                       </div>
                       <span className={`text-sm`}>
-                        {amountIn
-                          ? (Number(amountIn) * 0.09995).toFixed(5)
+                        {amountIn && isConnected
+                          ? ( (Number(amountIn) * 0.9995)).toFixed(4)
                           : "0"}
                       </span>
                     </div>
-                    {/* need to change based on market rate */}
+
                     <p className={`text-xs text-black/40`}>$0.00</p>
                   </div>
-                </div>
-                <div
-                  className={`w-full -translate-y-2 px-4  flex items-center justify-start rounded-b-2xl gap-2 mt-0 bg-blue-100 text-blue-900 text-sm`}
-                >
+                 </div>
+              {/* second box ends here here */}
+              
+
+              {/* fees box starts */}
+              {isConnected && <div
+                 style={{color: textcolor , backgroundColor : textcolor+"1a"}}
+                 className={`w-full -translate-y-2 px-4  flex items-center justify-start rounded-b-2xl gap-2 mt-0  text-sm `}
+                 >
                   <div className={` flex  `}>
                     {relayerFeeLoading
                       ? "..."
                       : formatEther(BigInt(relayerFee))}{" "}
                     {walletClient?.chain?.id
                       ? configByAsset[asset].chains.find(
-                          (chain) => chain?.id === walletClient?.chain?.id
+                        (chain) => chain?.id === walletClient?.chain?.id
                         )?.nativeCurrency?.symbol
-                      : "???"}
+                        : "???"}
                   </div>
                   <span className={` uppercase `}> {bridge}</span>
                   <div className={` flex  items-center justify-center w-max`}>
                     <img
                       className={` w-4 py-1 `}
-                      src="https://img.icons8.com/windows/32/044F9F/clock--v1.png"
+                      src={`https://img.icons8.com/windows/32/${textcolor.slice(1)}/clock--v1.png`}
                       alt="clock--v1"
-                    />
+                      />
                     <span className={`  `}> ~ 5 mins</span>
                   </div>
                 </div>
+                }
+              {/* fees box ends */}
+             
+              
+
+
+
+
+
+
+              {/* action button starts */}
+
+
+
+                { (!isConnected || !walletClient?.account?.address || !walletClient?.chain?.id) ?
+                (
+                  <div className={`mt-7 w-full ${originChain === 0 || +params?.bridgeTo === 0 ? "hidden" : null }`}>
+      
+                  <ConnectButton colorTheme={theme} />
+                  </div>
+                ) : (
+                  
+                  <ActionButtons
+                  amountIn={amountIn}
+                  connext={connext as { sdkBase: SdkBase; sdkUtils: SdkUtils }}
+                  destinationChain={destinationChain as number}
+                  originChain={originChain as number}
+                  relayerFee={relayerFee}
+                  walletAddress={walletClient?.account?.address}
+                  walletChain={walletClient?.chain?.id}
+                  approvalNeeded={approvalNeeded}
+                  setApprovalNeeded={setApprovalNeeded}
+                  asset={asset}
+                  bridge={bridge}
+                  setTxModal={setTxModal}
+                  txModal={txModal}
+                  textcolor={textcolor}
+                  />
+      
+                  )
+                  
+                }
+
+
+              {/* action button ends */}
+
               </div>
-            </>
-          )}
-          {!isConnected ||
-          !walletClient?.account?.address ||
-          !walletClient?.chain?.id ? (
-            <ConnectButton colorTheme={theme} />
-          ) : (
-            <ActionButtons
-              amountIn={amountIn}
-              connext={connext as { sdkBase: SdkBase; sdkUtils: SdkUtils }}
-              destinationChain={destinationChain as number}
-              relayerFee={relayerFee}
-              walletAddress={walletClient.account.address}
-              walletChain={walletClient.chain.id}
-              approvalNeeded={approvalNeeded}
-              setApprovalNeeded={setApprovalNeeded}
-              asset={asset}
-              bridge={bridge}
-              setTxModal={setTxModal}
-              txModal={txModal}
-            />
-          )}
-        </div>
-      </div>
-      {/* for tesiting purposes */}
-      {/* <div
+                {/* -------------- */}
+        
+              </div>
+              </div>
+
+ {/* both white boxes end upper */}
+
+ {/* both the modals */}
+      <div
         className={` absolute top-0 left-0 w-full min-h-screen bg-black/20 flex items-center justify-center ${txModal ? "block" : "hidden"}`}
       >
         <TxModal txHash={"xcallTxHash!"} bridge={bridge!} setTxModal={setTxModal} />
-      </div> */}
+      </div> 
+
       <div
-        className={` absolute top-0 left-0 w-full min-h-screen bg-black/20 flex items-center justify-center ${modal ? "block" : "hidden"}`}
+        className={` absolute top-0 left-0 w-full min-h-screen bg-black/20 flex items-center justify-center ${modal && amountIn ? "block" : "hidden"}`}
       >
-        <BridgeModal bridges={bridges} amountIn={+amountIn} setModal={setModal} setBridge={setBridge}/>
+           <BridgeModal bridges={bridges} amountIn={+amountIn} setModal={setModal} setBridge={setBridge} textcolor={textcolor}  destinationChain={destinationChain} currentbridge={bridge}/>
       </div>
+
+{/* modals end here */}
+
     </div>
+{/* main div end here */}
   );
 }
+
 
 const updateApprovals = async (
   bridge: Bridge,
@@ -523,6 +621,8 @@ type ActionButtonsProps = {
   txModal: boolean;
   asset: Asset;
   bridge: Bridge | undefined;
+  textcolor : string;
+  originChain : number
 };
 
 const ActionButtons = ({
@@ -538,9 +638,11 @@ const ActionButtons = ({
   bridge,
   setTxModal,
   txModal,
+  textcolor,
+  originChain
 }: ActionButtonsProps) => {
   return (
-    <div className={`flex flex-col`}>
+    <div className={`flex w-full flex-col ${originChain === 0 || destinationChain=== 0 ? "hidden"  : "" }`}>
       {approvalNeeded ? (
         <ApproveButton
           amountIn={amountIn}
@@ -550,6 +652,7 @@ const ActionButtons = ({
           walletChain={walletChain}
           asset={asset}
           bridge={bridge}
+          textcolor={textcolor}
         />
       ) : (
         <BridgeButton
@@ -563,6 +666,7 @@ const ActionButtons = ({
           bridge={bridge}
           setTxModal={setTxModal}
           txModal={txModal}
+          textcolor={textcolor}
         />
       )}
     </div>
@@ -577,6 +681,7 @@ type ApproveButtonProps = {
   setApprovalNeeded: Dispatch<SetStateAction<boolean>>;
   asset: Asset;
   bridge: Bridge | undefined;
+  textcolor : string
 };
 const ApproveButton = ({
   amountIn,
@@ -586,6 +691,7 @@ const ApproveButton = ({
   setApprovalNeeded,
   asset,
   bridge,
+  textcolor
 }: ApproveButtonProps) => {
   const [approvalLoading, setApprovalLoading] = useState(false);
   const { sendTransactionAsync } = useSendTransaction();
@@ -667,9 +773,10 @@ const ApproveButton = ({
       disabled={!approvalNeeded || !amountIn}
       onClick={() => handleApprove(false)}
       // isLoading={approvalLoading}
-      className={`w-full rounded-xl py-2 px-4 text-center bg-blue-600 text-white font-semibold cursor-pointer my-4 ${!approvalNeeded || !amountIn ? "opacity-70" : null} `}
+      style={{backgroundColor : textcolor}}
+      className={`w-full  py-[10px] px-[12px] rounded-[8px] h-[44px]  text-center  text-white font-semibold cursor-pointer mt-6  ${!approvalNeeded || !amountIn ? "opacity-50" : null} `}
     >
-      {approvalLoading ? "Check wallet later" : "APPROVE"}
+      {approvalLoading ? "Check wallet later" : amountIn ? "Approve" : "Enter Amount"}
     </button>
   );
 };
@@ -685,6 +792,7 @@ type BridgeButtonProps = {
   bridge: Bridge | undefined;
   setTxModal: Dispatch<SetStateAction<boolean>>;
   txModal: boolean;
+  textcolor : string
 };
 const BridgeButton = ({
   walletChain,
@@ -697,6 +805,7 @@ const BridgeButton = ({
   bridge,
   setTxModal,
   txModal,
+  textcolor
 }: BridgeButtonProps) => {
   const [xcallLoading, setXCallLoading] = useState(false);
   const [xcallTxHash, setXCallTxHash] = useState<Hash | undefined>();
@@ -798,10 +907,11 @@ const BridgeButton = ({
           !amountIn
         }
         // isLoading={xcallLoading || isLoading}
+        style={{backgroundColor : textcolor}}
         onClick={handleXCall}
-        className={`w-full rounded-xl py-2 px-4 text-center bg-blue-600 text-white font-semibold cursor-pointer mt-3 mb-6 ${(bridge !== "connext" && bridge !== "ccip" && BigInt(relayerFee) === BigInt(0)) || !amountIn ? "opacity-70" : null}`}
+        className={`w-full  py-[10px] px-[12px] rounded-[8px] h-[44px] text-center text-white font-semibold cursor-pointer mt-3 mb-6 ${(bridge !== "connext" && bridge !== "ccip" && BigInt(relayerFee) === BigInt(0)) || !amountIn ? "opacity-50" : null}`}
       >
-        {"/BRIDGE"}
+        {"BRIDGE"}
       </button>
       <div
         className={` absolute top-0 left-0 w-full min-h-screen bg-black/20 flex items-center justify-center ${txModal ? "block" : "hidden"}`}
