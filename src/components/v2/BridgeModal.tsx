@@ -26,6 +26,7 @@ const BridgeModal = ({bridges , amountIn , setModal , setBridge , textcolor , de
             alt="delete-sign--v1"
           />
           {bridges.map((bridge, index) => {
+            const color  = (bridge?.bridge === currentbridge ? textcolor : "")
             return (
               <div
                 onClick={() => {
@@ -35,7 +36,7 @@ const BridgeModal = ({bridges , amountIn , setModal , setBridge , textcolor , de
                 key={index}
               >
                 <div
-                style={{borderColor : (bridge.bridge == currentbridge ? textcolor : null) }}
+                style={{borderColor : color }}
                   className={` w-full flex mt-2 items-center justify-start rounded-t-2xl border  p-3 cursor-pointer `}
                 >
                   <div

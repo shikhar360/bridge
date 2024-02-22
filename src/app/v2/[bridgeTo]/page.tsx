@@ -474,7 +474,7 @@ export default function Page({ params }: Iprops) {
       
                   <ConnectButton colorTheme={theme} />
                   </div>
-                ) : (
+                ) : 
                   
                   <ActionButtons
                   amountIn={amountIn}
@@ -493,7 +493,7 @@ export default function Page({ params }: Iprops) {
                   textcolor={textcolor}
                   />
       
-                  )
+                  
                   
                 }
 
@@ -508,24 +508,20 @@ export default function Page({ params }: Iprops) {
 
  {/* both white boxes end upper */}
 
- {/* both the modals */}
-      <div
-        className={` absolute top-0 left-0 w-full min-h-screen bg-black/20 flex items-center justify-center ${txModal ? "block" : "hidden"}`}
-      >
-        <TxModal txHash={"xcallTxHash!"} bridge={bridge!} setTxModal={setTxModal} />
-      </div> 
-
+ {/* the modals */}
+     
       <div
         className={` absolute top-0 left-0 w-full min-h-screen bg-black/20 flex items-center justify-center ${modal && amountIn ? "block" : "hidden"}`}
       >
-           <BridgeModal bridges={bridges} amountIn={+amountIn} setModal={setModal} setBridge={setBridge} textcolor={textcolor}  destinationChain={destinationChain} currentbridge={bridge}/>
+           <BridgeModal bridges={bridges} amountIn={+amountIn} setModal={setModal} setBridge={setBridge} textcolor={textcolor}  destinationChain={destinationChain as number} currentbridge={bridge as Bridge}/>
       </div>
 
-{/* modals end here */}
+                 {/* modals end here */}
 
     </div>
-{/* main div end here */}
-  );
+            
+
+  )
 }
 
 
