@@ -3,7 +3,7 @@ import Link from "next/link";
 const SolanaDescription = () => {
   return (
 
-    <div className={``}>
+    <div className={` px-[22px]`}>
       Bridging to and from Solana requires using Wormhole Portal Bridge (for
       now).
       <br />
@@ -15,7 +15,7 @@ const SolanaDescription = () => {
       1. Navigate to the{" "}
       <Link
         href="https://portalbridge.com/advanced-tools/#/transfer"
-       
+        className={`text-blue-400 underline`}
       >
         Wormhole Portal Bridge
       </Link>
@@ -29,7 +29,7 @@ const SolanaDescription = () => {
       3. If Ethereum is source, paste the address{" "}
       <Link
         href="https://etherscan.io/token/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676"
-       
+        className={`text-blue-400 underline`}
       >
         0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676
       </Link>
@@ -38,7 +38,7 @@ const SolanaDescription = () => {
       4. If Solana is source, paste the address{" "}
       <Link
         href="https://solscan.io/token/nBZEcHSG771mRbi4y2sSgKjfDUH8jsM2Eo5fNcASLeU"
-       
+        className={`text-blue-400 underline`}
       >
         nBZEcHSG771mRbi4y2sSgKjfDUH8jsM2Eo5fNcASLeU
       </Link>
@@ -51,7 +51,7 @@ const SolanaDescription = () => {
       <br />
       <br />
       Still need support? Join the Zoomer{" "}
-      <Link href="https://t.me/zoomercoinofficial" >
+      <Link className={`text-blue-400 underline`} href="https://t.me/zoomercoinofficial" >
         Telegram
       </Link>{" "}
       and contact the mods.

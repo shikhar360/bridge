@@ -11,10 +11,8 @@ type TxModalProps = {
   textcolor : string
 };
 const TxModal = ({
-  // isOpen,
-  // onClose,
-  txHash = "jkdhkslfjajkdlhf",
-  bridge = "connext",
+  txHash ,
+  bridge ,
   setTxModal,
   fee,
   amountIn,
@@ -50,11 +48,11 @@ const TxModal = ({
           </div>
           <div className={`flex items-center w-full justify-between`}>
             <span>Fees</span>
-            <span>{fee}</span>
+            <span>{fee.toFixed(5)}</span>
           </div>
           <div className={`flex items-center w-full justify-between`}>
             <span>You will receive</span>
-            <span>{(Number(amountIn) * 0.09995).toFixed(5)}</span>
+            <span>{(Number(amountIn) * 0.9995).toFixed(5)}</span>
           </div>
         </div>
 
@@ -66,13 +64,13 @@ const TxModal = ({
               ? `https://ccip.chain.link`
               : null
           }`}
-          className={` w-full mt-8 flex items-center justify-center  py-2 px-4 rounded-xl`}
+          className={` w-full mt-6  flex items-center justify-center  py-[10px] px-[12px] rounded-[12px] h-[44px]`}
           style={{color: textcolor , backgroundColor : textcolor+"1a" }}
         >
           <img
-            width="30"
-            height="30"
-            src="https://img.icons8.com/ios-glyphs/30/0962C2/external-link.png"
+            className="w-5 "
+          style={{color: textcolor , backgroundColor : textcolor+"1a" }}
+          src={`https://img.icons8.com/ios-glyphs/30/${textcolor.slice(1)}/external-link.png`}
             alt="external-link"
           />
           <span>Track in Explorer </span>

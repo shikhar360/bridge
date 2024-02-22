@@ -21,10 +21,6 @@ export default function ConnectButton({ colorTheme = "bg-black"}: IProp) {
   const { address,  chain , isConnected} = useAccount();
   const pathname = usePathname()
 
-  // const fallback = chainsTheme.some(
-  //   (val) => val.chain == chain?.name.toUpperCase()
-  // );
-
   return (
     <div
       className={` ${isConnected ? pathname === "/v2" ? 'bg-black' :"bg-white/30" : colorTheme} cursor-pointer py-[10px] px-[12px] rounded-[12px] h-[44px]   text-white font-semibold text-center`}
