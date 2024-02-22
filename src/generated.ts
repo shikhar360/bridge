@@ -11,7 +11,7 @@ import {
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -267,7 +267,7 @@ export const bridgeAbi = [
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -284,7 +284,7 @@ export const bridgeAddress = {
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -297,8 +297,8 @@ export const bridgeConfig = { address: bridgeAddress, abi: bridgeAbi } as const
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -656,15 +656,15 @@ export const cciPxErc20BridgeAbi = [
 ] as const
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  */
 export const cciPxErc20BridgeAddress = {
-  1: '0x14588B66685326280396e0799fA292127B9d1465',
+  1: '0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308',
   10: '0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a',
   56: '0x840854c007c1E5F64074350beECa088F8a8e48BF',
   137: '0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51',
@@ -673,8 +673,8 @@ export const cciPxErc20BridgeAddress = {
 } as const
 
 /**
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -691,7 +691,7 @@ export const cciPxErc20BridgeConfig = {
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -956,7 +956,7 @@ export const grumpyCatCoinAbi = [
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -971,7 +971,7 @@ export const grumpyCatCoinAddress = {
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -1086,7 +1086,7 @@ export const grumpyCatLockboxAdapterConfig = {
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -1487,7 +1487,7 @@ export const zoomerCoinAbi = [
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -1504,7 +1504,7 @@ export const zoomerCoinAddress = {
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -1801,7 +1801,7 @@ export const zoomerXerc20LockboxAllConfig = {
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -1954,7 +1954,7 @@ export const zoomerXerc20LockboxBaseAbi = [
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -1971,7 +1971,7 @@ export const zoomerXerc20LockboxBaseAddress = {
 
 /**
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2460,7 +2460,7 @@ export const erc20Abi = [
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link bridgeAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2475,7 +2475,7 @@ export const useReadBridge = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"bridges"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2491,7 +2491,7 @@ export const useReadBridgeBridges = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"connextChainIdToDomain"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2508,7 +2508,7 @@ export const useReadBridgeConnextChainIdToDomain =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"fee"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2524,7 +2524,7 @@ export const useReadBridgeFee = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"owner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2540,7 +2540,7 @@ export const useReadBridgeOwner = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"paused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2556,7 +2556,7 @@ export const useReadBridgePaused = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"pendingOwner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2572,7 +2572,7 @@ export const useReadBridgePendingOwner = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2587,7 +2587,7 @@ export const useWriteBridge = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"acceptOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2604,7 +2604,7 @@ export const useWriteBridgeAcceptOwnership =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2620,7 +2620,7 @@ export const useWriteBridgeInitialize = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2637,7 +2637,7 @@ export const useWriteBridgeRenounceOwnership =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"sendThroughBridge"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2654,7 +2654,7 @@ export const useWriteBridgeSendThroughBridge =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"setBridge"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2670,7 +2670,7 @@ export const useWriteBridgeSetBridge = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"setDomains"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2686,7 +2686,7 @@ export const useWriteBridgeSetDomains = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"setFee"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2702,7 +2702,7 @@ export const useWriteBridgeSetFee = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2719,7 +2719,7 @@ export const useWriteBridgeTransferOwnership =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"withdraw"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2735,7 +2735,7 @@ export const useWriteBridgeWithdraw = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2750,7 +2750,7 @@ export const useSimulateBridge = /*#__PURE__*/ createUseSimulateContract({
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"acceptOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2767,7 +2767,7 @@ export const useSimulateBridgeAcceptOwnership =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2784,7 +2784,7 @@ export const useSimulateBridgeInitialize =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2801,7 +2801,7 @@ export const useSimulateBridgeRenounceOwnership =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"sendThroughBridge"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2818,7 +2818,7 @@ export const useSimulateBridgeSendThroughBridge =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"setBridge"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2835,7 +2835,7 @@ export const useSimulateBridgeSetBridge =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"setDomains"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2852,7 +2852,7 @@ export const useSimulateBridgeSetDomains =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"setFee"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2868,7 +2868,7 @@ export const useSimulateBridgeSetFee = /*#__PURE__*/ createUseSimulateContract({
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2885,7 +2885,7 @@ export const useSimulateBridgeTransferOwnership =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link bridgeAbi}__ and `functionName` set to `"withdraw"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2902,7 +2902,7 @@ export const useSimulateBridgeWithdraw =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link bridgeAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2917,7 +2917,7 @@ export const useWatchBridgeEvent = /*#__PURE__*/ createUseWatchContractEvent({
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link bridgeAbi}__ and `eventName` set to `"Initialized"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2934,7 +2934,7 @@ export const useWatchBridgeInitializedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link bridgeAbi}__ and `eventName` set to `"OwnershipTransferStarted"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2951,7 +2951,7 @@ export const useWatchBridgeOwnershipTransferStartedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link bridgeAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2968,7 +2968,7 @@ export const useWatchBridgeOwnershipTransferredEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link bridgeAbi}__ and `eventName` set to `"Paused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -2985,7 +2985,7 @@ export const useWatchBridgePausedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link bridgeAbi}__ and `eventName` set to `"Unpaused"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xDDFC70d9932ea7297724b621CcCb17bFF96995DD)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xF9479E3DB37F75Dc2f6B1d51a5D2dbE40eBF5393)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x64d80a46C4183A3B9CBca6dAEA8B3397C43FA13A)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -3001,8 +3001,8 @@ export const useWatchBridgeUnpausedEvent =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3016,8 +3016,8 @@ export const useReadCciPxErc20Bridge = /*#__PURE__*/ createUseReadContract({
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"bridgesByChain"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3033,8 +3033,8 @@ export const useReadCciPxErc20BridgeBridgesByChain =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"chainIdToChainSelector"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3050,8 +3050,8 @@ export const useReadCciPxErc20BridgeChainIdToChainSelector =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"feeBps"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3067,8 +3067,8 @@ export const useReadCciPxErc20BridgeFeeBps =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"getFee"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3084,8 +3084,8 @@ export const useReadCciPxErc20BridgeGetFee =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"getLastReceivedMessageDetails"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3101,8 +3101,8 @@ export const useReadCciPxErc20BridgeGetLastReceivedMessageDetails =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"getRouter"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3118,8 +3118,8 @@ export const useReadCciPxErc20BridgeGetRouter =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"linkToken"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3135,8 +3135,8 @@ export const useReadCciPxErc20BridgeLinkToken =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"owner"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3153,8 +3153,8 @@ export const useReadCciPxErc20BridgeOwner = /*#__PURE__*/ createUseReadContract(
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"supportsInterface"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3170,8 +3170,8 @@ export const useReadCciPxErc20BridgeSupportsInterface =
 /**
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"xerc20"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3187,8 +3187,8 @@ export const useReadCciPxErc20BridgeXerc20 =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3202,8 +3202,8 @@ export const useWriteCciPxErc20Bridge = /*#__PURE__*/ createUseWriteContract({
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"acceptOwnership"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3219,8 +3219,8 @@ export const useWriteCciPxErc20BridgeAcceptOwnership =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"addBridgeForChain"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3236,8 +3236,8 @@ export const useWriteCciPxErc20BridgeAddBridgeForChain =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"addChainIdToChainSelector"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3253,8 +3253,8 @@ export const useWriteCciPxErc20BridgeAddChainIdToChainSelector =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"bridgeTokens"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3270,8 +3270,8 @@ export const useWriteCciPxErc20BridgeBridgeTokens =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"bridgeTokensWithLINK"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3287,8 +3287,8 @@ export const useWriteCciPxErc20BridgeBridgeTokensWithLink =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"ccipReceive"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3304,8 +3304,8 @@ export const useWriteCciPxErc20BridgeCcipReceive =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"setFeeBps"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3321,8 +3321,8 @@ export const useWriteCciPxErc20BridgeSetFeeBps =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"transferOwnership"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3338,8 +3338,8 @@ export const useWriteCciPxErc20BridgeTransferOwnership =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"withdraw"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3355,8 +3355,8 @@ export const useWriteCciPxErc20BridgeWithdraw =
 /**
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"withdrawToken"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3372,8 +3372,8 @@ export const useWriteCciPxErc20BridgeWithdrawToken =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3388,8 +3388,8 @@ export const useSimulateCciPxErc20Bridge =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"acceptOwnership"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3405,8 +3405,8 @@ export const useSimulateCciPxErc20BridgeAcceptOwnership =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"addBridgeForChain"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3422,8 +3422,8 @@ export const useSimulateCciPxErc20BridgeAddBridgeForChain =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"addChainIdToChainSelector"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3439,8 +3439,8 @@ export const useSimulateCciPxErc20BridgeAddChainIdToChainSelector =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"bridgeTokens"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3456,8 +3456,8 @@ export const useSimulateCciPxErc20BridgeBridgeTokens =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"bridgeTokensWithLINK"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3473,8 +3473,8 @@ export const useSimulateCciPxErc20BridgeBridgeTokensWithLink =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"ccipReceive"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3490,8 +3490,8 @@ export const useSimulateCciPxErc20BridgeCcipReceive =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"setFeeBps"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3507,8 +3507,8 @@ export const useSimulateCciPxErc20BridgeSetFeeBps =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"transferOwnership"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3524,8 +3524,8 @@ export const useSimulateCciPxErc20BridgeTransferOwnership =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"withdraw"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3541,8 +3541,8 @@ export const useSimulateCciPxErc20BridgeWithdraw =
 /**
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `functionName` set to `"withdrawToken"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3558,8 +3558,8 @@ export const useSimulateCciPxErc20BridgeWithdrawToken =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3574,8 +3574,8 @@ export const useWatchCciPxErc20BridgeEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `eventName` set to `"MessageReceived"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3591,8 +3591,8 @@ export const useWatchCciPxErc20BridgeMessageReceivedEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `eventName` set to `"MessageSent"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3608,8 +3608,8 @@ export const useWatchCciPxErc20BridgeMessageSentEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `eventName` set to `"OwnershipTransferRequested"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3625,8 +3625,8 @@ export const useWatchCciPxErc20BridgeOwnershipTransferRequestedEvent =
 /**
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link cciPxErc20BridgeAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
- * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x14588B66685326280396e0799fA292127B9d1465)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
+ * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x2339e8e77A7FD6455fB7374bFEf8BA0E4C8C2308)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0337c7b958aC69A9e35b1Be47D96b8e058f9222a)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x840854c007c1E5F64074350beECa088F8a8e48BF)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB2e04651aC165CB6D2b8B0442ab25231DEf15b51)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x083178fBB5d6dd6521fe778BcfC32BF898678fAe)
@@ -3643,7 +3643,7 @@ export const useWatchCciPxErc20BridgeOwnershipTransferredEvent =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3657,7 +3657,7 @@ export const useReadGrumpyCatCoin = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"airdropLimit"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3673,7 +3673,7 @@ export const useReadGrumpyCatCoinAirdropLimit =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"allowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3689,7 +3689,7 @@ export const useReadGrumpyCatCoinAllowance =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"balanceOf"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3705,7 +3705,7 @@ export const useReadGrumpyCatCoinBalanceOf =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"burntGrumpyCat"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3721,7 +3721,7 @@ export const useReadGrumpyCatCoinBurntGrumpyCat =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"decimals"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3738,7 +3738,7 @@ export const useReadGrumpyCatCoinDecimals = /*#__PURE__*/ createUseReadContract(
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"maxWallet"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3754,7 +3754,7 @@ export const useReadGrumpyCatCoinMaxWallet =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"maxWalletTimer"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3770,7 +3770,7 @@ export const useReadGrumpyCatCoinMaxWalletTimer =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"name"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3785,7 +3785,7 @@ export const useReadGrumpyCatCoinName = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"owner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3800,7 +3800,7 @@ export const useReadGrumpyCatCoinOwner = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"symbol"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3815,7 +3815,7 @@ export const useReadGrumpyCatCoinSymbol = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"totalSupply"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3831,7 +3831,7 @@ export const useReadGrumpyCatCoinTotalSupply =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3845,7 +3845,7 @@ export const useWriteGrumpyCatCoin = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"addPair"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3861,7 +3861,7 @@ export const useWriteGrumpyCatCoinAddPair =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"airdrop"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3877,7 +3877,7 @@ export const useWriteGrumpyCatCoinAirdrop =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"approve"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3893,7 +3893,7 @@ export const useWriteGrumpyCatCoinApprove =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"burn"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3908,7 +3908,7 @@ export const useWriteGrumpyCatCoinBurn = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"decreaseAllowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3924,7 +3924,7 @@ export const useWriteGrumpyCatCoinDecreaseAllowance =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"increaseAllowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3940,7 +3940,7 @@ export const useWriteGrumpyCatCoinIncreaseAllowance =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3956,7 +3956,7 @@ export const useWriteGrumpyCatCoinRenounceOwnership =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"transfer"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3972,7 +3972,7 @@ export const useWriteGrumpyCatCoinTransfer =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"transferFrom"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -3988,7 +3988,7 @@ export const useWriteGrumpyCatCoinTransferFrom =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4004,7 +4004,7 @@ export const useWriteGrumpyCatCoinTransferOwnership =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4017,7 +4017,7 @@ export const useSimulateGrumpyCatCoin = /*#__PURE__*/ createUseSimulateContract(
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"addPair"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4033,7 +4033,7 @@ export const useSimulateGrumpyCatCoinAddPair =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"airdrop"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4049,7 +4049,7 @@ export const useSimulateGrumpyCatCoinAirdrop =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"approve"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4065,7 +4065,7 @@ export const useSimulateGrumpyCatCoinApprove =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"burn"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4081,7 +4081,7 @@ export const useSimulateGrumpyCatCoinBurn =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"decreaseAllowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4097,7 +4097,7 @@ export const useSimulateGrumpyCatCoinDecreaseAllowance =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"increaseAllowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4113,7 +4113,7 @@ export const useSimulateGrumpyCatCoinIncreaseAllowance =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4129,7 +4129,7 @@ export const useSimulateGrumpyCatCoinRenounceOwnership =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"transfer"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4145,7 +4145,7 @@ export const useSimulateGrumpyCatCoinTransfer =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"transferFrom"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4161,7 +4161,7 @@ export const useSimulateGrumpyCatCoinTransferFrom =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4177,7 +4177,7 @@ export const useSimulateGrumpyCatCoinTransferOwnership =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link grumpyCatCoinAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4192,7 +4192,7 @@ export const useWatchGrumpyCatCoinEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `eventName` set to `"Airdropped"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4208,7 +4208,7 @@ export const useWatchGrumpyCatCoinAirdroppedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `eventName` set to `"Approval"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4224,7 +4224,7 @@ export const useWatchGrumpyCatCoinApprovalEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4240,7 +4240,7 @@ export const useWatchGrumpyCatCoinOwnershipTransferredEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link grumpyCatCoinAbi}__ and `eventName` set to `"Transfer"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xd8E2D95C8614F28169757cD6445a71c291dEc5bF)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
  * - [__View Contract on Arbitrum One Arbiscan__](https://arbiscan.io/address/0x3B350F202473932411772C8Cb76DB7975f42397E)
@@ -4385,7 +4385,7 @@ export const useSimulateGrumpyCatLockboxAdapterXcall =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4400,7 +4400,7 @@ export const useReadZoomerCoin = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"DOMAIN_SEPARATOR"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4417,7 +4417,7 @@ export const useReadZoomerCoinDomainSeparator =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"FACTORY"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4433,7 +4433,7 @@ export const useReadZoomerCoinFactory = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"allowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4449,7 +4449,7 @@ export const useReadZoomerCoinAllowance = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"balanceOf"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4465,7 +4465,7 @@ export const useReadZoomerCoinBalanceOf = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"bridges"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4481,7 +4481,7 @@ export const useReadZoomerCoinBridges = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"burningCurrentLimitOf"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4498,7 +4498,7 @@ export const useReadZoomerCoinBurningCurrentLimitOf =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"burningMaxLimitOf"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4515,7 +4515,7 @@ export const useReadZoomerCoinBurningMaxLimitOf =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"decimals"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4531,7 +4531,7 @@ export const useReadZoomerCoinDecimals = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"eip712Domain"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4548,7 +4548,7 @@ export const useReadZoomerCoinEip712Domain =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"lockbox"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4564,7 +4564,7 @@ export const useReadZoomerCoinLockbox = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"mintingCurrentLimitOf"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4581,7 +4581,7 @@ export const useReadZoomerCoinMintingCurrentLimitOf =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"mintingMaxLimitOf"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4598,7 +4598,7 @@ export const useReadZoomerCoinMintingMaxLimitOf =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"name"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4614,7 +4614,7 @@ export const useReadZoomerCoinName = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"nonces"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4630,7 +4630,7 @@ export const useReadZoomerCoinNonces = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"owner"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4646,7 +4646,7 @@ export const useReadZoomerCoinOwner = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"symbol"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4662,7 +4662,7 @@ export const useReadZoomerCoinSymbol = /*#__PURE__*/ createUseReadContract({
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"totalSupply"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4680,7 +4680,7 @@ export const useReadZoomerCoinTotalSupply = /*#__PURE__*/ createUseReadContract(
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4695,7 +4695,7 @@ export const useWriteZoomerCoin = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"approve"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4711,7 +4711,7 @@ export const useWriteZoomerCoinApprove = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"burn"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4727,7 +4727,7 @@ export const useWriteZoomerCoinBurn = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"decreaseAllowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4744,7 +4744,7 @@ export const useWriteZoomerCoinDecreaseAllowance =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"increaseAllowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4761,7 +4761,7 @@ export const useWriteZoomerCoinIncreaseAllowance =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4778,7 +4778,7 @@ export const useWriteZoomerCoinInitialize =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"mint"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4794,7 +4794,7 @@ export const useWriteZoomerCoinMint = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"permit"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4810,7 +4810,7 @@ export const useWriteZoomerCoinPermit = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4827,7 +4827,7 @@ export const useWriteZoomerCoinRenounceOwnership =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"setLimits"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4841,7 +4841,7 @@ export const useWriteZoomerCoinSetLimits = /*#__PURE__*/ createUseWriteContract(
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"setLockbox"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4858,7 +4858,7 @@ export const useWriteZoomerCoinSetLockbox =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"transfer"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4874,7 +4874,7 @@ export const useWriteZoomerCoinTransfer = /*#__PURE__*/ createUseWriteContract({
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"transferFrom"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4891,7 +4891,7 @@ export const useWriteZoomerCoinTransferFrom =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4908,7 +4908,7 @@ export const useWriteZoomerCoinTransferOwnership =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4923,7 +4923,7 @@ export const useSimulateZoomerCoin = /*#__PURE__*/ createUseSimulateContract({
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"approve"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4940,7 +4940,7 @@ export const useSimulateZoomerCoinApprove =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"burn"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4957,7 +4957,7 @@ export const useSimulateZoomerCoinBurn =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"decreaseAllowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4974,7 +4974,7 @@ export const useSimulateZoomerCoinDecreaseAllowance =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"increaseAllowance"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -4991,7 +4991,7 @@ export const useSimulateZoomerCoinIncreaseAllowance =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -5008,7 +5008,7 @@ export const useSimulateZoomerCoinInitialize =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"mint"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -5025,7 +5025,7 @@ export const useSimulateZoomerCoinMint =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"permit"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -5042,7 +5042,7 @@ export const useSimulateZoomerCoinPermit =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"renounceOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -5059,7 +5059,7 @@ export const useSimulateZoomerCoinRenounceOwnership =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"setLimits"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -5076,7 +5076,7 @@ export const useSimulateZoomerCoinSetLimits =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"setLockbox"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -5093,7 +5093,7 @@ export const useSimulateZoomerCoinSetLockbox =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"transfer"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -5110,7 +5110,7 @@ export const useSimulateZoomerCoinTransfer =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"transferFrom"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -5127,7 +5127,7 @@ export const useSimulateZoomerCoinTransferFrom =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerCoinAbi}__ and `functionName` set to `"transferOwnership"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -5144,7 +5144,7 @@ export const useSimulateZoomerCoinTransferOwnership =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerCoinAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -5160,7 +5160,7 @@ export const useWatchZoomerCoinEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerCoinAbi}__ and `eventName` set to `"Approval"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -5177,7 +5177,7 @@ export const useWatchZoomerCoinApprovalEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerCoinAbi}__ and `eventName` set to `"BridgeLimitsSet"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -5194,7 +5194,7 @@ export const useWatchZoomerCoinBridgeLimitsSetEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerCoinAbi}__ and `eventName` set to `"EIP712DomainChanged"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -5211,7 +5211,7 @@ export const useWatchZoomerCoinEip712DomainChangedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerCoinAbi}__ and `eventName` set to `"Initialized"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -5228,7 +5228,7 @@ export const useWatchZoomerCoinInitializedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerCoinAbi}__ and `eventName` set to `"LockboxSet"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -5245,7 +5245,7 @@ export const useWatchZoomerCoinLockboxSetEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerCoinAbi}__ and `eventName` set to `"OwnershipTransferred"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -5262,7 +5262,7 @@ export const useWatchZoomerCoinOwnershipTransferredEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerCoinAbi}__ and `eventName` set to `"Transfer"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0x0D505C03d30e65f6e9b4Ef88855a47a89e4b7676)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0xB962150760F9A3bB00e3E9Cf48297EE20AdA4A33)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0xD1dB4851bcF5B41442cAA32025Ce0Afe6B8EabC2)
@@ -5736,7 +5736,7 @@ export const useWatchZoomerXerc20LockboxAllWithdrawEvent =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -5752,7 +5752,7 @@ export const useReadZoomerXerc20LockboxBase =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"ERC20"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -5769,7 +5769,7 @@ export const useReadZoomerXerc20LockboxBaseErc20 =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"IS_NATIVE"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -5786,7 +5786,7 @@ export const useReadZoomerXerc20LockboxBaseIsNative =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"OWNER"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -5803,7 +5803,7 @@ export const useReadZoomerXerc20LockboxBaseOwner =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"OpL1XERC20BRIDGE"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -5820,7 +5820,7 @@ export const useReadZoomerXerc20LockboxBaseOpL1Xerc20Bridge =
  * Wraps __{@link useReadContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"XERC20"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -5837,7 +5837,7 @@ export const useReadZoomerXerc20LockboxBaseXerc20 =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -5853,7 +5853,7 @@ export const useWriteZoomerXerc20LockboxBase =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"deposit"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -5870,7 +5870,7 @@ export const useWriteZoomerXerc20LockboxBaseDeposit =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"depositAndBridgeToL2"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -5887,7 +5887,7 @@ export const useWriteZoomerXerc20LockboxBaseDepositAndBridgeToL2 =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -5904,7 +5904,7 @@ export const useWriteZoomerXerc20LockboxBaseInitialize =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"multicall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -5921,7 +5921,7 @@ export const useWriteZoomerXerc20LockboxBaseMulticall =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"setOpL1XERC20Bridge"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -5938,7 +5938,7 @@ export const useWriteZoomerXerc20LockboxBaseSetOpL1Xerc20Bridge =
  * Wraps __{@link useWriteContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"withdraw"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -5955,7 +5955,7 @@ export const useWriteZoomerXerc20LockboxBaseWithdraw =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -5971,7 +5971,7 @@ export const useSimulateZoomerXerc20LockboxBase =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"deposit"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -5988,7 +5988,7 @@ export const useSimulateZoomerXerc20LockboxBaseDeposit =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"depositAndBridgeToL2"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -6005,7 +6005,7 @@ export const useSimulateZoomerXerc20LockboxBaseDepositAndBridgeToL2 =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"initialize"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -6022,7 +6022,7 @@ export const useSimulateZoomerXerc20LockboxBaseInitialize =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"multicall"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -6039,7 +6039,7 @@ export const useSimulateZoomerXerc20LockboxBaseMulticall =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"setOpL1XERC20Bridge"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -6056,7 +6056,7 @@ export const useSimulateZoomerXerc20LockboxBaseSetOpL1Xerc20Bridge =
  * Wraps __{@link useSimulateContract}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `functionName` set to `"withdraw"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -6073,7 +6073,7 @@ export const useSimulateZoomerXerc20LockboxBaseWithdraw =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -6089,7 +6089,7 @@ export const useWatchZoomerXerc20LockboxBaseEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `eventName` set to `"Deposit"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -6106,7 +6106,7 @@ export const useWatchZoomerXerc20LockboxBaseDepositEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `eventName` set to `"Initialized"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
@@ -6123,7 +6123,7 @@ export const useWatchZoomerXerc20LockboxBaseInitializedEvent =
  * Wraps __{@link useWatchContractEvent}__ with `abi` set to __{@link zoomerXerc20LockboxBaseAbi}__ and `eventName` set to `"Withdraw"`
  *
  * - [__View Contract on Ethereum Etherscan__](https://etherscan.io/address/0xBf16C4F1c3cff5E2C2CB2591456E891aad7FFC87)
- * - [__View Contract on Op Mainnet Optimism Explorer__](https://explorer.optimism.io/address/0x0000000000000000000000000000000000000000)
+ * - [__View Contract on Op Mainnet Optimism Explorer__](https://optimistic.etherscan.io/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Bnb Smart Chain Bsc Scan__](https://bscscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Polygon Polygon Scan__](https://polygonscan.com/address/0x0000000000000000000000000000000000000000)
  * - [__View Contract on Base Basescan__](https://basescan.org/address/0x0000000000000000000000000000000000000000)
