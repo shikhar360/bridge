@@ -71,8 +71,8 @@ const BridgeModal = ({bridges , amountIn , setModal , setBridge , textcolor , de
                   </div>
                 </div>
                 <div
-                 style={{color: textcolor , backgroundColor : textcolor+"1a"}}
-                  className={`w-full -translate-y- px-4  flex items-center justify-start rounded-b-2xl gap-2 mt-0  text-sm`}
+                 style={{color: textcolor , backgroundColor : textcolor+"1a" , borderColor : color  }}
+                  className={`w-full -translate-y- px-4  flex items-center justify-start rounded-b-2xl gap-2 mt-0 border border-t-[0px] text-sm`}
                 >
                   <span className={` uppercase `}>
                     {" "}

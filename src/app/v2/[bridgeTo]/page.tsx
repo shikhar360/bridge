@@ -293,8 +293,15 @@ export default function Page({ params }: Iprops) {
         {/* -------------- */}
         
         
+
+
+        {originChain === 0 || destinationChain === 0 ? <SolanaDescription/>: "" }
+
+
+
         {/* -------------- */}
-          <div className={`flex w-full justify-between items-center lg:gap-x-3 gap-x-2 `}>
+        
+          <div className={` w-full justify-between items-center lg:gap-x-3 gap-x-2  ${originChain === 0 || destinationChain === 0 ? "hidden": "flex" } `}>
             <div className={` lg:w-full w-[46%]`}>
               <p className={`text-sm`}>From</p>
               <Selector options={chainsArr} setOriginChain={setOriginChain} newRef={newRef} open={open} setOpen={setOpen} destinationChain={destinationChain as number} />
@@ -329,7 +336,7 @@ export default function Page({ params }: Iprops) {
 
           {/* -------------- */}
           <div
-                className={`w-full  flex  flex-col items-center  gap-2 justify-center mt-3`}
+                className={`w-full     mt-3 ${originChain === 0 || destinationChain === 0 ? "hidden": "flex flex-col items-center  gap-2 justify-center" }`}
                 >
               
               {isConnected && <div className={`flex w-full truncate   gap-x-1  `}>
@@ -393,7 +400,7 @@ export default function Page({ params }: Iprops) {
 
               <div
                   onClick={() => amountIn && isConnected ? setModal(true) : null}
-                  className={` w-full flex  items-center justify-start ${isConnected ? "rounded-t-2xl" : "rounded-2xl"} border border-black/20 p-3 cursor-pointer`}
+                  className={` w-full flex  items-center justify-start ${isConnected ? "rounded-t-2xl" : "rounded-2xl"} ${amountIn ? "cursor-pointer" : ''} border border-black/20 p-3 `}
                   >
                   <div
                     className={` flex w-max items-center justify-start gap-x-2 `}
@@ -460,7 +467,7 @@ export default function Page({ params }: Iprops) {
               
 
 
-
+            
 
 
 
@@ -492,16 +499,19 @@ export default function Page({ params }: Iprops) {
                   txModal={txModal}
                   textcolor={textcolor}
                   />
-      
-                  
-                  
                 }
 
 
               {/* action button ends */}
 
               </div>
+
                 {/* -------------- */}
+
+
+
+
+
         
               </div>
               </div>
@@ -912,7 +922,7 @@ const BridgeButton = ({
       <div
         className={` absolute top-0 left-0 w-full min-h-screen bg-black/20 flex items-center justify-center ${txModal ? "block" : "hidden"}`}
       >
-        <TxModal txHash={xcallTxHash!} bridge={bridge!} setTxModal={setTxModal} fee={+relayerFee} amountIn={+amountIn} />
+        <TxModal txHash={xcallTxHash!} bridge={bridge!} setTxModal={setTxModal} fee={+relayerFee} amountIn={+amountIn} textcolor={textcolor} />
       </div>
     </>
   );

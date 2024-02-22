@@ -8,6 +8,7 @@ type TxModalProps = {
   setTxModal : Dispatch<SetStateAction<boolean>>;
   fee : number;
   amountIn : number;
+  textcolor : string
 };
 const TxModal = ({
   // isOpen,
@@ -16,7 +17,8 @@ const TxModal = ({
   bridge = "connext",
   setTxModal,
   fee,
-  amountIn
+  amountIn,
+  textcolor,
 }: TxModalProps) => {
   return (
     <div
@@ -64,7 +66,8 @@ const TxModal = ({
               ? `https://ccip.chain.link`
               : null
           }`}
-          className={` w-full mt-8 flex items-center justify-center bg-[#057DFF]/10 text-[#0962C2] py-2 px-4 rounded-xl`}
+          className={` w-full mt-8 flex items-center justify-center  py-2 px-4 rounded-xl`}
+          style={{color: textcolor , backgroundColor : textcolor+"1a" }}
         >
           <img
             width="30"
