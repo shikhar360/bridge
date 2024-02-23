@@ -210,13 +210,13 @@ export default function Page({ params }: Iprops) {
       run();
     },
     [
-      // destinationChain,
-      // amountIn,
-      // bridge,
-      // pubClient,
-      // walletClient?.account?.address,
-      // walletClient?.chain.id,
-      // connext,
+      destinationChain,
+      amountIn,
+      bridge,
+      pubClient,
+      walletClient?.account?.address,
+      walletClient?.chain.id,
+      connext,
     ]
   );
 
@@ -447,7 +447,7 @@ export default function Page({ params }: Iprops) {
                 className={`w-full -translate-y-2 px-4  flex items-center justify-start rounded-b-2xl gap-2 mt-0  text-sm `}
               >
                 <div className={` flex  `}>
-                  {relayerFeeLoading ? "..." : formatEther(BigInt(relayerFee))}{" "}
+                  {relayerFeeLoading ? "FEE IS..." : Number(formatEther(BigInt(relayerFee))).toFixed(8)}{" "}
                   {walletClient?.chain?.id
                     ? configByAsset[asset].chains.find(
                         (chain) => chain?.id === walletClient?.chain?.id
@@ -912,7 +912,7 @@ const BridgeButton = ({
         // isLoading={xcallLoading || isLoading}
         style={{ backgroundColor: textcolor }}
         onClick={handleXCall}
-        className={`w-full  py-[10px] px-[12px] rounded-[8px] h-[44px] text-center text-white font-semibold cursor-pointer mt-3 mb-6 ${(bridge !== "connext" && bridge !== "ccip" && BigInt(relayerFee) === BigInt(0)) || !amountIn ? "opacity-50" : null}`}
+        className={`w-full  py-[10px] px-[12px] rounded-[8px] h-[44px] text-center text-white font-semibold cursor-pointer mt-6 ${(bridge !== "connext" && bridge !== "ccip" && BigInt(relayerFee) === BigInt(0)) || !amountIn ? "opacity-50" : null}`}
       >
         {"BRIDGE"}
       </button>
