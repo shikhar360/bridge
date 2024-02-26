@@ -1,2 +1,40 @@
 export const ZOOMER_YELLOW = "#FEFC52";
 export const GRUMPY_BLUE = "#47777C";
+
+
+export const chainsTheme = [
+  {
+    chain : 8453,
+    theme : 'bg-[#0051ffff]',
+  },
+  {
+    chain : 10,
+    theme : 'bg-[#ff0000ff]',
+  },
+  {
+    chain : 137,
+    theme : 'bg-[#9d2adbff]',
+  },
+  {
+    chain : 56,
+    theme : 'bg-[#fab700ff]',
+  },
+  {
+    chain : 1,
+    theme : 'bg-[#5a80f2ff]',
+  },
+  {
+    chain : 0,
+    theme : 'bg-gradient-to-r from-[#13d6b6] via-[#617fe8] to-[#9a4bfa]',
+  },
+  {
+    chain : 42161,
+    theme : 'bg-[#1c324aff]',
+  },
+
+]
+
+export function getThemeColor(chain : number){
+ const val = chainsTheme.filter(col => col.chain == chain)
+ return val[0]
+}

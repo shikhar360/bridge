@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  .decorated option:hover {
+    box-shadow: 0 0 10px 100px #1882A8 inset;
+}
+}
