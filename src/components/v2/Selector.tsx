@@ -75,7 +75,7 @@ const Selector = ({ options, setOriginChain , newRef ,open , setOpen , destinati
                 value={chainId}
                 key={idx}
                 className={`  text-sm flex w-max  mt-2 rounded-xl 
-          ${selected && +chainId === +selected  ? "hidden" : 'block'} ${getColor(+chainId).theme} `}
+          ${selected && +chainId === +selected || +chainId === destinationChain || (+chainId === 0 && destinationChain !== 1) ? "hidden" : 'block'} ${getColor(+chainId).theme} `}
                 onClick={async () => {
                   if (selected && +chainId !== +selected ) {
                     setSelected(chainId?.toString());
