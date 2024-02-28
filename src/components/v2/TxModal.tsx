@@ -1,7 +1,7 @@
 "use client"
 import {Dispatch , SetStateAction} from 'react';
 import Link from "next/link";
-
+import {formatEther} from "viem";
 type TxModalProps = {
   txHash: string;
   bridge: string;
@@ -9,6 +9,7 @@ type TxModalProps = {
   fee : number;
   amountIn : number;
   textcolor : string
+  setApprovalNeeded: Dispatch<SetStateAction<boolean>>;
 };
 const TxModal = ({
   txHash ,
@@ -17,6 +18,7 @@ const TxModal = ({
   fee,
   amountIn,
   textcolor,
+  setApprovalNeeded
 }: TxModalProps) => {
   return (
     <div
@@ -28,19 +30,22 @@ const TxModal = ({
       >
          <img
             className={`w-6 cursor-pointer absolute right-4 top-4 `}
-            onClick={() => setTxModal(false)}
+            onClick={() =>{
+             setTxModal(false) 
+             setApprovalNeeded(true)            
+            }}
             src="https://img.icons8.com/fluency-systems-regular/48/delete-sign--v1.png"
             alt="delete-sign--v1"
           />
         <p className="font-semibold">Transaction Confirmation</p>
-        <p className={` text-4xl  text-center w-full mt-8`}>5 mins</p>
+        <p className={` text-4xl  text-center w-full mt-8`}>5 m</p>
         <p className={` text-lg text-black/30 text-center w-full mt-2`}>
-          Deposite in Progress
+          Deposit in Progress
         </p>
         <div className={`flex flex-col w-full mt-8 gap-y-2 text-sm`}>
           <div className={`flex items-center w-full justify-between`}>
             <span>Time to Chain</span>
-            <span>5 mins</span>
+            <span>5 m</span>
           </div>
           <div className={`flex items-center w-full justify-between`}>
             <span>Bridge</span>
@@ -48,11 +53,11 @@ const TxModal = ({
           </div>
           <div className={`flex items-center w-full justify-between`}>
             <span>Fees</span>
-            <span>{fee.toFixed(5)}</span>
+            <span>{Number(formatEther(BigInt(fee))).toFixed(5)}</span>
           </div>
           <div className={`flex items-center w-full justify-between`}>
             <span>You will receive</span>
-            <span>{(Number(amountIn) * 0.9995).toFixed(5)}</span>
+            <span>{(Number(amountIn) * 0.9995).toFixed(2)} Zoomer</span>
           </div>
         </div>
 
@@ -65,11 +70,12 @@ const TxModal = ({
               : null
           }`}
           className={` w-full mt-6  flex items-center justify-center  py-[10px] px-[12px] rounded-[12px] h-[44px]`}
+          target="_blank"
           style={{color: textcolor , backgroundColor : textcolor+"1a" }}
         >
           <img
-            className="w-5 "
-          style={{color: textcolor , backgroundColor : textcolor+"1a" }}
+            className="w-5 mr-2"
+          style={{color: textcolor  }}
           src={`https://img.icons8.com/ios-glyphs/30/${textcolor.slice(1)}/external-link.png`}
             alt="external-link"
           />

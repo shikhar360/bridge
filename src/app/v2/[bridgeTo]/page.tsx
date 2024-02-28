@@ -71,7 +71,7 @@ const CONNEXT_LOCKBOX_ADAPTER_MAINNET =
 
 export default function Page({ params }: Iprops) {
   //hooks
-  const { theme } = getThemeColor(+params?.bridgeTo);
+  const { theme , themeBorder } = getThemeColor(+params?.bridgeTo);
   const textcolor = theme.slice(4, -3);
   const { address, chain } = useAccount();
   const { data: walletClient } = useWalletClient();
@@ -301,7 +301,7 @@ export default function Page({ params }: Iprops) {
           {/* -------------- */}
 
           <div
-            className={` w-full justify-between items-center lg:gap-x-3 gap-x-2  ${originChain === 0 || destinationChain === 0 ? "hidden" : "flex"} `}
+            className={` w-full justify-between items-center lg:gap-x-3 gap-x-2  ${originChain === 0 || destinationChain === 0 ? "hidden opacity-0" : "flex"} `}
           >
             <div className={` lg:w-full w-[46%]`}>
               <p className={`text-sm`}>From</p>
@@ -342,7 +342,7 @@ export default function Page({ params }: Iprops) {
 
           {/* -------------- */}
           <div
-            className={`w-full     mt-3 ${originChain === 0 || destinationChain === 0 ? "hidden" : "flex flex-col items-center  gap-2 justify-center"}`}
+            className={`w-full     mt-3 ${originChain === 0 || destinationChain === 0 ? "hidden opacity-0" : "flex flex-col items-center  gap-2 justify-center"}`}
           >
             {isConnected && (
               <div className={`flex w-full truncate   gap-x-1  `}>
@@ -361,12 +361,13 @@ export default function Page({ params }: Iprops) {
 
             {/* first box starts here */}
             <div
-              className={` w-full flex items-center justify-start rounded-2xl border border-black/20 p-3`}
+             
+              className={` w-full flex items-center justify-start rounded-2xl border  border-black/20 p-3 ${themeBorder} `}
             >
               <div className={` flex w-max items-center justify-start gap-2 `}>
                 <div className={`w-[24px]  relative   `}>
                   <div
-                    className={`w-full rounded-full bg-yellow-300 overflow-hidden`}
+                    className={`w-full rounded-full bg-[#ffff00] overflow-hidden`}
                   >
                     <img src="/v2/zoom.png" alt="" className={`w-9 `} />
                     <img
@@ -395,7 +396,7 @@ export default function Page({ params }: Iprops) {
                   placeholder="0"
                   value={_amountIn}
                   onChange={(e) => setAmountIn(e?.target?.value)}
-                  className={`text-sm focus:ring-1  placeholder:text-end text-end w-full`}
+                  className={`text-sm focus:outline-none  placeholder:text-end text-end w-full`}
                 />
 
                 <p className={`text-xs text-black/40`}>$0.00</p>
@@ -418,7 +419,7 @@ export default function Page({ params }: Iprops) {
                 <div className={` flex items-center justify-center gap-1`}>
                   <div className={`w-[24px]  relative   `}>
                     <div
-                      className={`w-full rounded-full bg-yellow-300 overflow-hidden`}
+                      className={`w-full rounded-full bg-[#ffff00] overflow-hidden`}
                     >
                       <img src="/v2/zoom.png" alt="" className={`w-full `} />
                       <img
@@ -447,21 +448,23 @@ export default function Page({ params }: Iprops) {
                 className={`w-full -translate-y-2 px-4  flex items-center justify-start rounded-b-2xl gap-2 mt-0  text-sm `}
               >
                 <div className={` flex  `}>
-                  {relayerFeeLoading ? "FEE IS..." : Number(formatEther(BigInt(relayerFee))).toFixed(8)}{" "}
+                  {relayerFeeLoading ? "FEE IS..." : Number(formatEther(BigInt(relayerFee))).toFixed(4)}{" "}
                   {walletClient?.chain?.id
                     ? configByAsset[asset].chains.find(
                         (chain) => chain?.id === walletClient?.chain?.id
                       )?.nativeCurrency?.symbol
                     : "???"}
                 </div>
-                <span className={` uppercase `}> {bridge}</span>
+                <span>&bull;</span>
+                <span className={` uppercase `}> {bridge ? bridge : "..."}</span>
+                <span>&bull;</span>
                 <div className={` flex  items-center justify-center w-max`}>
                   <img
-                    className={` w-4 py-1 `}
+                    className={` w-4 py-1 ${bridge ? 'block': " hidden"} `}
                     src={`https://img.icons8.com/windows/32/${textcolor.slice(1)}/clock--v1.png`}
                     alt="clock--v1"
                   />
-                  <span className={`  `}> ~ 5 mins</span>
+                  <span className={`  `}> {bridge ? '~ 5 m': " ~ ... m"}</span>
                 </div>
               </div>
             )}
@@ -666,6 +669,7 @@ const ActionButtons = ({
           setTxModal={setTxModal}
           txModal={txModal}
           textcolor={textcolor}
+          setApprovalNeeded={setApprovalNeeded}
         />
       )}
     </div>
@@ -796,6 +800,7 @@ type BridgeButtonProps = {
   setTxModal: Dispatch<SetStateAction<boolean>>;
   txModal: boolean;
   textcolor: string;
+  setApprovalNeeded: Dispatch<SetStateAction<boolean>>;
 };
 const BridgeButton = ({
   walletChain,
@@ -809,6 +814,7 @@ const BridgeButton = ({
   setTxModal,
   txModal,
   textcolor,
+  setApprovalNeeded
 }: BridgeButtonProps) => {
   const [xcallLoading, setXCallLoading] = useState(false);
   const [xcallTxHash, setXCallTxHash] = useState<Hash | undefined>();
@@ -926,6 +932,7 @@ const BridgeButton = ({
           fee={+relayerFee}
           amountIn={+amountIn}
           textcolor={textcolor}
+          setApprovalNeeded={setApprovalNeeded}
         />
       </div>
     </>

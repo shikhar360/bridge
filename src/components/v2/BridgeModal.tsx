@@ -51,7 +51,7 @@ const BridgeModal = ({bridges , amountIn , setModal , setBridge , textcolor , de
                     <div
                       className={`w-[24px]  relative   `}
                     >
-                      <div className={`w-full rounded-full bg-yellow-300 overflow-hidden`} >
+                      <div className={`w-full rounded-full bg-[#ffff00] overflow-hidden`} >
                         <img src="/v2/zoom.png" alt="" className={`w-full `} />
                         <img
                         src={`/v2/logo/${destinationChain && destinationChain}.png`}
@@ -78,13 +78,14 @@ const BridgeModal = ({bridges , amountIn , setModal , setBridge , textcolor , de
                     {" "}
                     {bridge.bridgeConfig.displayName}
                   </span>
+                  <span>&bull;</span>
                   <div className={` flex  items-center justify-center w-max`}>
                     <img
                       className={` w-4 py-1 `}
                       src={`https://img.icons8.com/windows/32/${textcolor.slice(1)}/clock--v1.png`}
                       alt="clock--v1"
                     />
-                    <span className={`  `}> ~ 5 mins</span>
+                    <span className={`  `}> ~ 5 m</span>
                   </div>
                 </div>
               </div>
