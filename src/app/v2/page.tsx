@@ -11,7 +11,7 @@ export default function Page() {
     >
       <p className={` text-3xl font-semibold`}>Brigde 🌉</p>
       <p>Select the destination chain you want to bridge your ZOOMER to.</p>
-      <div className={`mt-8 w-full grid lg:grid-cols-4 grid-cols-2 md:grid-cols-3 gap-4`}>
+      <div className={`mt-8 w-max grid lg:grid-cols-4 grid-cols-2 md:grid-cols-3 gap-4 mx-auto`}>
         {chainsTheme.map((chain: any, idx: number) => (
           <Link
             key={idx}

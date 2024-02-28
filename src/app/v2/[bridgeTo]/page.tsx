@@ -456,15 +456,15 @@ export default function Page({ params }: Iprops) {
                     : "???"}
                 </div>
                 <span>&bull;</span>
-                <span className={` uppercase `}> {bridge}</span>
+                <span className={` uppercase `}> {bridge ? bridge : "..."}</span>
                 <span>&bull;</span>
                 <div className={` flex  items-center justify-center w-max`}>
                   <img
-                    className={` w-4 py-1 `}
+                    className={` w-4 py-1 ${bridge ? 'block': " hidden"} `}
                     src={`https://img.icons8.com/windows/32/${textcolor.slice(1)}/clock--v1.png`}
                     alt="clock--v1"
                   />
-                  <span className={`  `}> ~ 5 m</span>
+                  <span className={`  `}> {bridge ? '~ 5 m': " ~ ... m"}</span>
                 </div>
               </div>
             )}
@@ -669,6 +669,7 @@ const ActionButtons = ({
           setTxModal={setTxModal}
           txModal={txModal}
           textcolor={textcolor}
+          setApprovalNeeded={setApprovalNeeded}
         />
       )}
     </div>
@@ -799,6 +800,7 @@ type BridgeButtonProps = {
   setTxModal: Dispatch<SetStateAction<boolean>>;
   txModal: boolean;
   textcolor: string;
+  setApprovalNeeded: Dispatch<SetStateAction<boolean>>;
 };
 const BridgeButton = ({
   walletChain,
@@ -812,6 +814,7 @@ const BridgeButton = ({
   setTxModal,
   txModal,
   textcolor,
+  setApprovalNeeded
 }: BridgeButtonProps) => {
   const [xcallLoading, setXCallLoading] = useState(false);
   const [xcallTxHash, setXCallTxHash] = useState<Hash | undefined>();
@@ -929,6 +932,7 @@ const BridgeButton = ({
           fee={+relayerFee}
           amountIn={+amountIn}
           textcolor={textcolor}
+          setApprovalNeeded={setApprovalNeeded}
         />
       </div>
     </>

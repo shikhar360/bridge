@@ -9,6 +9,7 @@ type TxModalProps = {
   fee : number;
   amountIn : number;
   textcolor : string
+  setApprovalNeeded: Dispatch<SetStateAction<boolean>>;
 };
 const TxModal = ({
   txHash ,
@@ -17,6 +18,7 @@ const TxModal = ({
   fee,
   amountIn,
   textcolor,
+  setApprovalNeeded
 }: TxModalProps) => {
   return (
     <div
@@ -28,12 +30,15 @@ const TxModal = ({
       >
          <img
             className={`w-6 cursor-pointer absolute right-4 top-4 `}
-            onClick={() => setTxModal(false)}
+            onClick={() =>{
+             setTxModal(false) 
+             setApprovalNeeded(true)            
+            }}
             src="https://img.icons8.com/fluency-systems-regular/48/delete-sign--v1.png"
             alt="delete-sign--v1"
           />
         <p className="font-semibold">Transaction Confirmation</p>
-        <p className={` text-4xl  text-center w-full mt-8`}>5 mins</p>
+        <p className={` text-4xl  text-center w-full mt-8`}>5 m</p>
         <p className={` text-lg text-black/30 text-center w-full mt-2`}>
           Deposit in Progress
         </p>

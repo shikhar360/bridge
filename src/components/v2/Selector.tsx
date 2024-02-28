@@ -31,6 +31,10 @@ const Selector = ({ options, setOriginChain , newRef ,open , setOpen , destinati
 
   function getColor (chain : number){
     const { theme } = getThemeColor(chain);
+    if (chain === 0 ){
+      const textcolor = '#000000' 
+      return {theme , textcolor}
+    }
     const textcolor = theme.slice(4,-3)
 
     return { theme , textcolor}
@@ -46,7 +50,7 @@ const Selector = ({ options, setOriginChain , newRef ,open , setOpen , destinati
   return (
     <div  ref={newRef} className="w-full capitalize text-sm  relative ">
       <div
-        onClick={() => setOpen(!open)}
+        onMouseOver={() => setOpen(true)}
         className={` cursor-pointer my-2 text-black  w-full  flex  items-center justify-start gap-2 rounded-[12px] border border-black/20 `}
       >
         {selected && destinationChain?.toString() !== selected ? (
@@ -61,12 +65,13 @@ const Selector = ({ options, setOriginChain , newRef ,open , setOpen , destinati
             <img   className={`w-3 transition-all duration-100 ease-linear absolute right-2 ${open ? "rotate-180" : 'rotate-0'} `} src="https://img.icons8.com/ios/50/000000/expand-arrow--v2.png" alt="expand-arrow--v2"/>
           </div>
         ) : (
-          <span className='px-3 rounded-[8px]  mx-2 my-1 px-2 py-0.5'> Select Chain</span>
+          <span className='px-3 rounded-[8px]  mx-2 my-1  py-0.5'> Select Chain</span>
         )}
 
         <ul
+          onMouseOut={()=>setOpen(false)}
           className={`  left-0 overflow-y-scroll w-[150%] ${
-            open ? "block" : "hidden"
+            open ? "block" : "hidden transition-all  delay-1000"
           } absolute top-full origin-top z-40 shadow-xl shadow-black/10 bg-white rounded-xl px-4 py-2 border border-black/10`}
         >
           {options &&
@@ -74,8 +79,8 @@ const Selector = ({ options, setOriginChain , newRef ,open , setOpen , destinati
               <li
                 value={chainId}
                 key={idx}
-                className={`  text-sm flex w-max  mt-2 rounded-xl 
-          ${selected && +chainId === +selected || +chainId === destinationChain || (+chainId === 0 && destinationChain !== 1) ? "hidden" : 'block'} ${getColor(+chainId).theme} `}
+                className={`  text-sm flex w-full  mt-2 rounded-xl 
+          ${selected && +chainId === +selected || +chainId === destinationChain || (+chainId === 0 && destinationChain !== 1) ? "hidden" : 'block'}  hover:scale-[1.02] transition-all duration-100 ease-linear  `}
                 onClick={async () => {
                   if (selected && +chainId !== +selected ) {
                     setSelected(chainId?.toString());
@@ -90,7 +95,8 @@ const Selector = ({ options, setOriginChain , newRef ,open , setOpen , destinati
                   }
                 }}
               >
-                 <div style={{color : getColor(+chainId).textcolor}} className={`w-full font-semibold bg-white/90 flex items-center px-3 py-1.5 gap-2 justify-start capitalize `}>
+                
+                 <div  style={{color: getColor(+chainId).textcolor , backgroundColor : getColor(+chainId).textcolor+"1a" }} className={`w-max font-semibold  flex items-center px-3 py-1.5 gap-2 justify-start capitalize rounded-xl `}>
 
 
                 <img
