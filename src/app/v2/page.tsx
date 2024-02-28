@@ -4,14 +4,15 @@ import { getChainName } from "@/utils/chaintoname";
 import Link from "next/link";
 
 export default function Page() {
-
   return (
     <div
       className={` flex flex-col w-full min-h-screen items-start justify-start lg:px-[15%] px-[5%] md:px-[10%] py-24 bg-white`}
     >
-      <p className={` text-3xl font-semibold`}>Brigde 🌉</p>
+      <p className={` text-3xl font-semibold`}>Bridge 🌉</p>
       <p>Select the destination chain you want to bridge your ZOOMER to.</p>
-      <div className={`mt-8 w-max grid lg:grid-cols-4 grid-cols-2 md:grid-cols-3 gap-4 mx-auto`}>
+      <div
+        className={`mt-8 w-max grid lg:grid-cols-4 grid-cols-2 md:grid-cols-3 gap-4 mx-auto`}
+      >
         {chainsTheme.map((chain: any, idx: number) => (
           <Link
             key={idx}
