@@ -17,7 +17,7 @@ export default function Page() {
           <Link
             key={idx}
             className={` w-[248px] h-[300px] ${chain.theme} px-4 py-2 text-white rounded-[32px] relative cursor-pointer items-center justify-center flex flex-col`}
-            href={`/v2/${chain.chain}`}
+            href={`${chain.chain}`}
           >
             <img
               src={`/v2/logo/${chain.chain}.png`}
