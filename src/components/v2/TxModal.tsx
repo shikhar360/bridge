@@ -49,7 +49,7 @@ const TxModal = ({
           </div>
           <div className={`flex items-center w-full justify-between`}>
             <span>Bridge</span>
-            <span>{bridge}</span>
+            <span>{bridge.toUpperCase()}</span>
           </div>
           <div className={`flex items-center w-full justify-between`}>
             <span>Fees</span>
@@ -57,7 +57,7 @@ const TxModal = ({
           </div>
           <div className={`flex items-center w-full justify-between`}>
             <span>You will receive</span>
-            <span>{(Number(amountIn) * 0.9995).toFixed(2)} Zoomer</span>
+            <span>{(Number(amountIn) * 0.9995).toFixed(2)} ZOOMERS</span>
           </div>
         </div>
 
