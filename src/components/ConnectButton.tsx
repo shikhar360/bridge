@@ -6,6 +6,7 @@ import { projectId, wagmiConfig } from "@/wagmi";
 
 interface IProp {
   colorTheme?: string;
+  width? : string
 }
 
 createWeb3Modal({
@@ -13,13 +14,13 @@ createWeb3Modal({
   projectId,
 });
 
-export default function ConnectButton({ colorTheme = "bg-black" }: IProp) {
+export default function ConnectButton({ colorTheme = "bg-black" , width  }: IProp) {
   const { open } = useWeb3Modal();
   const { address, chain, isConnected } = useAccount();
 
   return (
     <div
-      className={` ${isConnected ? "bg-black" : colorTheme} cursor-pointer py-[10px] px-[12px] rounded-[12px] h-[44px] text-white font-semibold text-center`}
+      className={` ${isConnected ? "bg-black" : colorTheme} cursor-pointer py-[10px] px-[12px] rounded-[12px] h-[44px] ${width ? width : 'w-[172px]'} text-white font-semibold text-center  `}
       onClick={() => open()}
     >
       {address ? (

@@ -76,7 +76,7 @@ const BridgeModal = ({bridges , amountIn , setModal , setBridge , textcolor , de
                 >
                   <span className={` uppercase `}>
                     {" "}
-                    {bridge.bridgeConfig.displayName}
+                    {bridge.bridgeConfig.displayName.toUpperCase()}
                   </span>
                   <span>&bull;</span>
                   <div className={` flex  items-center justify-center w-max`}>

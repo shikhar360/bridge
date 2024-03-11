@@ -4,6 +4,12 @@
 
 @layer base {
   .decorated option:hover {
-    box-shadow: 0 0 10px 100px #1882A8 inset;
-}
+    box-shadow: 0 0 10px 100px #1882a8 inset;
+  }
+  .logo-start {
+    /* Remove absolute positioning /
+    position: static;
+    / Align left */
+    justify-self: flex-start;
+  }
 }
