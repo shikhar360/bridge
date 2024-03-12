@@ -478,7 +478,7 @@ export default function Page({ params }: Iprops) {
                     color: textcolor,
                     backgroundColor: textcolor + "1a",
                   }}
-                  className={`w-full -translate-y-2 px-4  flex items-center justify-start rounded-b-2xl gap-2 mt-0  text-[12px] `}
+                  className={`w-full -translate-y-2 px-3  flex items-center justify-start rounded-b-2xl gap-2 mt-0  text-[11px]  truncate`}
                 >
                   <div className={` flex gap-x-1 `}>
                     {relayerFeeLoading && originChain
