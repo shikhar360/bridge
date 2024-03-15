@@ -105,7 +105,7 @@ export default function Page({ params }: Iprops) {
   const router = useRouter()
   const zoomerUsdValue = useZoomerValue()
   const nativeCurrencyValue = useNativeValue(originChain as number || 1 )
-
+  
   useEffect(() => {
     const run = async () => {
       if (!walletClient?.account?.address) {
@@ -160,14 +160,13 @@ export default function Page({ params }: Iprops) {
     };
     run();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [walletClient?.account?.address ]);
+  }, [walletClient?.account?.address]);
 
-
-  useEffect(()=>{
-    if(!isConnected){
-      setOriginChain(undefined)
+  useEffect(() => {
+    if (!isConnected) {
+      setOriginChain(undefined);
     }
-  },[isConnected])
+  }, [isConnected]);
 
   useEffect(() => {
     const run = async () => {
@@ -281,11 +280,11 @@ export default function Page({ params }: Iprops) {
     }
   };
 
-  useEffect(()=>{
-    if (originChain == 0 ){
-      router.push('/0')
+  useEffect(() => {
+    if (originChain == 0) {
+      router.push("/0");
     }
-  },[destinationChain, originChain, router])
+  }, [destinationChain, originChain, router]);
   const showDiv = originChain !== 0 && destinationChain !== 0;
 
   return (
@@ -434,7 +433,7 @@ export default function Page({ params }: Iprops) {
 
               <div
                 onClick={() =>
-                  amountIn && isConnected  ? setModal(true) : null
+                  amountIn && isConnected ? setModal(true) : null
                 }
                 className={` w-full flex  items-center justify-start ${amountIn && isConnected ? "rounded-t-2xl" : "rounded-2xl"} ${amountIn ? "cursor-pointer" : ""} border border-black/20 p-3 `}
               >
@@ -461,7 +460,14 @@ export default function Page({ params }: Iprops) {
                     </div>
                     <span className={`text-sm`}>
                       {amountIn && isConnected
-                        ? (Number(amountIn) * 0.9995).toFixed(4)
+                        ? (
+                            Number(amountIn) *
+                            (bridge === "base"
+                              ? 1
+                              : bridge === "ccip"
+                                ? 0.999
+                                : 0.9995)
+                          ).toFixed(4)
                         : "0"}
                     </span>
                   </div>
@@ -521,7 +527,7 @@ export default function Page({ params }: Iprops) {
                 <div
                   className={`mt-7 w-full  ${originChain === 0 || +params?.bridgeTo === 0 ? "hidden" : null}`}
                 >
-                  <ConnectButton colorTheme={theme} width='w-full' />
+                  <ConnectButton colorTheme={theme} width="w-full" />
                 </div>
               ) : (
                 <ActionButtons
@@ -953,19 +959,21 @@ const BridgeButton = ({
     }
   };
 
+  const shouldBeDisabled =
+    (bridge !== "connext" &&
+      bridge !== "ccip" &&
+      bridge !== "base" &&
+      BigInt(relayerFee) === BigInt(0)) ||
+    !amountIn;
+
   return (
     <>
       <button
-        disabled={
-          (bridge !== "connext" &&
-            bridge !== "ccip" &&
-            BigInt(relayerFee) === BigInt(0)) ||
-          !amountIn
-        }
+        disabled={shouldBeDisabled}
         // isLoading={xcallLoading || isLoading}
         style={{ backgroundColor: textcolor }}
         onClick={handleXCall}
-        className={`w-full  py-[10px] px-[12px] rounded-[8px] h-[44px] text-center text-white font-semibold cursor-pointer mt-6 ${(bridge !== "connext" && bridge !== "ccip" && BigInt(relayerFee) === BigInt(0)) || !amountIn ? "opacity-50" : null}`}
+        className={`w-full  py-[10px] px-[12px] rounded-[8px] h-[44px] text-center text-white font-semibold cursor-pointer mt-6 ${shouldBeDisabled ? "opacity-50" : null}`}
       >
         {"BRIDGE"}
       </button>
